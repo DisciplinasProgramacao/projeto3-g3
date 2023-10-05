@@ -31,7 +31,7 @@ public class Cliente {
 	 * @param _id
 	 */
 	public Cliente(String _id) {
-		init("Anônimo", _id);
+		init("Anônimo", _id); // falta criar o identificador anônimo: 0 ou 1
 	}
 
 	/**
@@ -78,7 +78,6 @@ public class Cliente {
 	 * @return valor double que indica o total arrecadado daquele veículo.
 	 */
 	public double arrecadadoPorVeiculo(String placa) {
-		// quanto um veículo do cliente arrecadou para o estacionamento
 		double arrecadacaoVeiculo = 0;
 		Veiculo veiculoEx = new Veiculo(placa);
 		for (Veiculo veiculo : veiculos) {
@@ -114,6 +113,7 @@ public class Cliente {
 		return arrecadadoNoMes;
 	}
 
+	@Override
 	public String toString() {
 		return "Cliente: " + nome + "| Id: " + id +" | Veículos: " + veiculos;
 	}
