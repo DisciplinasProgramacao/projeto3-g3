@@ -1,4 +1,4 @@
-
+import java.time.LocalDateTime;
 
 public class UsoDeVaga {
 
@@ -11,7 +11,10 @@ public class UsoDeVaga {
 	private double valorPago;
 
 	public UsoDeVaga(Vaga vaga) {
-		
+		this.vaga = vaga;
+        this.entrada = LocalDateTime.now();
+        this.saida = null;
+        this.valorPago = 0.0;
 	}
 
 	public double sair() {
@@ -19,7 +22,11 @@ public class UsoDeVaga {
 	}
 
 	public boolean ehDoMes(int mes){
-		
+		if (saida == null) {
+            return false;
+        }
+        return saida.getMonthValue() == mes;
+    
 	}
 	
 	public double valorPago() {
