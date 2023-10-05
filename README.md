@@ -7,7 +7,6 @@ O objetivo deste projeto é desenvolver um sistema de software para a Xulambs In
 ## Diagrama Inicial
 
 ![](docs/diagramas/01_XulambsParking.png)
-_QUALQUER modificação neste modelo só pode ser feita após negociação com os analistas do projeto._
 
 ## Requisitos
 
