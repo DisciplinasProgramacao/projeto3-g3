@@ -9,6 +9,14 @@ public class Veiculo {
 		
 	}
 
+	public String getPlaca() {
+		return placa;
+	}
+
+	public UsoDeVaga[] getUsos() {
+		return usos;
+	}
+
 	public void estacionar(Vaga vaga) {
 		
 	}
