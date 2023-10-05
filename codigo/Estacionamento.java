@@ -8,6 +8,37 @@ public class Estacionamento {
 	private int quantFileiras;
 	private int vagasPorFileira;
 
+	public Estacionamento(){
+		this.nome = nome;
+		this.quantFileiras = quantFileiras;
+		this.vagasPorFileira = vagasPorFileira;
+	}
+
+	public String getnome() {
+		return	this.nome;
+	}
+
+	public void setnome(){
+		this.nome = nome;
+	}
+
+	public int getquantFileiras(){
+		return this.quantFileiras;
+	}
+
+	public void setquantFileiras(){
+		this.quantFileiras = quantFileiras;
+	}
+
+	public int getvagasPorFileiras(){
+		return this.vagasPorFileira;
+	}
+
+	public void setvagasPorFileiras(){
+		this.vagasPorFileira = vagasPorFileira;
+	}
+
+
 	public Estacionamento(String nome, int fileiras, int vagasPorFila) {
 		
 	}
