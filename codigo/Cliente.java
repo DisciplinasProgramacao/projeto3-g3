@@ -47,10 +47,18 @@ public class Cliente {
 	 * @param veiculo O veículo a ser adicionado.
 	 */
 	public void addVeiculo(Veiculo veiculo) {
-		veiculo = new Veiculo("123");
 		if (!veiculos.contains(veiculo)) {
 			veiculos.add(veiculo);
 		}
+	}
+
+	/**
+	 * Método get para retornar o array de veículos registrados do cliente.
+	 * 
+	 * @return o array de veículos registrados do cliente.
+	 */
+	public ArrayList<Veiculo> getVeiculos() {
+		return veiculos;
 	}
 
 	/**
@@ -79,7 +87,7 @@ public class Cliente {
 	public int totalDeUsos() {
 		int total = 0;
 		for (Veiculo veiculo : veiculos) {
-			total = veiculo.getUsos().length;
+			total = veiculo.getUsos().size();
 		}
 		return total;
 	}
@@ -110,7 +118,9 @@ public class Cliente {
 	public double arrecadadoTotal() {
 		double arrecadacaoTotal = 0;
 		for (Veiculo veiculo : veiculos) {
-			arrecadacaoTotal = veiculo.totalArrecadado();
+			if (veiculo != null) {
+				arrecadacaoTotal += veiculo.totalArrecadado();
+			}
 		}
 		return arrecadacaoTotal;
 	}
@@ -127,6 +137,15 @@ public class Cliente {
 			arrecadadoNoMes = veiculo.arrecadadoNoMes(mes);
 		}
 		return arrecadadoNoMes;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Cliente) {
+			Cliente cliente = (Cliente) obj;
+			return cliente.id.equals(id);
+		}
+		return false;
 	}
 
 	@Override
