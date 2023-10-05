@@ -8,6 +8,7 @@ public class Cliente {
 
 	/**
 	 * Inicializador do construtor.
+	 * 
 	 * @param _nome
 	 * @param _id
 	 */
@@ -19,6 +20,7 @@ public class Cliente {
 
 	/**
 	 * Construtor que inicializa um cliente com nome e id personalizável.
+	 * 
 	 * @param _nome
 	 * @param _id
 	 */
@@ -27,33 +29,41 @@ public class Cliente {
 	}
 
 	/**
-	 * Construtor que inicializa um cliente com nome anônimo e id personalizável.
+	 * Construtor que inicializa um cliente com nome anônimo e id neutro entre 0 e
+	 * 1.
+	 * 
 	 * @param _id
 	 */
-	public Cliente(String _id) {
-		init("Anônimo", _id); // falta criar o identificador anônimo: 0 ou 1
+	public Cliente() {
+		Random rand = new Random();
+		int rangeId = 2;
+		int idNeutro = rand.nextInt(rangeId);
+		init("Anônimo", Integer.toString(idNeutro));
 	}
 
 	/**
 	 * Método para adicionar um veículo (ou vincular) ao cliente.
+	 * 
 	 * @param veiculo O veículo a ser adicionado.
 	 */
 	public void addVeiculo(Veiculo veiculo) {
 		veiculo = new Veiculo("123");
-		if(!veiculos.contains(veiculo)) {
+		if (!veiculos.contains(veiculo)) {
 			veiculos.add(veiculo);
 		}
 	}
 
 	/**
-	 * Método para verificar se o usuário possui um veículo com a placa correspondente.
+	 * Método para verificar se o usuário possui um veículo com a placa
+	 * correspondente.
+	 * 
 	 * @param placa
 	 * @return O veículo correspondente se for encontrado, null caso contrário
 	 */
 	public Veiculo possuiVeiculo(String placa) {
 		Veiculo veiculoBusca = new Veiculo(placa);
 		for (Veiculo veiculo : veiculos) {
-			if(veiculo.equals(veiculoBusca)) {
+			if (veiculo.equals(veiculoBusca)) {
 				return veiculo;
 			}
 		}
@@ -61,7 +71,9 @@ public class Cliente {
 	}
 
 	/**
-	 * Método para retornar a quantidade registrada de uso de todos os veículos do cliente no estacionamento.
+	 * Método para retornar a quantidade registrada de uso de todos os veículos do
+	 * cliente no estacionamento.
+	 * 
 	 * @return valor inteiro que indica o total de usos.
 	 */
 	public int totalDeUsos() {
@@ -74,6 +86,7 @@ public class Cliente {
 
 	/**
 	 * Método que retorna o total arrecadado de um veículo específico.
+	 * 
 	 * @param placa
 	 * @return valor double que indica o total arrecadado daquele veículo.
 	 */
@@ -81,7 +94,7 @@ public class Cliente {
 		double arrecadacaoVeiculo = 0;
 		Veiculo veiculoEx = new Veiculo(placa);
 		for (Veiculo veiculo : veiculos) {
-			if(veiculo.equals(veiculoEx)) {
+			if (veiculo.equals(veiculoEx)) {
 				arrecadacaoVeiculo = veiculoEx.totalArrecadado();
 			}
 		}
@@ -89,7 +102,9 @@ public class Cliente {
 	}
 
 	/**
-	 * Método que retorna o total de arrecadações de todos os veículos atribuídos ao cliente.
+	 * Método que retorna o total de arrecadações de todos os veículos atribuídos ao
+	 * cliente.
+	 * 
 	 * @return valor double que representa o total arrecadado de todos os veículos.
 	 */
 	public double arrecadadoTotal() {
@@ -102,6 +117,7 @@ public class Cliente {
 
 	/**
 	 * Método que retorna o total de arrecadações em um mês específico.
+	 * 
 	 * @param mes
 	 * @return valor double que representa o total arrecadado naquele mês.
 	 */
@@ -115,7 +131,7 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente: " + nome + "| Id: " + id +" | Veículos: " + veiculos;
+		return "Cliente: " + nome + " | Id: " + id + " | Veículos: " + veiculos;
 	}
 
 }
