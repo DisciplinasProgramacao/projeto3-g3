@@ -50,15 +50,13 @@ public class Estacionamento {
 		this.vagasPorFileira = vagasPorFileira;
 	}
 
-	/***Adiciona um veículo vinculado ao id do cliente no estacionamento 
+	/*** 
 	 * 
 	 * @param veiculo O veículo a ser adicionado
 	 * @param idCli A identificação do cliente através do seu id
 	 */
 	public void addVeiculo(Veiculo veiculo, String idCli) {
-		if(this.cliente.getid = idCli){
-			this.cliente[clienteCerto].setVeiculo(veiculo);
-				Veiculo[] veiculo = new Veiculo(String idCli);
+		
 		}
 	}
 
@@ -70,17 +68,53 @@ public class Estacionamento {
 		this.id[this.id.length+1] = cliente;
 	}
 
-	/***
-	 * 
-	 */
-	private void gerarVagas() {
-		for(int i = 0; i < this.quantFileiras; i++){
-			for(int j = 0; j < this.vagasPorFileira; j++){
-				//O código ascendente da letra A + i e assim por diante acompanhado da quantVagas
-				 //Vagas[vagas.lenght+1]= new Vaga(codigo asc, numero)
-			}
-		}
-	}
+	/**
+ * Gera as vagas do estacionamento com base na quantidade de fileiras e vagas por fileira.
+ * Cada vaga é representada por um código alfanumérico, combinando uma letra maiúscula
+ * (de 'A' a 'Z') representando a fileira e um número de 00 a 99 representando a vaga.
+ * As vagas geradas são armazenadas no array de vagas da classe.
+ */
+private void gerarVagas() {
+    // Verifica se a quantidade de fileiras é maior que o máximo (26).
+    if (quantFileiras > 26) {
+        System.out.println("A quantidade de fileiras excede o limite máximo (26).");
+        return;
+    }
+
+    // Verifica se a quantidade de vagas por fileira é maior que o máximo (99).
+    if (vagasPorFileira > 99) {
+        System.out.println("A quantidade de vagas por fileira excede o limite máximo (99).");
+        return;
+    }
+
+    // Calcula o número total de vagas com base na quantidade de fileiras e vagas por fileira.
+    int totalVagas = quantFileiras * vagasPorFileira;
+
+    // Inicializa o array de vagas com o tamanho total de vagas.
+    vagas = new Vaga[totalVagas];
+
+    char codigoFileira = 'A'; // Inicializa o código da fileira com 'A'.
+    int numeroVaga = 1; // Inicializa o número da vaga com 1.
+
+    // Loop para gerar as vagas.
+    for (int i = 0; i < totalVagas; i++) {
+        // Formata o código da vaga no formato alfanumérico (ex: "A01", "B02", ...).
+        String codigoVaga = String.format("%c%02d", codigoFileira, numeroVaga);
+
+        // Cria a vaga e a armazena no array de vagas.
+        vagas[i] = new Vaga(codigoVaga, true);
+
+        // Atualiza o código da fileira e o número da vaga.
+        numeroVaga++;
+        if (numeroVaga > vagasPorFileira) {
+            numeroVaga = 1;
+            codigoFileira++;
+        }
+    }
+
+    System.out.println("Vagas geradas com sucesso!");
+}
+
 
 	public void estacionar(String placa) {
 		
