@@ -1,5 +1,3 @@
-
-
 public class Estacionamento {
 
 	private String nome;
@@ -10,19 +8,12 @@ public class Estacionamento {
 
 	//Método Construtor
 	public Estacionamento(String nome, int fileiras, int vagasPorFila) {
-		this.nome = nome;
-		if (fileiras>26){ 
-			this.quantFileiras = 26;
-		} 
-		else{ 
-			this.quantFileiras = quantFileiras;
-		} 
-		if (vagasPorFila>99){ 
-			this.quantFileiras = 99;
-		} 
-		else{ 
+			this.nome = nome;		
+			this.quantFileiras = fileiras;
 			this.vagasPorFileira = vagasPorFila;
-		} 
+			this.id = new Cliente[id.length];
+			this.vagas = new Vaga[vagas.length];
+
 		this.gerarVagas();
 	}
 
@@ -30,90 +21,50 @@ public class Estacionamento {
 		return	this.nome;
 	}
 
-	public void setnome(String nome){
-		this.nome = nome;
-	}
-
 	public int getquantFileiras(){
 		return this.quantFileiras;
-	}
-
-	public void setquantFileiras(int quantFileiras){
-		this.quantFileiras = quantFileiras;
 	}
 
 	public int getvagasPorFileiras(){
 		return this.vagasPorFileira;
 	}
 
-	public void setvagasPorFileiras(int vagasPorFileira){
-		this.vagasPorFileira = vagasPorFileira;
-	}
-
-	/*** 
-	 * 
+	/*** Adiciona um veículo no estacionamento.
+	 * Percorre a lista de cliente com o for. 
+	 * No if se o id fornecido for igual ao do já armazenado ele adiciona o veículo ao estacionamento.
 	 * @param veiculo O veículo a ser adicionado
 	 * @param idCli A identificação do cliente através do seu id
 	 */
 	public void addVeiculo(Veiculo veiculo, String idCli) {
-		
+		for(Cliente cliente : id){
+			if(idCLi.equals(cliente.getId)){
+			cliente.addVeiculo(veiculo);
+				}
+			}
 		}
-	}
+	
 
-	/*** Adiciona um cliente ao estacionamento.
-	 * Ele verifica o tamanho do vetor Cliente através do id.lenght e adiciona mais um cliente ao final desse vetor
+	/*** Adiciona um cliente ao estacionamento tomando como base o tamanho do array de id's.
 	 * @param cliente O cliente a ser adicionado
 	 */
 	public void addCliente(Cliente cliente) {
-		this.id[this.id.length+1] = cliente;
+		
+		for(int i=0; i < id.length; i++){
+			id[i] = cliente;
+		}
 	}
 
-	/**
- * Gera as vagas do estacionamento com base na quantidade de fileiras e vagas por fileira.
- * Cada vaga é representada por um código alfanumérico, combinando uma letra maiúscula
- * (de 'A' a 'Z') representando a fileira e um número de 00 a 99 representando a vaga.
- * As vagas geradas são armazenadas no array de vagas da classe.
- */
-private void gerarVagas() {
-    // Verifica se a quantidade de fileiras é maior que o máximo (26).
-    if (quantFileiras > 26) {
-        System.out.println("A quantidade de fileiras excede o limite máximo (26).");
-        return;
-    }
+	/**Gera as vagas do estacionamento com base na quantidade de fileiras e vagas por fileira.
+	 * As vagas geradas são armazenadas no array de vagas da classe.
+	 */
+	private void gerarVagas() {
+		
+		// Calcula o número total de vagas com base na quantidade de fileiras e vagas por fileira.
+		int totalVagas = quantFileiras * vagasPorFileira;
 
-    // Verifica se a quantidade de vagas por fileira é maior que o máximo (99).
-    if (vagasPorFileira > 99) {
-        System.out.println("A quantidade de vagas por fileira excede o limite máximo (99).");
-        return;
-    }
-
-    // Calcula o número total de vagas com base na quantidade de fileiras e vagas por fileira.
-    int totalVagas = quantFileiras * vagasPorFileira;
-
-    // Inicializa o array de vagas com o tamanho total de vagas.
-    vagas = new Vaga[totalVagas];
-
-    char codigoFileira = 'A'; // Inicializa o código da fileira com 'A'.
-    int numeroVaga = 1; // Inicializa o número da vaga com 1.
-
-    // Loop para gerar as vagas.
-    for (int i = 0; i < totalVagas; i++) {
-        // Formata o código da vaga no formato alfanumérico (ex: "A01", "B02", ...).
-        String codigoVaga = String.format("%c%02d", codigoFileira, numeroVaga);
-
-        // Cria a vaga e a armazena no array de vagas.
-        vagas[i] = new Vaga(codigoVaga, true);
-
-        // Atualiza o código da fileira e o número da vaga.
-        numeroVaga++;
-        if (numeroVaga > vagasPorFileira) {
-            numeroVaga = 1;
-            codigoFileira++;
-        }
-    }
-
-    System.out.println("Vagas geradas com sucesso!");
-}
+		// Inicializa o array de vagas com o tamanho total de vagas.
+		vagas = new Vaga[totalVagas];
+		}
 
 
 	public void estacionar(String placa) {
@@ -161,7 +112,6 @@ private void gerarVagas() {
 	/**
 	 * Identifica os 5 melhores clientes que mais arrecadaram durante o mês estipulado
 	 * utilizando um método para ordenar a lista dos clientes em ordem decrescente de arrecadação.
-	 *
 	 * @param mes O mês para o qual deseja identificar o top 5.
 	 * @return Uma String contendo o ID dos cinco melhores clientes de determinado mês.
 	 */
@@ -177,10 +127,10 @@ private void gerarVagas() {
 		ordenacaoDecrescente(top5);
 
 		// Crie uma string para armazenar os IDs dos cinco melhores clientes.
-		StringBuilder result = new StringBuilder("Top 5 Clientes no Mês " + mes + ":\n");
+		StringBuilder result = new StringBuilder(mes);
 		for (int i = 0; i < 5 && i < id.length; i++) {
 			if (top5[i] != null) {
-				result.append((i + 1) + ". " + id[i].getid() + "\n");
+				result.append((i + 1) + ". " + id[i].getId() + "\n");
 			}
 		}
 		return result.toString();
