@@ -1,3 +1,4 @@
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class UsoDeVaga {
@@ -18,7 +19,22 @@ public class UsoDeVaga {
 	}
 
 	public double sair() {
-		
+		if (saida == null) {
+			saida = LocalDateTime.now();
+			Duration duracao = Duration.between(entrada, saida);
+			long minutos = duracao.toMinutes();
+
+			double valor = minutos / 15 * VALOR_FRACAO;
+
+			if (valor > VALOR_MAXIMO) {
+				valor = VALOR_MAXIMO;
+			}
+
+			valorPago = valor;
+
+			//Eu sei q ta com erro, sou apenas burro, tenha calma.
+			Estacionamento.vagas[vaga] = null;
+		}
 	}
 
 	public boolean ehDoMes(int mes){
@@ -30,7 +46,7 @@ public class UsoDeVaga {
 	}
 	
 	public double valorPago() {
-		
+		return valorPago;
 	}
 
 }
