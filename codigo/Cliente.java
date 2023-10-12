@@ -42,6 +42,24 @@ public class Cliente {
 	}
 
 	/**
+	 * Método get para retornar o array de veículos registrados do cliente.
+	 * 
+	 * @return o array de veículos registrados do cliente.
+	 */
+	public ArrayList<Veiculo> getVeiculos() {
+		return veiculos;
+	}
+
+	/**
+	 * Método get para retornar o ID do cliente.
+	 * 
+	 * @return o ID do cliente.
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
 	 * Método para adicionar um veículo (ou vincular) ao cliente.
 	 * 
 	 * @param veiculo O veículo a ser adicionado.
@@ -50,15 +68,6 @@ public class Cliente {
 		if (!veiculos.contains(veiculo)) {
 			veiculos.add(veiculo);
 		}
-	}
-
-	/**
-	 * Método get para retornar o array de veículos registrados do cliente.
-	 * 
-	 * @return o array de veículos registrados do cliente.
-	 */
-	public ArrayList<Veiculo> getVeiculos() {
-		return veiculos;
 	}
 
 	/**
