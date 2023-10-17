@@ -14,27 +14,12 @@ public class UsoDeVaga {
 	public UsoDeVaga(Vaga vaga) {
 		this.vaga = vaga;
         this.entrada = LocalDateTime.now();
-        this.saida = null;
-        this.valorPago = 0.0;
+
 	}
 
 	public double sair() {
-		if (saida == null) {
-			saida = LocalDateTime.now();
-			Duration duracao = Duration.between(entrada, saida);
-			long minutos = duracao.toMinutes();
-
-			double valor = minutos / 15 * VALOR_FRACAO;
-
-			if (valor > VALOR_MAXIMO) {
-				valor = VALOR_MAXIMO;
-			}
-
-			valorPago = valor;
-
-			//Eu sei q ta com erro, sou apenas burro, tenha calma.
-			Estacionamento.vagas[vaga] = null;
-		}
+		saida = LocalDateTime.now();
+		return valorPago();
 	}
 
 	public boolean ehDoMes(int mes){
@@ -46,7 +31,17 @@ public class UsoDeVaga {
 	}
 	
 	public double valorPago() {
+		if (saida != null) {
+			Duration duracao = Duration.between(entrada, saida);
+			long minutos = duracao.toMinutes();
+			double valor = minutos / 15 * VALOR_FRACAO;
+
+			if (valor > VALOR_MAXIMO) {
+				valor = VALOR_MAXIMO;
+			}
+
+			valorPago = valor;
+		}
 		return valorPago;
 	}
-
 }
