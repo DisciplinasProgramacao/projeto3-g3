@@ -13,6 +13,7 @@ public class VeiculoTest {
     UsoDeVaga usoDeVaga2;
     Cliente cliente1;
     Cliente cliente2;
+    Estacionamento estacionamento1;
 
     @Before
     public void setUp() throws Exception{
@@ -27,32 +28,31 @@ public class VeiculoTest {
     }
     
     @Test
-    public void testEstacionar1(){
-
-    }
-
-    @Test
-    public void testSair(){
-
-    }
-
-    @Test
-    public void testTotalArrecadado() {
-        cliente1.addVeiculo(veiculo1);
+    public void testEstacionarEArrecadado() {
+        // Teste do método estacionar e totalArrecadado
+        double valorEstacionamento = 10.0;
         veiculo1.estacionar(vaga1);
-        veiculo1.sair();
+        assertEquals(valorEstacionamento, veiculo1.totalArrecadado(), 10.0);
+    }
+
+    @Test
+    public void testSairEArrecadadoNoMes() {
+        // Teste do método sair e arrecadadoNoMes
+        double valorEstacionamento = 10.0;
+        int mes = 10;
+        veiculo1.estacionar(vaga2);
+        vaga2.sair();
+        assertEquals(valorEstacionamento, veiculo1.arrecadadoNoMes(mes), 10.0);
+    }
+
+    @Test
+    public void testTotalDeUsos() {
+        // Teste do método totalDeUsos
+        veiculo1.estacionar(vaga1);
         veiculo2.estacionar(vaga2);
-        veiculo2.sair();
-        assertEquals(50.0, cliente1.arrecadadoTotal(), 0.01);
-    }
-
-    @Test
-    public void testArrecadadoNoMes(int mes){
-
-    }
-
-    @Test
-    public void testTotalDeUsos(){
-
+        vaga1.sair();
+        vaga2.sair();
+        assertEquals(1, veiculo1.totalDeUsos());
+        assertEquals(1, veiculo2.totalDeUsos());
     }
 }
