@@ -1,3 +1,4 @@
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class UsoDeVaga {
@@ -13,14 +14,25 @@ public class UsoDeVaga {
 	public UsoDeVaga(Vaga vaga) {
 		this.vaga = vaga;
         this.entrada = LocalDateTime.now();
-        this.saida = null;
-        this.valorPago = 0.0;
+
 	}
 
+	/**
+	 * Registra o horário de saída do estacionamento e calcula o valor a ser pago com base no tempo de permanência.
+	 *
+	 * @return O valor a ser pago.
+	 */
 	public double sair() {
-		
+		saida = LocalDateTime.now();
+		return valorPago();
 	}
 
+	/**
+	 * Verifica se o uso da vaga ocorreu no mês especificado.
+	 *
+	 * @param mes O número do mês a ser verificado.
+	 * @return Verdadeiro se o uso da vaga ocorreu no mês especificado, falso caso contrário.
+	 */
 	public boolean ehDoMes(int mes){
 		if (saida == null) {
             return false;
@@ -28,9 +40,23 @@ public class UsoDeVaga {
         return saida.getMonthValue() == mes;
     
 	}
-	
-	public double valorPago() {
-		
-	}
 
+	/**
+	 * Calcula o valor a ser pago com base no tempo de permanência na vaga.
+	 *
+	 * @return O valor a ser pago.
+	 */
+	public double valorPago() {
+			Duration duracao = Duration.between(entrada, saida);
+			long minutos = duracao.toMinutes();
+			double valor = minutos / 15 * VALOR_FRACAO;
+
+			if (valor > VALOR_MAXIMO) {
+				valor = VALOR_MAXIMO;
+			}
+
+			valorPago = valor;
+
+		return valorPago;
+	}
 }
