@@ -37,7 +37,7 @@ public class Estacionamento {
 	 */
 	public void addVeiculo(Veiculo veiculo, String idCli) {
 		for(Cliente cliente : id){
-			if(idCLi.equals(cliente.getId)){
+			if(idCli.equals(cliente.getId())){
 			cliente.addVeiculo(veiculo);
 				}
 			}
@@ -67,23 +67,72 @@ public class Estacionamento {
 		}
 
 
-	public void estacionar(String placa) {
-		
-	}
+	/**
+ * Estaciona um veículo em uma vaga disponível
+ * Verifica se algum cliente possui um veículo com a placa especificada
+ * Estaciona o veículo em uma vaga disponível se o veículo é encontrado
+ * @param placa A placa do veículo a ser estacionado.
+ */
+public void estacionar(String placa) {
+    boolean possuiVeiculo = false;
+    for (int i = 0; i < id.length; i++) {
+        if (id[i].possuiVeiculo(placa) != null) 
+            possuiVeiculo = true;
+    }
 
-	public double sair(String placa) {
-		
-	}
+    for (int i = 0; i < vagas.length; i++) {
+        if (vagas[i].disponivel() && possuiVeiculo) {
+            Veiculo veiculo = new Veiculo(placa);
+            veiculo.estacionar(vagas[i]);
+        }
+    }
+}
 
-	public double totalArrecadado() {
-		
-	}
+/**
+ * Remove um veículo de uma vaga e calcula o valor pago pelo uso da vaga.
+ * @param placa A placa do veículo a ser removido da vaga.
+ * @return O valor pago pelo uso da vaga ou -1 se o veículo não for encontrado ou a operação falhar.
+ */
+public double sair(String placa) {
+    for (Cliente cliente : id) {
+        Veiculo veiculo = cliente.possuiVeiculo(placa);
+        if (veiculo != null) {
+            for (int i = 0; i < vagas.length; i++) {
+                if (veiculo.sair(vagas[i]) != -1) {
+                    double valorPago = veiculo.sair(vagas[i]);
+                    return valorPago;
+                }
+            }
+        }
+    }
+    return -1; 
+}
 
-	public double arrecadacaoNoMes(int mes) {
+/**
+ * Calcula o valor total arrecadado com o estacionamento por todos os clientes.
+ * @return O valor total arrecadado com o estacionamento.
+ */
+public double totalArrecadado() {
+    double arrecadadoTotal = 0.0;
+    for (Cliente cliente : id) {
+        arrecadadoTotal += cliente.arrecadadoTotal();
+    }
+    return arrecadadoTotal;
+}
 
-		
-		
-	}
+/**
+ * Calcula o valor arrecadado no estacionamento em um mês específico.
+ * @param mes O mês para o qual deseja calcular a arrecadação.
+ * @return O valor arrecadado no mês especificado.
+ */
+public double arrecadacaoNoMes(int mes) {
+    double arrecadadoMes = 0.0;
+    for (Cliente cliente : id) {
+        arrecadadoMes += cliente.arrecadadoNoMes(mes);
+    }
+    return arrecadadoMes;
+}
+
 	/***
 	 * Calcula o valor médio gasto pelos clientes por uso das vagas de estacionamento.
 	 * Ele itera através do array de clientes fornacido pelo id.
