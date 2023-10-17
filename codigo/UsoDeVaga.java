@@ -31,7 +31,6 @@ public class UsoDeVaga {
 	}
 	
 	public double valorPago() {
-		if (saida != null) {
 			Duration duracao = Duration.between(entrada, saida);
 			long minutos = duracao.toMinutes();
 			double valor = minutos / 15 * VALOR_FRACAO;
@@ -41,7 +40,7 @@ public class UsoDeVaga {
 			}
 
 			valorPago = valor;
-		}
+
 		return valorPago;
 	}
 }
