@@ -96,7 +96,7 @@ public class Cliente {
 	public int totalDeUsos() {
 		int total = 0;
 		for (Veiculo veiculo : veiculos) {
-			total = veiculo.getUsos().size();
+			total = veiculo.totalDeUsos();
 		}
 		return total;
 	}
