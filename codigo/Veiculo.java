@@ -25,6 +25,7 @@ public class Veiculo {
      * @param vaga A vaga em que o veículo deseja estacionar.
      */
     public void estacionar(Vaga vaga) {
+
         if (vaga.disponivel()) {
             UsoDeVaga uso = new UsoDeVaga(vaga);
             this.usos.add(uso);

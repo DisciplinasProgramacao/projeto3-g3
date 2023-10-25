@@ -75,7 +75,7 @@ public class EstacionamentoTest {
         cliente.addVeiculo(veiculo);
         estacionamento.estacionar("ABC123");
         double valorPago = estacionamento.sair("ABC123");
-        
+   
         assertTrue(valorPago != -1);
         assertTrue(valorPago >= 0);
     }
