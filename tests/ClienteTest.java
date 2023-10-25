@@ -1,4 +1,9 @@
 import org.junit.Test;
+
+import Exceptions.UsoDeVagaException;
+import Exceptions.VagaDesocupadaException;
+import Exceptions.VagaOcupadaException;
+
 import org.junit.Before;
 import static org.junit.Assert.*;
 
@@ -34,7 +39,7 @@ public class ClienteTest {
   // Os testes abaixo dependem da implementação das classes Veículo, Vaga e
   // UsoVaga e serão adaptados futuramente.
   @Test
-  public void testTotalDeUsos() {
+  public void testTotalDeUsos() throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException {
     cliente1.addVeiculo(veiculo1);
     veiculo1.estacionar(vaga1);
     veiculo1.sair(vaga1);
@@ -44,7 +49,7 @@ public class ClienteTest {
   }
 
   @Test
-  public void testArrecadadoPorVeiculo() {
+  public void testArrecadadoPorVeiculo() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
     cliente2.addVeiculo(veiculo2);
     veiculo2.estacionar(vaga1);
     veiculo2.sair(vaga1);
@@ -54,7 +59,7 @@ public class ClienteTest {
   }
 
   @Test
-  public void testArrecadadoTotal() {
+  public void testArrecadadoTotal() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
     cliente1.addVeiculo(veiculo1);
     cliente1.addVeiculo(veiculo2);
     veiculo1.estacionar(vaga1);
@@ -65,7 +70,7 @@ public class ClienteTest {
   }
 
   @Test
-  public void testArrecadadoNoMes() {
+  public void testArrecadadoNoMes() throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException {
     cliente1.addVeiculo(veiculo1);
     cliente1.addVeiculo(veiculo2);
     veiculo1.estacionar(vaga1);
