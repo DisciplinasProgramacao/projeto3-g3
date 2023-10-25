@@ -22,10 +22,10 @@ public class Cliente {
 	 * Construtor que inicializa um cliente com nome e id personalizável.
 	 * 
 	 * @param _nome
-	 * @param _id
+	 * @param id2
 	 */
-	public Cliente(String _nome, String _id) {
-		init(_nome, _id);
+	public Cliente(String _nome, String id2) {
+		init(_nome, id2);
 	}
 
 	/**
