@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.io.IOException;
+import java.util.List;
 
 public class App {
 
@@ -81,11 +83,12 @@ public class App {
                         case 1:
                            // Solicitar informações do Cliente
                            System.out.println("Informe o nome do Cliente:");
-                           String nome = scanner.next();
+                           String nomeCliente = scanner.next();
                            System.out.println("Informe o id do Cliente:");
-                           String id = scanner.next();
+                           String idCliente = scanner.next();
                            // Criar uma instância de Cliente
-                           cliente = new Cliente(nome, id); //////////////////////////////////// COMO RESOLVER????????
+                           cliente = new Cliente(nomeCliente, idCliente);
+                           estacionamento.addCliente(cliente);
                            System.out.println("Cliente cadastrado com sucesso!");
                            break;
                         case 2:
@@ -205,13 +208,14 @@ public class App {
                            String nome = scanner.next();
                            break;
                         case 2:
-                           System.out.println("Informe o mês da arrecadação:");
+                           System.out.println("Valor arrecadado em determinado mês. Informe o mês:");
+                           
                            break;
                         case 3:
-                           System.out.println("Informe o nome do estacionamento:");
+                           System.out.println("Valor médio de cada utilização do estacionamento.");
                            break;
                         case 4:
-                           System.out.println("Informe o nome do estacionamento:");
+                           System.out.println("Ranking dos clientes que mais geraram arrecadação em um determinado mês. Digite o mês pretendido:");
                            break;
                         case 5:
                            System.out.println("Retornando ao menu principal.");
