@@ -163,7 +163,6 @@ public class UsoDeVaga {
 		Duration duracao = Duration.between(this.entrada, this.saida);
 		double minutos = duracao.toMinutes();
 		double valorAPagar = (minutos / 15) * VALOR_FRACAO;
-		System.out.print("ValorAPagar: " + valorAPagar);
 
 		if (valorAPagar > VALOR_MAXIMO) {
 			valorAPagar = VALOR_MAXIMO;

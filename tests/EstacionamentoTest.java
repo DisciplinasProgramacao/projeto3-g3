@@ -2,6 +2,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import Exceptions.UsoDeVagaException;
+import Exceptions.VagaDesocupadaException;
+import Exceptions.VagaOcupadaException;
+
 public class EstacionamentoTest {
 
     private Estacionamento estacionamento;
@@ -11,7 +15,7 @@ public class EstacionamentoTest {
     @Before
     public void setUp() {
         // Configuração inicial para os testes
-        estacionamento = new Estacionamento("Meu Estacionamento", 5, 10,5);
+        estacionamento = new Estacionamento("Meu Estacionamento", 5, 10, 5);
         cliente = new Cliente[10];
         Cliente cliente1 = new Cliente("Ana", "1");
         Cliente cliente2 = new Cliente("Julia", "2");
@@ -57,60 +61,58 @@ public class EstacionamentoTest {
     }
 
     @Test
-    public void testEstacionar() {
+    public void testEstacionar() throws VagaOcupadaException {
         Cliente cliente = new Cliente("123", "Cliente Teste");
         estacionamento.addCliente(cliente);
         Veiculo veiculo = new Veiculo("ABC123");
         cliente.addVeiculo(veiculo);
         estacionamento.estacionar("ABC123");
-        
+
         assertTrue(estacionamento.estacionar("ABC123"));
     }
 
     @Test
-    public void testSair() {
+    public void testSair() throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException {
         Cliente cliente = new Cliente("123", "Cliente Teste");
         estacionamento.addCliente(cliente);
         Veiculo veiculo = new Veiculo("ABC123");
         cliente.addVeiculo(veiculo);
         estacionamento.estacionar("ABC123");
         double valorPago = estacionamento.sair("ABC123");
-   
+
         assertTrue(valorPago != -1);
         assertTrue(valorPago >= 0);
     }
 
     @Test
-    public void testTotalArrecadado() {
+    public void testTotalArrecadado() throws VagaOcupadaException {
         estacionamento.estacionar("ABC123");
         estacionamento.estacionar("XYZ789");
-   
-        System.out.println("Total Arrecadado:"+estacionamento.totalArrecadado());
+
         assertTrue(estacionamento.totalArrecadado() >= 0);
     }
 
     @Test
-    public void testArrecadacaoNoMes() {
+    public void testArrecadacaoNoMes() throws VagaOcupadaException {
         Cliente cliente = new Cliente("123", "Cliente Teste");
         estacionamento.addCliente(cliente);
         Veiculo veiculo = new Veiculo("ABC123");
         cliente.addVeiculo(veiculo);
         estacionamento.estacionar("ABC123");
-       
-        System.out.println("T:"+estacionamento.arrecadacaoNoMes(1));
+
         assertTrue(estacionamento.arrecadacaoNoMes(1) >= 0);
     }
 
     @Test
-    public void testValorMedioPorUso() {
+    public void testValorMedioPorUso() throws VagaOcupadaException {
         estacionamento.estacionar("ABC123");
         estacionamento.estacionar("XYZ789");
-      
+
         assertTrue(estacionamento.valorMedioPorUso() >= 0);
     }
 
     @Test
     public void testTop5Clientes() {
-      
+
     }
 }
