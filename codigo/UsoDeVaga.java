@@ -59,4 +59,8 @@ public class UsoDeVaga {
 
 		return valorPago;
 	}
+
+	public Vaga getVaga() {
+		return this.vaga;
+	}
 }

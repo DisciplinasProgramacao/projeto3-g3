@@ -1,21 +1,21 @@
 public class Estacionamento {
 
 	private String nome;
-	private Cliente[] id;
-	private Vaga[] vagas;
+	protected Cliente[] id;
+	protected Vaga[] vagas;
 	private int quantFileiras;
 	private int vagasPorFileira; 
 
 	//Método Construtor
-	public Estacionamento(String nome, int fileiras, int vagasPorFila) {
-			this.nome = nome;		
-			this.quantFileiras = fileiras;
-			this.vagasPorFileira = vagasPorFila;
-			this.id = new Cliente[id.length];
-			this.vagas = new Vaga[vagas.length];
-
+	public Estacionamento(String nome, int fileiras, int vagasPorFila, int maxClientes) {
+		this.nome = nome;
+		this.quantFileiras = fileiras;
+		this.vagasPorFileira = vagasPorFila;
+		this.id = new Cliente[maxClientes]; // Inicializa a matriz id com o tamanho desejado
+		this.vagas = new Vaga[maxClientes * vagasPorFila];
 		this.gerarVagas();
 	}
+	
 
 	public String getnome() {
 		return	this.nome;
@@ -27,6 +27,10 @@ public class Estacionamento {
 
 	public int getvagasPorFileiras(){
 		return this.vagasPorFileira;
+	}
+
+	public Cliente[] getClientes(){
+		return this.id;
 	}
 
 	/*** Adiciona um veículo no estacionamento.
@@ -58,13 +62,15 @@ public class Estacionamento {
 	 * As vagas geradas são armazenadas no array de vagas da classe.
 	 */
 	private void gerarVagas() {
-		
-		// Calcula o número total de vagas com base na quantidade de fileiras e vagas por fileira.
-		int totalVagas = quantFileiras * vagasPorFileira;
-
-		// Inicializa o array de vagas com o tamanho total de vagas.
-		vagas = new Vaga[totalVagas];
-		}
+		int vagaId = 1;
+        for (int fila = 0; fila < quantFileiras; fila++) {
+            for (int numero = 1; numero <= vagasPorFileira; numero++) {
+                Vaga vaga = new Vaga(fila, numero);
+                vagas[vagaId - 1] = vaga; // Subtrai 1 porque os índices de array começam em 0
+                vagaId++;
+            }
+        }
+	}
 
 
 	/**
@@ -73,8 +79,9 @@ public class Estacionamento {
  * Estaciona o veículo em uma vaga disponível se o veículo é encontrado
  * @param placa A placa do veículo a ser estacionado.
  */
-public void estacionar(String placa) {
+public boolean estacionar(String placa) {
     boolean possuiVeiculo = false;
+	boolean estacionado = false;
     for (int i = 0; i < id.length; i++) {
         if (id[i].possuiVeiculo(placa) != null) 
             possuiVeiculo = true;
@@ -84,8 +91,13 @@ public void estacionar(String placa) {
         if (vagas[i].disponivel() && possuiVeiculo) {
             Veiculo veiculo = new Veiculo(placa);
             veiculo.estacionar(vagas[i]);
+			estacionado = true;
         }
+	
     }
+
+	return estacionado;
+	
 }
 
 /**
@@ -94,18 +106,19 @@ public void estacionar(String placa) {
  * @return O valor pago pelo uso da vaga ou -1 se o veículo não for encontrado ou a operação falhar.
  */
 public double sair(String placa) {
+	double valorPago = 0;
     for (Cliente cliente : id) {
         Veiculo veiculo = cliente.possuiVeiculo(placa);
         if (veiculo != null) {
             for (int i = 0; i < vagas.length; i++) {
-                if (veiculo.sair(vagas[i]) != -1) {
-                    double valorPago = veiculo.sair(vagas[i]);
-                    return valorPago;
+                double valorVaga = veiculo.sair(vagas[i]);
+                if (valorVaga != -1) {
+                    valorPago += valorVaga; 
                 }
             }
         }
     }
-    return -1; 
+    return valorPago;
 }
 
 /**
