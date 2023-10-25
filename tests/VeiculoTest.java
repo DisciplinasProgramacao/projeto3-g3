@@ -1,7 +1,9 @@
 import org.junit.Test;
+
+import Exceptions.VagaOcupadaException;
+
 import org.junit.Before;
 import static org.junit.Assert.*;
-
 
 public class VeiculoTest {
 
@@ -16,7 +18,7 @@ public class VeiculoTest {
     Estacionamento estacionamento1;
 
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         veiculo1 = new Veiculo("ABC - 1234");
         veiculo2 = new Veiculo("PUQ - 7269");
         vaga1 = new Vaga(1, 1);
@@ -26,9 +28,9 @@ public class VeiculoTest {
         cliente1 = new Cliente("Octávio", "3");
         cliente2 = new Cliente("Xulamb", "1");
     }
-    
+
     @Test
-    public void testEstacionarEArrecadado() {
+    public void testEstacionarEArrecadado() throws VagaOcupadaException {
         // Teste do método estacionar e totalArrecadado
         double valorEstacionamento = 10.0;
         veiculo1.estacionar(vaga1);
@@ -36,7 +38,7 @@ public class VeiculoTest {
     }
 
     @Test
-    public void testSairEArrecadadoNoMes() {
+    public void testSairEArrecadadoNoMes() throws VagaOcupadaException {
         // Teste do método sair e arrecadadoNoMes
         double valorEstacionamento = 10.0;
         int mes = 10;
@@ -46,7 +48,7 @@ public class VeiculoTest {
     }
 
     @Test
-    public void testTotalDeUsos() {
+    public void testTotalDeUsos() throws VagaOcupadaException {
         // Teste do método totalDeUsos
         veiculo1.estacionar(vaga1);
         veiculo2.estacionar(vaga2);
