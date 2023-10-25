@@ -41,17 +41,17 @@ public class Veiculo {
     public double sair(Vaga vaga) {
         List<UsoDeVaga> usosARemover = new ArrayList<>();
 
-        for (UsoDeVaga uso : usos) {
-            if (usos.contains(vaga)) {
-                double valorPago = uso.sair();
-                usosARemover.add(uso);
-                qntdVagasUsadas--;
-                return valorPago;
-            }
+    for (UsoDeVaga uso : usos) {
+        if (uso.getVaga() == vaga) {
+            double valorPago = uso.sair();
+            usosARemover.add(uso);
+            qntdVagasUsadas--;
+            return valorPago;
         }
-        usos.removeAll(usosARemover);
+    }
+    usos.removeAll(usosARemover);
 
-        return -1;
+    return -1;
     }
 
     /**

@@ -37,9 +37,9 @@ public class ClienteTest {
   public void testTotalDeUsos() {
     cliente1.addVeiculo(veiculo1);
     veiculo1.estacionar(vaga1);
-    veiculo1.sair();
+    veiculo1.sair(vaga1);
     veiculo1.estacionar(vaga2);
-    veiculo1.sair();
+    veiculo1.sair(vaga2);
     assertEquals(2, cliente1.totalDeUsos());
   }
 
@@ -47,9 +47,9 @@ public class ClienteTest {
   public void testArrecadadoPorVeiculo() {
     cliente2.addVeiculo(veiculo2);
     veiculo2.estacionar(vaga1);
-    veiculo2.sair();
+    veiculo2.sair(vaga1);
     veiculo2.estacionar(vaga2);
-    veiculo2.sair();
+    veiculo2.sair(vaga2);
     assertEquals(25.0, cliente2.arrecadadoPorVeiculo("ABC-1234"), 0.01);
   }
 
@@ -58,9 +58,9 @@ public class ClienteTest {
     cliente1.addVeiculo(veiculo1);
     cliente1.addVeiculo(veiculo2);
     veiculo1.estacionar(vaga1);
-    veiculo1.sair();
+    veiculo1.sair(vaga1);
     veiculo2.estacionar(vaga2);
-    veiculo2.sair();
+    veiculo2.sair(vaga2);
     assertEquals(50.0, cliente1.arrecadadoTotal(), 0.01);
   }
 
@@ -69,9 +69,9 @@ public class ClienteTest {
     cliente1.addVeiculo(veiculo1);
     cliente1.addVeiculo(veiculo2);
     veiculo1.estacionar(vaga1);
-    veiculo1.sair();
+    veiculo1.sair(vaga1);
     veiculo2.estacionar(vaga2);
-    veiculo2.sair();
+    veiculo2.sair(vaga2);
     assertEquals(25.0, cliente1.arrecadadoNoMes(1), 0.0);
   }
 }
