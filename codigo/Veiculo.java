@@ -57,17 +57,13 @@ public class Veiculo {
      */
     public double sair(Vaga vaga) throws UsoDeVagaException, VagaDesocupadaException {
         double valorPago = 0.0;
-        // List<UsoDeVaga> usosARemover = new ArrayList<>();
 
         for (UsoDeVaga uso : usos) {
             if (uso.getVaga() == vaga) {
-                valorPago = uso.sair();
-                // usosARemover.add(uso);
-                // qntdVagasUsadas--;
+                valorPago = uso.sair();\
                 return valorPago;
             }
         }
-        // usos.removeAll(usosARemover);
         return valorPago;
     }
 
