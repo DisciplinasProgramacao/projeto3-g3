@@ -6,7 +6,7 @@ import Exceptions.VagaOcupadaException;
 
 import java.util.ArrayList;
 
-public class Veiculo {
+public class Veiculo implements IDataToText {
 
     // Atributos
 
@@ -123,5 +123,10 @@ public class Veiculo {
     @Override
     public String toString() {
         return "Veículo: " + placa + " | Usos: " + usos.size();
+    }
+
+    @Override
+    public String dataToText() {
+        return this.placa + ";" + this.usos.size();
     }
 }

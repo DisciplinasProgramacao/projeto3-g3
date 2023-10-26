@@ -1,39 +1,92 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.*;
 
 public class VeiculoDAO implements Dao<Veiculo> {
     private List<Veiculo> veiculos = new ArrayList<>();
 
-    public VeiculoDAO() {
-        veiculos.add(new Veiculo("123"));
-        veiculos.add(new Veiculo("321"));
+    private String nomeArq;
+    private Scanner arqLeitura;
+    private FileWriter arqEscrita;
+
+    public VeiculoDAO(String nomeArq) {
+        this.nomeArq = nomeArq;
+        this.arqEscrita = null;
+        this.arqLeitura = null;
     }
 
-    @Override
-    public Optional<Veiculo> get(long id) {
-        return Optional.ofNullable(veiculos.get((int) id));
+    public void abrirLeitura() throws IOException {
+        if (arqEscrita != null) {
+            arqEscrita.close();
+            arqEscrita = null;
+        }
+        arqLeitura = new Scanner(new File(nomeArq), Charset.forName("UTF-8"));
     }
 
-    @Override
-    public List<Veiculo> getAll() {
-        return veiculos;
+    public void abrirEscrita() throws IOException {
+        if (arqLeitura != null) {
+            arqLeitura.close();
+            arqLeitura = null;
+        }
+        arqEscrita = new FileWriter(nomeArq, Charset.forName("UTF-8"), true);
     }
 
-    @Override
-    public void save(Veiculo veiculo) {
-        veiculos.add(veiculo);
+    public void fechar() throws IOException {
+        if (arqEscrita != null)
+            arqEscrita.close();
+        if (arqLeitura != null)
+            arqLeitura.close();
+        arqEscrita = null;
+        arqLeitura = null;
     }
 
-    @Override
-    public void update(Veiculo veiculo, String[] params) {
-        veiculo.setPlaca(Objects.requireNonNull(
-          params[0], "Placa cannot be null"));
-        veiculos.add(veiculo);
+    public Veiculo getNext() {
+        String[] linha = arqLeitura.nextLine().split(";");
+
+        String placa = linha[0].toLowerCase();
+
+        return new Veiculo(placa);
     }
 
-    @Override
+    public void add(Veiculo v) throws IOException {
+        arqEscrita.append(v.dataToText() + "\n");
+    }
+
+    public List<Veiculo> getAll() throws IOException {
+        List<Veiculo> dados = new ArrayList<>();
+
+        try {
+            fechar();
+            abrirLeitura();
+            while (arqLeitura.hasNext()) {
+                dados.add(getNext());
+            }
+        } catch (IOException exception) {
+            arqEscrita = null;
+            arqLeitura = null;
+            dados = null;
+        }
+        dados = List.copyOf(dados);
+        return dados;
+    }
+
+    public void addAll(List<Veiculo> veiculos) {
+        try {
+            fechar();
+            abrirEscrita();
+            for (Veiculo veiculo : veiculos) {
+                if (veiculo != null) {
+                    add(veiculo);
+                }
+            }
+        } catch (IOException exception) {
+            arqEscrita = null;
+            arqLeitura = null;
+        }
+    }
+
     public void delete(Veiculo veiculo) {
         veiculos.remove(veiculo);
     }

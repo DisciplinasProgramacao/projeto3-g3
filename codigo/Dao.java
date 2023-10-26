@@ -1,10 +1,14 @@
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
-public interface Dao<T> {
-    Optional<T> get(long id);
-    List<T> getAll();
-    void save(T t);
-    void update(T t, String[] params);
-    void delete(T t);
+public interface Dao<T extends IDataToText> {
+    public T getNext();
+
+    public List<T> getAll() throws IOException;
+
+    public void add(T t) throws IOException;
+
+    public void addAll(List<T> t);
+
+    public void delete(T t);
 }
