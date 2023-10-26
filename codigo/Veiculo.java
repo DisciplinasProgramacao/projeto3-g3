@@ -60,7 +60,7 @@ public class Veiculo {
 
         for (UsoDeVaga uso : usos) {
             if (uso.getVaga() == vaga) {
-                valorPago = uso.sair();\
+                valorPago = uso.sair();
                 return valorPago;
             }
         }
