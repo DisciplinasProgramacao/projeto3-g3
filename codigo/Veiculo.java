@@ -22,6 +22,14 @@ public class Veiculo {
         this.usos = new ArrayList<>();
     }
 
+    public String getPlaca() {
+        return this.placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
     // Métodos
 
     /**
@@ -49,18 +57,18 @@ public class Veiculo {
      */
     public double sair(Vaga vaga) throws UsoDeVagaException, VagaDesocupadaException {
         double valorPago = 0.0;
-        List<UsoDeVaga> usosARemover = new ArrayList<>();
+        // List<UsoDeVaga> usosARemover = new ArrayList<>();
 
         for (UsoDeVaga uso : usos) {
             if (uso.getVaga() == vaga) {
                 valorPago = uso.sair();
-                usosARemover.add(uso);
-                qntdVagasUsadas--;
+                // usosARemover.add(uso);
+                // qntdVagasUsadas--;
                 return valorPago;
             }
         }
-        usos.removeAll(usosARemover);
-        return -1;
+        // usos.removeAll(usosARemover);
+        return valorPago;
     }
 
     /**
