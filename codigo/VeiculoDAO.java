@@ -29,7 +29,7 @@ public class VeiculoDAO implements Dao<Veiculo> {
     @Override
     public void update(Veiculo veiculo, String[] params) {
         veiculo.setPlaca(Objects.requireNonNull(
-          params[0], "Name cannot be null"));
+          params[0], "Placa cannot be null"));
         veiculos.add(veiculo);
     }
 
