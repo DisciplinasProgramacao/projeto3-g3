@@ -103,19 +103,19 @@ public class Vaga {
 	 * @param obj A outra vaga para comparação. Se obj não for uma Vaga, retorna
 	 *            falso pelo tratamento de exceção.
 	 */
-	// @Override
-	// public boolean equals(Object obj) {
-	// if (obj.equals(this))
-	// return true;
-	// else {
-	// try {
-	// Vaga outra = (Vaga) obj;
-	// return this.id.equals(outra.id);
-	// } catch (ClassCastException ce) {
-	// return false;
-	// }
-	// }
-	// }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj.equals(this))
+			return true;
+		else {
+			try {
+				Vaga outra = (Vaga) obj;
+				return this.id.equals(outra.id);
+			} catch (ClassCastException ce) {
+				return false;
+			}
+		}
+	}
 
 	/**
 	 * Representação em String: identificador da vaga e seu estado (disponível ou
