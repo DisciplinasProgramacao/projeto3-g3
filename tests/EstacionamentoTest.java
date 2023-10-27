@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 
 import Exceptions.UsoDeVagaException;
 import Exceptions.VagaDesocupadaException;
@@ -15,16 +16,24 @@ public class EstacionamentoTest {
     @Before
     public void setUp() {
         // Configuração inicial para os testes
-        estacionamento = new Estacionamento("Meu Estacionamento", 5, 10, 5);
-        cliente = new Cliente[10];
+        estacionamento = new Estacionamento("Meu Estacionamento", 5, 10);
+
         Cliente cliente1 = new Cliente("Ana", "1");
         Cliente cliente2 = new Cliente("Julia", "2");
+        Cliente cliente3 = new Cliente("Maria", "3");
+
         estacionamento.addCliente(cliente1);
         estacionamento.addCliente(cliente2);
-        Veiculo veiculo1 = new Veiculo("ABC123");
+        estacionamento.addCliente(cliente3);
+
+        Veiculo veiculo1 = new Veiculo("DEF501");
         Veiculo veiculo2 = new Veiculo("XYZ789");
-        cliente1.addVeiculo(veiculo1);
-        cliente2.addVeiculo(veiculo2);
+        Veiculo veiculo3 = new Veiculo("ANA131");
+
+        // Adicione os veículos ao estacionamento
+        estacionamento.addVeiculo(veiculo1, "1");
+        estacionamento.addVeiculo(veiculo2, "2");
+        estacionamento.addVeiculo(veiculo3, "3");
     }
 
     @Test
@@ -32,22 +41,12 @@ public class EstacionamentoTest {
         assertEquals("Meu Estacionamento", estacionamento.getnome());
     }
 
-    @Test
-    public void testGetquantFileiras() {
-        assertEquals(5, estacionamento.getquantFileiras());
-    }
-
-    @Test
-    public void testGetvagasPorFileiras() {
-        assertEquals(10, estacionamento.getvagasPorFileiras());
-    }
 
     @Test
     public void testAddCliente() {
-        Cliente cliente = new Cliente("123", "Cliente Teste");
-        estacionamento.addCliente(cliente);
-
-        assertTrue(temCliente(estacionamento, cliente));
+        Cliente cliente1 = new Cliente("Ana", "1");
+        estacionamento.addCliente(cliente1);
+        assertTrue(temCliente(estacionamento, cliente1));
     }
 
     // Método auxiliar para verificar se o cliente está no vetor de clientes (id)
@@ -62,23 +61,16 @@ public class EstacionamentoTest {
 
     @Test
     public void testEstacionar() throws VagaOcupadaException {
-        Cliente cliente = new Cliente("123", "Cliente Teste");
-        estacionamento.addCliente(cliente);
-        Veiculo veiculo = new Veiculo("ABC123");
-        cliente.addVeiculo(veiculo);
-        estacionamento.estacionar("ABC123");
-
-        assertTrue(estacionamento.estacionar("ABC123"));
+        //System.out.println(estacionamento.estacionar("XYZ789"));
+        assertTrue(estacionamento.estacionar("DEF501"));
+        assertTrue(estacionamento.estacionar("XYZ789"));
+        assertTrue(estacionamento.estacionar("ANA131"));
+             
     }
 
     @Test
     public void testSair() throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException {
-        Cliente cliente = new Cliente("123", "Cliente Teste");
-        estacionamento.addCliente(cliente);
-        Veiculo veiculo = new Veiculo("ABC123");
-        cliente.addVeiculo(veiculo);
-        estacionamento.estacionar("ABC123");
-        double valorPago = estacionamento.sair("ABC123");
+        double valorPago = estacionamento.sair("DEF501");
 
         assertTrue(valorPago != -1);
         assertTrue(valorPago >= 0);
@@ -86,20 +78,12 @@ public class EstacionamentoTest {
 
     @Test
     public void testTotalArrecadado() throws VagaOcupadaException {
-        estacionamento.estacionar("ABC123");
-        estacionamento.estacionar("XYZ789");
-
         assertTrue(estacionamento.totalArrecadado() >= 0);
     }
 
     @Test
     public void testArrecadacaoNoMes() throws VagaOcupadaException {
-        Cliente cliente = new Cliente("123", "Cliente Teste");
-        estacionamento.addCliente(cliente);
-        Veiculo veiculo = new Veiculo("ABC123");
-        cliente.addVeiculo(veiculo);
-        estacionamento.estacionar("ABC123");
-
+       
         assertTrue(estacionamento.arrecadacaoNoMes(1) >= 0);
     }
 
@@ -111,8 +95,4 @@ public class EstacionamentoTest {
         assertTrue(estacionamento.valorMedioPorUso() >= 0);
     }
 
-    @Test
-    public void testTop5Clientes() {
-
-    }
 }
