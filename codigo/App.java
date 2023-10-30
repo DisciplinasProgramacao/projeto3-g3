@@ -1,241 +1,147 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.io.IOException;
-import java.util.List;
+
+import Exceptions.VagaOcupadaException;
+
 
 public class App {
 
-   public static void main(String[] args) {
+    //#region utilidades
+    static Scanner teclado;
 
-      Estacionamento estacionamento = null;
-      Cliente cliente = null;
-      Veiculo veiculo = null;
-      Vaga vaga = new Vaga(1,10);
+    /**
+     * Pausa para leitura de mensagens em console
+     * 
+     * @param teclado Scanner de leitura
+     */
+    static void pausa() {
+        System.out.println("Enter para continuar.");
+        teclado.nextLine();
+    }
 
-      try (Scanner scanner = new Scanner(System.in)) {
-         int mainOption = 0;
+     /**
+     * Encapsula uma leitura de teclado, com mensagem personalizada. A mensagem sempre é completada com ":". Retorna uma string 
+     * que pode ser posteriormente convertida.
+     * @param mensagem A mensagem a ser exibida, sem pontuação final.
+     * @return String lida do usuário.
+     */
+    public static String leitura(String mensagem){
+        System.out.print(mensagem+": ");
+        return teclado.nextLine();
+    }
 
-         do {
-            System.out.println("===============================================");
-            System.out.println("Bem Vindo ao Gerenciamento de Estacionamento.\n");
-            System.out.println("Escolha uma opção:");
-            System.out.println("1. Menu Estacionamento:");
-            System.out.println("2. Menu Cliente:");
-            System.out.println("3. Menu Veículo:");
-            System.out.println("4. Menu Vaga:");
-            System.out.println("5. Gerar Relatório.");
-            System.out.println("6. Sair");
+    /**
+     * Método para montagem de menu. Lê as opções de um arquivo e as numera automaticamente a partir de 1.
+     * @param nomeArquivo Nome do arquivo texto com as opções (uma por linha)
+     * @return Opção do usuário (int)
+     * @throws FileNotFoundException em caso de arquivo não encontrado.
+     */
+    public static int menu(String nomeArquivo) throws FileNotFoundException {
+        
+        File arqMenu = new File(nomeArquivo);
+        Scanner leitor = new Scanner(arqMenu, "UTF-8");
+        System.out.println(leitor.nextLine());
+        System.out.println("==========================");
+        int contador = 1;
+        while(leitor.hasNextLine()){
+            System.out.println(contador + " - " + leitor.nextLine());
+            contador++;
+        }
+        System.out.println("0 - Sair");
+        System.out.print("\nSua opção: ");
+        int opcao = Integer.parseInt(teclado.nextLine());
+        leitor.close();
+        return opcao;
+    }
+    //#endregion
 
-            mainOption = scanner.nextInt();
+     //#region métodos do app (encapsulam ações de usuário)
 
-            switch (mainOption) {
-               case 1:
-                  int subOptionEst;
-                  do {
-                     System.out.println("===============================================");
-                     System.out.println("Menu Estacionamento:");
-                     System.out.println("Escolha uma opção:");
-                     System.out.println("1. Cadastrar Estacionamento");
-                     System.out.println("2. Listar Estacionamentos");
-                     System.out.println("3. Voltar ao menu principal");
 
-                     subOptionEst = scanner.nextInt();
 
-                     switch (subOptionEst) {
-                        case 1:
-                           // Solicitar informações do estacionamento
-                           System.out.println("Informe o nome do estacionamento:");
-                           String nome = scanner.next();
-                           System.out.println("Informe a quantidade de fileiras:");
-                           int fileiras = scanner.nextInt();
-                           System.out.println("Informe a quantidade de vagas por fila:");
-                           int vagasPorFila = scanner.nextInt();
 
-                           // Criar uma instância de Estacionamento
-                           estacionamento = new Estacionamento(nome, fileiras, vagasPorFila);
-                           System.out.println("Estacionamento cadastrado com sucesso!");
-                           break;
-                        case 2:
-                           System.out.println("Opção 2 do submenu Estacionamento escolhida.");
-                           break;
-                        case 3:
-                           System.out.println("Retornando ao menu principal.");
-                           break;
-                        default:
-                           System.out.println("Opção inválida no submenu Estacionamento.");
-                           break;
-                     }
-                  } while (subOptionEst != 3);
-                  break;
 
-               case 2:
-                  int subOptionCli;
-                  do {
-                     System.out.println("===============================================");
-                     System.out.println("Menu Cliente:");
-                     System.out.println("Escolha uma opção:");
-                     System.out.println("1. Cadastrar Cliente:");
-                     System.out.println("2. Listar Clientes");
-                     System.out.println("3. Voltar ao menu principal");
 
-                     subOptionCli = scanner.nextInt();
+    /**
+     * 
+     * @throws FileNotFoundException Em caso de arquivo não encontrado para mostar o menu, lança exceção sem tratamento de erro (por enquanto)
+     */
+    public static Estacionamento menuEstacionamento() throws FileNotFoundException{
+        String nomeArq = "menuEstacionamento";
+        int opcao = -1;
+        
+        Estacionamento novo = null;
 
-                     switch (subOptionCli) {
-                        case 1:
-                           // Solicitar informações do Cliente
-                           System.out.println("Informe o nome do Cliente:");
-                           String nomeCliente = scanner.next();
-                           System.out.println("Informe o id do Cliente:");
-                           String idCliente = scanner.next();
-                           // Criar uma instância de Cliente
-                           cliente = new Cliente(nomeCliente, idCliente);
-                           estacionamento.addCliente(cliente);
-                           System.out.println("Cliente cadastrado com sucesso!");
-                           break;
-                        case 2:
-                           System.out.println("Listar clientes."); //a ser implementada
-                           break;
-                        case 3:
-                           System.out.println("Retornando ao menu principal.");
-                           break;
-                        default:
-                           System.out.println("Opção inválida no submenu Cliente.");
-                           break;
-                     }
-                  } while (subOptionCli != 3);
-                  break;
+         // Solicitar informações do estacionamento
+         System.out.println("Informe o nome do estacionamento:");
+         String nome = teclado.next();
+         System.out.println("Informe a quantidade de fileiras:");
+         int fileiras = teclado.nextInt();
+         System.out.println("Informe a quantidade de vagas por fila:");
+         int vagasPorFila = teclado.nextInt();
 
-               case 3:
-                 int subOptionVei;
-                  do {
-                     System.out.println("===============================================");
-                     System.out.println("Menu Veículo:");
-                     System.out.println("Escolha uma opção:");
-                     System.out.println("1. Cadastrar Veículo:");
-                     System.out.println("2. Listar Veículos:");
-                     System.out.println("3. Voltar ao menu principal");
+         // Criar uma instância de Estacionamento
+         novo = new Estacionamento(nome, fileiras, vagasPorFila);
+         System.out.println("Estacionamento cadastrado com sucesso!");
 
-                     subOptionVei = scanner.nextInt();
+        opcao = menu(nomeArq);
+        switch(opcao){
+            case 1 -> {
+                    System.out.println("Adicionando um cliente ao cadastro do estacionamento.");
+                
+                    // Aqui você pode criar um novo cliente com os detalhes desejados
+                    Cliente novoCliente = new Cliente("Nome do Cliente", "ID do Cliente"); // Substitua com os detalhes reais.
+                
+                    // Agora, chame o método addCliente da instância do estacionamento para adicionar o cliente.
+                    novo.addCliente(novoCliente);
+                
+                    System.out.println("Cliente adicionado com sucesso.");
+                } 
+            case 2 -> {
+                System.out.println("Adicionando um veículo ao cadastro do estacionamento.");
+                
+                Veiculo novoVeiculo = new Veiculo("nome");
 
-                     switch (subOptionVei) {
-                        case 1:
-                           // Solicitar informações do Veiculo
-                           System.out.println("Informe placa do veículo:");
-                           String placa = scanner.next();
-                           // Criar uma instância de Veiculo
-                           veiculo = new Veiculo(placa);
-                           System.out.println("Veículo cadastrado com sucesso!");
-                           break;
-                        case 2:
-                           System.out.println("Listar veículos cadastrados."); //a ser implementada
-                           break;
-                        case 3:
-                           System.out.println("Retornando ao menu principal.");
-                           break;
-                        default:
-                           System.out.println("Opção inválida no submenu Veículo.");
-                           break;
-                     }
-                  } while (subOptionVei != 3);
-                  break;
-
-               case 4:
-                  int subOptionVaga;
-                  do {
-                     System.out.println("===============================================");
-                     System.out.println("Menu Vaga:");
-                     System.out.println("Escolha uma opção:");
-                     System.out.println("1. Estacionar Veículo:");
-                     System.out.println("2. Sair da Vaga:");
-                     System.out.println("3. Voltar ao menu principal");
-
-                     subOptionVaga = scanner.nextInt();
-
-                     switch (subOptionVaga) {
-                        case 1:
-                            // Verifica se a vaga está disponível
-                           if (vaga.disponivel()) {
-                              boolean estacionado = vaga.estacionar();
-                              if (estacionado) {
-                                 System.out.println("Veículo estacionado com sucesso!");
-                              } else {
-                                 System.out.println("A vaga já está ocupada. Não é possível estacionar.");
-                              }
-                           } else {
-                                 System.out.println("A vaga já está ocupada. Não é possível estacionar.");
-                           }
-                           break;
-                        case 2:
-                           // Verifica se a vaga está ocupada
-                           if (!vaga.disponivel()) {
-                              boolean liberado = vaga.sair();
-                                 if (liberado) {
-                                    System.out.println("Veículo saiu da vaga com sucesso!");
-                                 } else {
-                                    System.out.println("A vaga já está disponível. Não é possível liberar.");
-                                 }
-                           } else {
-                                 System.out.println("A vaga já está disponível. Não é possível liberar.");
-                           }
-                           break;
-                        case 3:
-                           System.out.println("Retornando ao menu principal.");
-                           break;
-                        default:
-                           System.out.println("Opção inválida no submenu Vaga.");
-                           break;
-                     }
-                  } while (subOptionVaga != 3);
-                  break;
-
-               case 5:
-                  int subOptionRelat;
-                  do {
-                     System.out.println("===============================================");
-                     System.out.println("Menu Relatório:");
-                     System.out.println("Escolha uma opção:");
-                     System.out.println("1. Valor total arrecadado do estacionamento.");
-                     System.out.println("2. Valor arrecadado em determinado mês.");
-                     System.out.println("3. Valor médio de cada utilização do estacionamento.");
-                     System.out.println("4. Ranking dos clientes que mais geraram arrecadação em um determinado mês.");
-                     System.out.println("5. Voltar ao menu principal");
-
-                     subOptionRelat = scanner.nextInt();
-
-                     switch (subOptionRelat) {
-                        case 1:
-                           // Solicitar informações do estacionamento
-                           System.out.println("Informe o nome do estacionamento:");
-                           String nome = scanner.next();
-                           break;
-                        case 2:
-                           System.out.println("Valor arrecadado em determinado mês. Informe o mês:");
-                           
-                           break;
-                        case 3:
-                           System.out.println("Valor médio de cada utilização do estacionamento.");
-                           break;
-                        case 4:
-                           System.out.println("Ranking dos clientes que mais geraram arrecadação em um determinado mês. Digite o mês pretendido:");
-                           break;
-                        case 5:
-                           System.out.println("Retornando ao menu principal.");
-                           break;
-                        default:
-                           System.out.println("Opção inválida no submenu Vaga.");
-                           break;
-                     }
-                  } while (subOptionRelat != 5);
-                  break;
-
-               case 6:
-                  System.out.println("Obrigado por usar o menu!");
-                  break;
-
-               default:
-                  System.out.println("Opção inválida no menu principal.");
-                  break;
+                novo.addVeiculo(novoVeiculo, nome);
+                
             }
-         } while (mainOption != 6);
-      }
-   }
+            case 3 -> {
+                //Inserir o veículo na vaga 
+                try {
+                    if (novo.estacionar("ABC1234")){
+                        System.out.println("Veículo estacionado com sucesso.");
+                    } else {
+                        System.out.println("Nenhuma vaga disponível nesse estacionamento.");
+                    }
+                } catch (VagaOcupadaException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }                
+            }
+            default-> {
+                System.out.println("Escolha inválida");
+            }
+        }
+        //novo = menuVeiculo(novo);
+        return novo;
+      
+    }
+    
+    //#endregion
+
+     public static void main(String[] args) throws Exception{
+        teclado = new Scanner(System.in);
+        String nomeArq = "menuEstacionamento";
+        int opcao = -1;
+        while(opcao!=0){
+            opcao = menu(nomeArq);
+            switch(opcao){
+                case 1-> menuEstacionamento();
+            }
+        }
+        System.out.println("Estamos sempre a disposição para melhor atende-lo.");
+        teclado.close();
+    }
+    
 }
