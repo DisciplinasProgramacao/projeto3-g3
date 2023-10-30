@@ -1,13 +1,18 @@
 import java.util.List;
+
+import Exceptions.UsoDeVagaException;
+import Exceptions.VagaDesocupadaException;
+import Exceptions.VagaOcupadaException;
+
 import java.util.ArrayList;
 
-public class Veiculo {
+public class Veiculo implements IDataToText {
 
     // Atributos
 
-    private String placa;             // A placa do veículo
-    private List<UsoDeVaga> usos;      // Lista de usos de vagas associados ao veículo
-    private int qntdVagasUsadas;       // Quantidade de vagas usadas pelo veículo
+    private String placa; // A placa do veículo
+    private List<UsoDeVaga> usos; // Lista de usos de vagas associados ao veículo
+    private int qntdVagasUsadas; // Quantidade de vagas usadas pelo veículo
 
     // Construtor
 
@@ -17,14 +22,24 @@ public class Veiculo {
         this.usos = new ArrayList<>();
     }
 
+    public String getPlaca() {
+        return this.placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
     // Métodos
 
     /**
      * Estaciona o veículo em uma vaga, se a vaga estiver disponível.
      * 
      * @param vaga A vaga em que o veículo deseja estacionar.
+     * @throws VagaOcupadaException
      */
-    public void estacionar(Vaga vaga) {
+    public void estacionar(Vaga vaga) throws VagaOcupadaException {
+
         if (vaga.disponivel()) {
             UsoDeVaga uso = new UsoDeVaga(vaga);
             this.usos.add(uso);
@@ -37,21 +52,19 @@ public class Veiculo {
      * 
      * @param vaga A vaga da qual o veículo deseja sair.
      * @return O valor pago pelo uso da vaga ou -1 se a vaga não foi encontrada.
+     * @throws VagaDesocupadaException
+     * @throws UsoDeVagaException
      */
-    public double sair(Vaga vaga) {
-        List<UsoDeVaga> usosARemover = new ArrayList<>();
+    public double sair(Vaga vaga) throws UsoDeVagaException, VagaDesocupadaException {
+        double valorPago = 0.0;
 
         for (UsoDeVaga uso : usos) {
-            if (usos.contains(vaga)) {
-                double valorPago = uso.sair();
-                usosARemover.add(uso);
-                qntdVagasUsadas--;
+            if (uso.getVaga() == vaga) {
+                valorPago = uso.sair();
                 return valorPago;
             }
         }
-        usos.removeAll(usosARemover);
-
-        return -1;
+        return valorPago;
     }
 
     /**
@@ -62,7 +75,9 @@ public class Veiculo {
     public double totalArrecadado() {
         double arrecadacaoTotal = 0.0;
         for (UsoDeVaga uso : usos) {
-            arrecadacaoTotal += uso.valorPago();
+            if (uso != null) {
+                arrecadacaoTotal += uso.getValorPago();
+            }
         }
         return arrecadacaoTotal;
     }
@@ -77,7 +92,7 @@ public class Veiculo {
         double arrecadacaoNoMes = 0.0;
         for (UsoDeVaga uso : usos) {
             if (uso.ehDoMes(mes)) {
-                arrecadacaoNoMes += uso.valorPago();
+                arrecadacaoNoMes += uso.getValorPago();
             }
         }
         return arrecadacaoNoMes;
@@ -108,5 +123,10 @@ public class Veiculo {
     @Override
     public String toString() {
         return "Veículo: " + placa + " | Usos: " + usos.size();
+    }
+
+    @Override
+    public String dataToText() {
+        return this.placa + ";" + this.usos.size();
     }
 }
