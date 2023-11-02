@@ -1,15 +1,17 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import Exceptions.VagaOcupadaException;
 
-
 public class App {
 
-    //#region utilidades
+    // #region utilidades
     static Scanner teclado;
 
+    private static Estacionamento[] novo = new Estacionamento[3];
+    
     /**
      * Pausa para leitura de mensagens em console
      * 
@@ -20,31 +22,35 @@ public class App {
         teclado.nextLine();
     }
 
-     /**
-     * Encapsula uma leitura de teclado, com mensagem personalizada. A mensagem sempre é completada com ":". Retorna uma string 
+    /**
+     * Encapsula uma leitura de teclado, com mensagem personalizada. A mensagem
+     * sempre é completada com ":". Retorna uma string
      * que pode ser posteriormente convertida.
+     * 
      * @param mensagem A mensagem a ser exibida, sem pontuação final.
      * @return String lida do usuário.
      */
-    public static String leitura(String mensagem){
-        System.out.print(mensagem+": ");
+    public static String leitura(String mensagem) {
+        System.out.print(mensagem + ": ");
         return teclado.nextLine();
     }
 
     /**
-     * Método para montagem de menu. Lê as opções de um arquivo e as numera automaticamente a partir de 1.
+     * Método para montagem de menu. Lê as opções de um arquivo e as numera
+     * automaticamente a partir de 1.
+     * 
      * @param nomeArquivo Nome do arquivo texto com as opções (uma por linha)
      * @return Opção do usuário (int)
      * @throws FileNotFoundException em caso de arquivo não encontrado.
      */
     public static int menu(String nomeArquivo) throws FileNotFoundException {
-        
+
         File arqMenu = new File(nomeArquivo);
         Scanner leitor = new Scanner(arqMenu, "UTF-8");
         System.out.println(leitor.nextLine());
         System.out.println("==========================");
         int contador = 1;
-        while(leitor.hasNextLine()){
+        while (leitor.hasNextLine()) {
             System.out.println(contador + " - " + leitor.nextLine());
             contador++;
         }
@@ -54,62 +60,78 @@ public class App {
         leitor.close();
         return opcao;
     }
-    //#endregion
+    // #endregion
 
-     //#region métodos do app (encapsulam ações de usuário)
+    // #region métodos do app (encapsulam ações de usuário)
 
+    public static int escolhaEstacionamento(){
+        System.out.println("Escolha o estacionamento (1, 2 ou 3): ");
+        int escolhaEstacionamento = Integer.parseInt(teclado.nextLine());
 
+        switch (escolhaEstacionamento) {
+            case 1:
+                Estacionamento novo1 = new Estacionamento("Minas Gerais", 10, 10);
+                break;
+            case 2:
+                Estacionamento novo2 = new Estacionamento("São Paulo", 15, 20);
+                break;
+            case 3:
+                Estacionamento novo3 = new Estacionamento("Rio de Janeiro", 13, 15);
+                break;
+            default:
+                System.out.println("Opção inválida.");
+                break;
+        }
+        return escolhaEstacionamento;
+    }
 
-
-
+    
 
     /**
      * 
-     * @throws FileNotFoundException Em caso de arquivo não encontrado para mostar o menu, lança exceção sem tratamento de erro (por enquanto)
+     * @throws FileNotFoundException Em caso de arquivo não encontrado para mostar o
+     *                               menu, lança exceção sem tratamento de erro (por
+     *                               enquanto)
      */
-    public static Estacionamento menuEstacionamento() throws FileNotFoundException{
+    public static Estacionamento menuEstacionamento() throws FileNotFoundException {
         String nomeArq = "menuEstacionamento";
         int opcao = -1;
+
         
-        Estacionamento novo = null;
-
-         // Solicitar informações do estacionamento
-         System.out.println("Informe o nome do estacionamento:");
-         String nome = teclado.next();
-         System.out.println("Informe a quantidade de fileiras:");
-         int fileiras = teclado.nextInt();
-         System.out.println("Informe a quantidade de vagas por fila:");
-         int vagasPorFila = teclado.nextInt();
-
-         // Criar uma instância de Estacionamento
-         novo = new Estacionamento(nome, fileiras, vagasPorFila);
-         System.out.println("Estacionamento cadastrado com sucesso!");
 
         opcao = menu(nomeArq);
-        switch(opcao){
+        switch (opcao) {
             case 1 -> {
-                    System.out.println("Adicionando um cliente ao cadastro do estacionamento.");
-                
-                    // Aqui você pode criar um novo cliente com os detalhes desejados
-                    Cliente novoCliente = new Cliente("Nome do Cliente", "ID do Cliente"); // Substitua com os detalhes reais.
-                
-                    // Agora, chame o método addCliente da instância do estacionamento para adicionar o cliente.
-                    novo.addCliente(novoCliente);
-                
-                    System.out.println("Cliente adicionado com sucesso.");
-                } 
-            case 2 -> {
-                System.out.println("Adicionando um veículo ao cadastro do estacionamento.");
-                
-                Veiculo novoVeiculo = new Veiculo("nome");
+            String nomeCliente = "";
+            String idCliente = "";
+                leitura("Digite o nome do cliente e o seu identificador");
+                nomeCliente = teclado.nextLine();
+                idCliente = teclado.nextLine();
 
-                novo.addVeiculo(novoVeiculo, nome);
-                
+                Cliente novoCliente = new Cliente(nomeCliente, idCliente);
+                Estacionamento.addCliente(nomeCliente);
+
+                System.out.println("Cliente adicionado com sucesso.");
+
+            }
+            case 2 -> {
+                leitura("Digite a placa do veículo");
+                String novaPlaca = teclado.nextLine();
+                leitura("Digite o identificador do cliente");
+                String idCliente = teclado.nextLine();
+
+                Veiculo novoVeiculo = new Veiculo(novaPlaca);
+
+                Estacionamento.addVeiculo(Veiculo, idCliente);
+
+                System.out.println("Veículo adicionado com sucesso.");
             }
             case 3 -> {
-                //Inserir o veículo na vaga 
+                // Inserir o veículo na vaga
+                leitura("Digite a placa do veículo");
+                String novaPlaca = teclado.nextLine();
                 try {
-                    if (novo.estacionar("ABC1234")){
+                    if (Estacionamento.estacionar(novaPlaca)==true) {
                         System.out.println("Veículo estacionado com sucesso.");
                     } else {
                         System.out.println("Nenhuma vaga disponível nesse estacionamento.");
@@ -117,31 +139,39 @@ public class App {
                 } catch (VagaOcupadaException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                }                
+                }
             }
-            default-> {
+            case 0 -> {
+                System.out.println("Retornando ao menu principal.");
+            }
+            default -> {
                 System.out.println("Escolha inválida");
             }
         }
-        //novo = menuVeiculo(novo);
-        return novo;
-      
-    }
-    
-    //#endregion
+        while (opcao != 0)
+            ;
 
-     public static void main(String[] args) throws Exception{
+        return menuEstacionamento();
+
+    }
+
+    // #endregion
+
+    public static void main(String[] args) throws Exception {
+
         teclado = new Scanner(System.in);
+        escolhaEstacionamento();
+        
         String nomeArq = "menuEstacionamento";
         int opcao = -1;
-        while(opcao!=0){
+        while (opcao != 0) {
             opcao = menu(nomeArq);
-            switch(opcao){
-                case 1-> menuEstacionamento();
+            switch (opcao) {
+                case 1 -> menuEstacionamento();
             }
         }
         System.out.println("Estamos sempre a disposição para melhor atende-lo.");
         teclado.close();
     }
-    
+
 }
