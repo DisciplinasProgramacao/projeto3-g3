@@ -1,5 +1,6 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import Enums.Servicos;
 import Exceptions.*;
@@ -106,9 +107,6 @@ public class UsoDeVaga {
 	 * @throws VagaDesocupadaException
 	 */
 	public double sair() throws UsoDeVagaException, VagaDesocupadaException {
-		if (this.saida != null) {
-			throw new UsoDeVagaException("Veículo já saiu da vaga.");
-		}
 		if (!podeSair(LocalDateTime.now())) {
 			throw new VagaDesocupadaException(
 					"A vaga não pode ser desocupada porque o serviço de " + servico.getServicodeDesc()
@@ -159,9 +157,12 @@ public class UsoDeVaga {
 			return 0.0;
 		}
 
-		Duration duracao = Duration.between(this.entrada, this.saida);
-		double minutos = duracao.toMinutes();
-		double valorAPagar = (minutos / 15) * VALOR_FRACAO;
+		System.out.println(this.saida);
+		System.out.print(this.entrada);
+		
+		// Duration duracao = Duration.between(this.entrada, this.saida);
+		long minutos = ChronoUnit.MINUTES.between(this.entrada, this.saida);
+		double valorAPagar = ((minutos / 15)+1) * VALOR_FRACAO;
 
 		if (valorAPagar > VALOR_MAXIMO) {
 			valorAPagar = VALOR_MAXIMO;
