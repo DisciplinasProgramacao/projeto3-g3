@@ -5,6 +5,9 @@ import Exceptions.VagaDesocupadaException;
 import Exceptions.VagaOcupadaException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Veiculo implements IDataToText {
 
@@ -105,6 +108,18 @@ public class Veiculo implements IDataToText {
      */
     public int totalDeUsos() {
         return qntdVagasUsadas;
+    }
+
+    public void gerarRelatorioComPrioridade(List<UsoDeVaga> usos){
+        Comparator<UsoDeVaga> comparadorDeValorPago = new Comparator<UsoDeVaga>(){
+            public int compare(UsoDeVaga usoDeVaga1, UsoDeVaga usoDeVaga2){   
+                return Double.compare(usoDeVaga1.getValorPago(), usoDeVaga2.getValorPago());
+            }
+        };
+        Collections.sort(usos, comparadorDeValorPago);
+        for (UsoDeVaga uso : usos) {
+            System.out.println("Relatorio das vagas usadas - Valor pago" + uso.getValorPago());
+        }
     }
 
     // Método equals
