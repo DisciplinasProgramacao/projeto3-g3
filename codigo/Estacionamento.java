@@ -37,9 +37,11 @@ public class Estacionamento {
 	 */
 	public void addVeiculo(Veiculo veiculo, String idCli) {
 		for (Cliente cliente : id) {
-			if (cliente != null && idCli.equals(cliente.getId())) {
-				cliente.addVeiculo(veiculo);
+				if (cliente != null && idCli.equals(cliente.getId())) {
+					if(cliente.possuiVeiculo(veiculo.getPlaca()) == null){
+					cliente.addVeiculo(veiculo);
 			}
+		}
 		}
 	}
 

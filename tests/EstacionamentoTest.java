@@ -61,7 +61,7 @@ public class EstacionamentoTest {
 
     @Test
     public void testEstacionar() throws VagaOcupadaException {
-        //System.out.println(estacionamento.estacionar("XYZ789"));
+      //  System.out.println(estacionamento.estacionar("DEF501"));
         assertTrue(estacionamento.estacionar("DEF501"));
         assertTrue(estacionamento.estacionar("XYZ789"));
         assertTrue(estacionamento.estacionar("ANA131"));
