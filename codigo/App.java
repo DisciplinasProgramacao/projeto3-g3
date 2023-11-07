@@ -10,8 +10,6 @@ public class App {
     // #region utilidades
     static Scanner teclado;
 
-    private static Estacionamento[] novo = new Estacionamento[3];
-    
     /**
      * Pausa para leitura de mensagens em console
      * 
@@ -64,10 +62,51 @@ public class App {
 
     // #region métodos do app (encapsulam ações de usuário)
 
-    public static int escolhaEstacionamento(){
+    public static Estacionamento menuEstacionamento() throws FileNotFoundException {
+        String nomeArq = "menuEstacionamento";
+        int opcao = -1;
+
+        opcao = menu(nomeArq);
+        switch (opcao) {
+            case 1 -> {
+                // Escolher estacionamento
+                escolhaEstacionamento();
+            }
+            case 2 -> {
+                // Cadastrar Cliente
+                adicionarCliente();
+            }
+            case 3 -> {
+                // Cadastrar veículo
+                cadastrarVeiculo();
+            }
+            case 4 -> {
+                // Inserir o veículo na vaga
+                estacionarVeiculo();
+            }
+            case 5 -> {
+                // Sair da vaga
+                sairDaVaga();
+            }
+            case 6 -> {
+                // Gerar relatório
+                gerarRelatorio();
+            }
+            case 0 -> {
+                System.out.println("Retornando ao menu principal.");
+            }
+            default -> {
+                System.out.println("Escolha inválida");
+            }
+        }
+        while (opcao != 0)
+            ;
+        return menuEstacionamento();
+    }
+
+    public static int escolhaEstacionamento() {
         System.out.println("Escolha o estacionamento (1, 2 ou 3): ");
         int escolhaEstacionamento = Integer.parseInt(teclado.nextLine());
-
         switch (escolhaEstacionamento) {
             case 1:
                 Estacionamento novo1 = new Estacionamento("Minas Gerais", 10, 10);
@@ -85,74 +124,51 @@ public class App {
         return escolhaEstacionamento;
     }
 
-    
+    public static void adicionarCliente() {
+        String nomeCliente = "";
+        String idCliente = "";
+        leitura("Digite o nome do cliente e o seu identificador");
+        nomeCliente = teclado.nextLine();
+        idCliente = teclado.nextLine();
+        Cliente novoCliente = new Cliente(nomeCliente, idCliente);
+        Estacionamento.addCliente(nomeCliente);
+        System.out.println("Cliente adicionado com sucesso.");
+    }
 
-    /**
-     * 
-     * @throws FileNotFoundException Em caso de arquivo não encontrado para mostar o
-     *                               menu, lança exceção sem tratamento de erro (por
-     *                               enquanto)
-     */
-    public static Estacionamento menuEstacionamento() throws FileNotFoundException {
-        String nomeArq = "menuEstacionamento";
-        int opcao = -1;
+    public static void cadastrarVeiculo() {
+        leitura("Digite a placa do veículo");
+        String novaPlaca = teclado.nextLine();
+        leitura("Digite o identificador do cliente");
+        String idCliente = teclado.nextLine();
+        Veiculo novoVeiculo = new Veiculo(novaPlaca);
+        Estacionamento.addVeiculo(Veiculo, idCliente);
+        System.out.println("Veículo adicionado com sucesso.");
+    }
 
-        
-
-        opcao = menu(nomeArq);
-        switch (opcao) {
-            case 1 -> {
-            String nomeCliente = "";
-            String idCliente = "";
-                leitura("Digite o nome do cliente e o seu identificador");
-                nomeCliente = teclado.nextLine();
-                idCliente = teclado.nextLine();
-
-                Cliente novoCliente = new Cliente(nomeCliente, idCliente);
-                Estacionamento.addCliente(nomeCliente);
-
-                System.out.println("Cliente adicionado com sucesso.");
-
-            }
-            case 2 -> {
-                leitura("Digite a placa do veículo");
-                String novaPlaca = teclado.nextLine();
-                leitura("Digite o identificador do cliente");
-                String idCliente = teclado.nextLine();
-
-                Veiculo novoVeiculo = new Veiculo(novaPlaca);
-
-                Estacionamento.addVeiculo(Veiculo, idCliente);
-
-                System.out.println("Veículo adicionado com sucesso.");
-            }
-            case 3 -> {
-                // Inserir o veículo na vaga
-                leitura("Digite a placa do veículo");
-                String novaPlaca = teclado.nextLine();
-                try {
-                    if (Estacionamento.estacionar(novaPlaca)==true) {
-                        System.out.println("Veículo estacionado com sucesso.");
-                    } else {
-                        System.out.println("Nenhuma vaga disponível nesse estacionamento.");
-                    }
-                } catch (VagaOcupadaException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-            case 0 -> {
-                System.out.println("Retornando ao menu principal.");
-            }
-            default -> {
-                System.out.println("Escolha inválida");
-            }
+    public static void estacionarVeiculo() {
+        leitura("Digite a placa do veículo");
+        String novaPlaca = teclado.nextLine();
+        if (Estacionamento.estacionar(novaPlaca)) {
+            System.out.println("Veículo estacionado com sucesso.");
+        } else {
+            System.out.println("Nenhuma vaga disponível nesse estacionamento.");
         }
-        while (opcao != 0)
-            ;
+    }
 
-        return menuEstacionamento();
+    public static void sairDaVaga(){
+        leitura("Digite a placa do veículo");
+        String novaPlaca = teclado.nextLine();
+        if (Estacionamento.sair(novaPlaca)){
+            System.out.println("Vaga liberada");
+        }else{
+            System.out.println("Veículo não encontrado.");
+        }
+    }
 
+    public static void gerarRelatorio(){
+        leitura("Digite o mês desejado. \nPara Janeiro - 1. \nPara Fevereiro - 2 e assim sucessivamente");
+        int mes = teclado.nextInt();
+        System.out.println(Estacionamento.top5Clientes(mes));
     }
 
     // #endregion
@@ -161,7 +177,7 @@ public class App {
 
         teclado = new Scanner(System.in);
         escolhaEstacionamento();
-        
+
         String nomeArq = "menuEstacionamento";
         int opcao = -1;
         while (opcao != 0) {
@@ -173,5 +189,4 @@ public class App {
         System.out.println("Estamos sempre a disposição para melhor atende-lo.");
         teclado.close();
     }
-
 }
