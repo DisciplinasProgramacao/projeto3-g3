@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import Exceptions.UsoDeVagaException;
+import Exceptions.VagaDesocupadaException;
 import Exceptions.VagaOcupadaException;
 
 import org.junit.Before;
@@ -7,15 +9,9 @@ import static org.junit.Assert.*;
 
 public class VeiculoTest {
 
-    Veiculo veiculo1;
-    Veiculo veiculo2;
-    Vaga vaga1;
-    Vaga vaga2;
-    UsoDeVaga usoDeVaga1;
-    UsoDeVaga usoDeVaga2;
-    Cliente cliente1;
-    Cliente cliente2;
-    Estacionamento estacionamento1;
+    Veiculo veiculo1, veiculo2;
+    Vaga vaga1, vaga2;
+    Cliente cliente1, cliente2;
 
     @Before
     public void setUp() throws Exception {
@@ -23,15 +19,12 @@ public class VeiculoTest {
         veiculo2 = new Veiculo("PUQ - 7269");
         vaga1 = new Vaga(1, 1);
         vaga2 = new Vaga(1, 2);
-        usoDeVaga1 = new UsoDeVaga(vaga1);
-        usoDeVaga2 = new UsoDeVaga(vaga2);
         cliente1 = new Cliente("Octávio", "3");
         cliente2 = new Cliente("Xulamb", "1");
     }
 
     @Test
     public void testEstacionarEArrecadado() throws VagaOcupadaException {
-        // Teste do método estacionar e totalArrecadado
         double valorEstacionamento = 10.0;
         veiculo1.estacionar(vaga1);
         assertEquals(valorEstacionamento, veiculo1.totalArrecadado(), 10.0);
@@ -39,7 +32,6 @@ public class VeiculoTest {
 
     @Test
     public void testSairEArrecadadoNoMes() throws VagaOcupadaException {
-        // Teste do método sair e arrecadadoNoMes
         double valorEstacionamento = 10.0;
         int mes = 10;
         veiculo1.estacionar(vaga2);
@@ -48,13 +40,11 @@ public class VeiculoTest {
     }
 
     @Test
-    public void testTotalDeUsos() throws VagaOcupadaException {
-        // Teste do método totalDeUsos
+    public void testTotalDeUsos() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
         veiculo1.estacionar(vaga1);
-        veiculo2.estacionar(vaga2);
-        vaga1.sair();
-        vaga2.sair();
-        assertEquals(1, veiculo1.totalDeUsos());
-        assertEquals(1, veiculo2.totalDeUsos());
+        veiculo1.sair(vaga1);
+        veiculo1.estacionar(vaga2);
+        veiculo1.sair(vaga2);
+        assertEquals(2, veiculo1.totalDeUsos());
     }
 }
