@@ -106,13 +106,13 @@ public class UsoDeVaga {
 	 * @throws UsoDeVagaException
 	 * @throws VagaDesocupadaException
 	 */
-	public double sair() throws UsoDeVagaException, VagaDesocupadaException {
-		if (!podeSair(LocalDateTime.now())) {
+	public double sair(LocalDateTime saida) throws UsoDeVagaException, VagaDesocupadaException {
+		if (!podeSair(saida)) {
 			throw new VagaDesocupadaException(
 					"A vaga não pode ser desocupada porque o serviço de " + servico.getServicodeDesc()
 							+ " ainda não foi concluído. O tempo mínimo de permanência é de " + servico.getTempoMinimo() + " horas.");
 		}
-		this.saida = LocalDateTime.now();
+		this.saida = saida;
 		double valorPago = calcularValorPago();
 		return valorPago;
 	}
@@ -157,12 +157,8 @@ public class UsoDeVaga {
 			return 0.0;
 		}
 
-		System.out.println(this.saida);
-		System.out.print(this.entrada);
-		
-		// Duration duracao = Duration.between(this.entrada, this.saida);
 		long minutos = ChronoUnit.MINUTES.between(this.entrada, this.saida);
-		double valorAPagar = ((minutos / 15)+1) * VALOR_FRACAO;
+		double valorAPagar = ((minutos / 15) + 1) * VALOR_FRACAO;
 
 		if (valorAPagar > VALOR_MAXIMO) {
 			valorAPagar = VALOR_MAXIMO;

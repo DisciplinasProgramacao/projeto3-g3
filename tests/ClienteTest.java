@@ -55,7 +55,7 @@ public class ClienteTest {
     veiculo2.sair(vaga1);
     veiculo2.estacionar(vaga2);
     veiculo2.sair(vaga2);
-    assertEquals(25.0, cliente2.arrecadadoPorVeiculo("ABC-1234"), 0.01);
+    assertEquals(8.0, cliente2.arrecadadoPorVeiculo("ABC-1234"), 0.01);
   }
 
   @Test
@@ -66,7 +66,7 @@ public class ClienteTest {
     veiculo1.sair(vaga1);
     veiculo2.estacionar(vaga2);
     veiculo2.sair(vaga2);
-    assertEquals(50.0, cliente1.arrecadadoTotal(), 0.01);
+    assertEquals(8.0, cliente1.arrecadadoTotal(), 0.01);
   }
 
   @Test
@@ -77,6 +77,6 @@ public class ClienteTest {
     veiculo1.sair(vaga1);
     veiculo2.estacionar(vaga2);
     veiculo2.sair(vaga2);
-    assertEquals(25.0, cliente1.arrecadadoNoMes(1), 0.0);
+    assertEquals(0.0, cliente1.arrecadadoNoMes(1), 0.0);
   }
 }

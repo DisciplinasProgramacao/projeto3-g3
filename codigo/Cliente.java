@@ -112,7 +112,7 @@ public class Cliente {
 		Veiculo veiculoEx = new Veiculo(placa);
 		for (Veiculo veiculo : veiculos) {
 			if (veiculo.equals(veiculoEx)) {
-				arrecadacaoVeiculo = veiculoEx.totalArrecadado();
+				arrecadacaoVeiculo = veiculo.totalArrecadado();
 			}
 		}
 		return arrecadacaoVeiculo;
