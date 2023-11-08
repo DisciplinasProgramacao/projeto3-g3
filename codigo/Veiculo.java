@@ -4,6 +4,7 @@ import Exceptions.UsoDeVagaException;
 import Exceptions.VagaDesocupadaException;
 import Exceptions.VagaOcupadaException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,7 +42,6 @@ public class Veiculo implements IDataToText {
      * @throws VagaOcupadaException
      */
     public void estacionar(Vaga vaga) throws VagaOcupadaException {
-
         if (vaga.disponivel()) {
             UsoDeVaga uso = new UsoDeVaga(vaga);
             this.usos.add(uso);
@@ -62,7 +62,7 @@ public class Veiculo implements IDataToText {
 
         for (UsoDeVaga uso : usos) {
             if (uso.getVaga() == vaga) {
-                valorPago = uso.sair();
+                valorPago = uso.sair(LocalDateTime.now());
                 return valorPago;
             }
         }
@@ -109,9 +109,9 @@ public class Veiculo implements IDataToText {
         return qntdVagasUsadas;
     }
 
-    public void gerarRelatorioComPrioridade(List<UsoDeVaga> usos){
-        Comparator<UsoDeVaga> comparadorDeValorPago = new Comparator<UsoDeVaga>(){
-            public int compare(UsoDeVaga usoDeVaga1, UsoDeVaga usoDeVaga2){   
+    public void gerarRelatorioComPrioridade(List<UsoDeVaga> usos) {
+        Comparator<UsoDeVaga> comparadorDeValorPago = new Comparator<UsoDeVaga>() {
+            public int compare(UsoDeVaga usoDeVaga1, UsoDeVaga usoDeVaga2) {
                 return Double.compare(usoDeVaga1.getValorPago(), usoDeVaga2.getValorPago());
             }
         };

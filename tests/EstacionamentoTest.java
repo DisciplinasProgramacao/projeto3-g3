@@ -1,7 +1,6 @@
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 
 import Exceptions.UsoDeVagaException;
 import Exceptions.VagaDesocupadaException;
@@ -10,12 +9,9 @@ import Exceptions.VagaOcupadaException;
 public class EstacionamentoTest {
 
     private Estacionamento estacionamento;
-    private Cliente[] cliente;
-    private Vaga[] vaga;
 
     @Before
     public void setUp() {
-        // Configuração inicial para os testes
         estacionamento = new Estacionamento("Meu Estacionamento", 5, 10);
 
         Cliente cliente1 = new Cliente("Ana", "1");
@@ -30,7 +26,6 @@ public class EstacionamentoTest {
         Veiculo veiculo2 = new Veiculo("XYZ789");
         Veiculo veiculo3 = new Veiculo("ANA131");
 
-        // Adicione os veículos ao estacionamento
         estacionamento.addVeiculo(veiculo1, "1");
         estacionamento.addVeiculo(veiculo2, "2");
         estacionamento.addVeiculo(veiculo3, "3");
@@ -41,7 +36,6 @@ public class EstacionamentoTest {
         assertEquals("Meu Estacionamento", estacionamento.getnome());
     }
 
-
     @Test
     public void testAddCliente() {
         Cliente cliente1 = new Cliente("Ana", "1");
@@ -49,7 +43,6 @@ public class EstacionamentoTest {
         assertTrue(temCliente(estacionamento, cliente1));
     }
 
-    // Método auxiliar para verificar se o cliente está no vetor de clientes (id)
     private boolean temCliente(Estacionamento estacionamento, Cliente cliente) {
         for (Cliente c : estacionamento.id) {
             if (c != null && c.equals(cliente)) {
@@ -61,11 +54,10 @@ public class EstacionamentoTest {
 
     @Test
     public void testEstacionar() throws VagaOcupadaException {
-      //  System.out.println(estacionamento.estacionar("DEF501"));
         assertTrue(estacionamento.estacionar("DEF501"));
         assertTrue(estacionamento.estacionar("XYZ789"));
         assertTrue(estacionamento.estacionar("ANA131"));
-             
+
     }
 
     @Test
@@ -83,7 +75,7 @@ public class EstacionamentoTest {
 
     @Test
     public void testArrecadacaoNoMes() throws VagaOcupadaException {
-       
+
         assertTrue(estacionamento.arrecadacaoNoMes(1) >= 0);
     }
 
