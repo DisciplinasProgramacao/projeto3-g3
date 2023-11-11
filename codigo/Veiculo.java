@@ -1,146 +1,184 @@
-import java.util.List;
-
-import Exceptions.UsoDeVagaException;
-import Exceptions.VagaDesocupadaException;
-import Exceptions.VagaOcupadaException;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.List;
 
-public class Veiculo implements IDataToText {
+/**
+ * A classe Veiculo representa um veículo que pode estacionar em vagas.
+ */
+public class Veiculo {
+    private String placa;
+    private UsoDeVaga[] usos;
+    private int ultimaPosicao;
 
-    // Atributos
-
-    private String placa; // A placa do veículo
-    private List<UsoDeVaga> usos; // Lista de usos de vagas associados ao veículo
-    private int qntdVagasUsadas; // Quantidade de vagas usadas pelo veículo
-
-    // Construtor
-
+    /**
+     * Cria uma instância de Veiculo com a placa especificada.
+     *
+     * @param placa A placa do veículo.
+     */
     public Veiculo(String placa) {
         this.placa = placa;
-        this.qntdVagasUsadas = 0;
-        this.usos = new ArrayList<>();
+        this.usos = new UsoDeVaga[1000];
+        this.ultimaPosicao = 0;
     }
-
-    public String getPlaca() {
-        return this.placa;
-    }
-
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
-
-    // Métodos
 
     /**
      * Estaciona o veículo em uma vaga, se a vaga estiver disponível.
-     * 
-     * @param vaga A vaga em que o veículo deseja estacionar.
-     * @throws VagaOcupadaException
+     *
+     * @param vaga A vaga onde o veículo deve estacionar.
      */
-    public void estacionar(Vaga vaga) throws VagaOcupadaException {
+    public void estacionar(Vaga vaga) {
         if (vaga.disponivel()) {
-            UsoDeVaga uso = new UsoDeVaga(vaga);
-            this.usos.add(uso);
-            qntdVagasUsadas++;
+            usos[ultimaPosicao] = new UsoDeVaga(null, vaga, null);
+            ultimaPosicao++;
         }
     }
 
     /**
-     * Remove o veículo de uma vaga e calcula o valor pago pelo uso da vaga.
-     * 
-     * @param vaga A vaga da qual o veículo deseja sair.
-     * @return O valor pago pelo uso da vaga ou -1 se a vaga não foi encontrada.
-     * @throws VagaDesocupadaException
-     * @throws UsoDeVagaException
+     * Remove o veículo de uma vaga e calcula o valor a ser pago com base no tempo de estacionamento.
+     * O valor é calculado em frações de 15 minutos, com um limite de R$50.
+     *
+     * @return O valor a ser pago pelo estacionamento.
      */
-    public double sair(Vaga vaga) throws UsoDeVagaException, VagaDesocupadaException {
-        double valorPago = 0.0;
+    public double sair() {
+        double valorTotal = 0;
 
-        for (UsoDeVaga uso : usos) {
-            if (uso.getVaga() == vaga) {
-                valorPago = uso.sair(LocalDateTime.now());
-                return valorPago;
+        for (int i = 0; i < ultimaPosicao; i++) {
+            UsoDeVaga uso = usos[i];
+            if (uso != null) {
+                return uso.sair(null);
             }
         }
-        return valorPago;
+
+        return valorTotal;
     }
 
     /**
-     * Calcula o valor total arrecadado com os usos de vagas pelo veículo.
-     * 
+     * Calcula o valor total arrecadado com estacionamento deste veículo.
+     *
      * @return O valor total arrecadado.
      */
     public double totalArrecadado() {
-        double arrecadacaoTotal = 0.0;
-        for (UsoDeVaga uso : usos) {
+        double valorTotal = 0;
+
+        for (int i = 0; i < ultimaPosicao; i++) {
+            UsoDeVaga uso = usos[i];
             if (uso != null) {
-                arrecadacaoTotal += uso.getValorPago();
+                valorTotal += uso.valorPago();
             }
         }
-        return arrecadacaoTotal;
+
+        return valorTotal;
     }
 
     /**
-     * Calcula o valor arrecadado em um determinado mês.
-     * 
-     * @param mes O mês para o qual deseja calcular a arrecadação.
+     * Calcula o valor arrecadado no mês especificado.
+     *
+     * @param mes O número do mês (1 a 12) para o qual se deseja calcular o valor arrecadado.
      * @return O valor arrecadado no mês especificado.
      */
     public double arrecadadoNoMes(int mes) {
-        double arrecadacaoNoMes = 0.0;
-        for (UsoDeVaga uso : usos) {
-            if (uso.ehDoMes(mes)) {
-                arrecadacaoNoMes += uso.getValorPago();
+        double valorTotal = 0;
+
+        for (int i = 0; i < ultimaPosicao; i++) {
+            UsoDeVaga uso = usos[i];
+            if (uso != null && uso.ehDoMes(mes, i)) {
+                  valorTotal += uso.valorPago();
+                }
             }
-        }
-        return arrecadacaoNoMes;
+        return valorTotal;
     }
 
     /**
-     * Obtém o número total de usos de vagas pelo veículo.
-     * 
-     * @return O número total de usos de vagas.
+     * Calcula o total de usos registrados para este veículo.
+     *
+     * @return O total de usos registrados.
      */
     public int totalDeUsos() {
-        return qntdVagasUsadas;
-    }
+        int total = 0;
 
-    public void gerarRelatorioComPrioridade(List<UsoDeVaga> usos) {
-        Comparator<UsoDeVaga> comparadorDeValorPago = new Comparator<UsoDeVaga>() {
-            public int compare(UsoDeVaga usoDeVaga1, UsoDeVaga usoDeVaga2) {
-                return Double.compare(usoDeVaga1.getValorPago(), usoDeVaga2.getValorPago());
+        for (int i = 0; i < ultimaPosicao; i++) {
+            if (usos[i] != null) {
+                total++;
             }
-        };
-        Collections.sort(usos, comparadorDeValorPago);
+        }
+
+        return total;
+    }
+    
+     /**
+     * Lista os veículos pela data da última saída em ordem decrescente.
+     *
+     * @return Uma lista de veículos ordenada pela data da última saída.
+     */
+    public static List<Veiculo> listarPorDataUltimaSaida(List<Veiculo> veiculos) {
+        List<Veiculo> veiculosOrdenados = new ArrayList<>(veiculos);
+        Collections.sort(veiculosOrdenados, (v1, v2) -> {
+            if (v1.ultimaSaida() == null && v2.ultimaSaida() == null) {
+                return 0;
+            } else if (v1.ultimaSaida() == null) {
+                return 1;
+            } else if (v2.ultimaSaida() == null) {
+                return -1;
+            } else {
+                return v2.ultimaSaida().compareTo(v1.ultimaSaida());
+            }
+        });
+        return veiculosOrdenados;
+    }
+
+     public static List<Veiculo> listarPorDataUltimaEntrada(List<Veiculo> veiculos) {
+        List<Veiculo> veiculosOrdenados = new ArrayList<>(veiculos);
+        Collections.sort(veiculosOrdenados, (v1, v2) -> {
+            if (v1.ultimaEntrada() == null && v2.ultimaEntrada() == null) {
+                return 0;
+            } else if (v1.ultimaEntrada() == null) {
+                return 1;
+            } else if (v2.ultimaEntrada() == null) {
+                return -1;
+            } else {
+                return v2.ultimaEntrada().compareTo(v1.ultimaEntrada());
+            }
+        });
+        return veiculosOrdenados;
+    }
+      public LocalDateTime ultimaEntrada() {
+        LocalDateTime ultimaEntrada = null;
         for (UsoDeVaga uso : usos) {
-            System.out.println("Relatorio das vagas usadas - Valor pago" + uso.getValorPago());
+            if (uso != null && uso.getEntrLocalDateTime() != null) {
+                if (ultimaEntrada == null || uso.getEntrLocalDateTime().isAfter(ultimaEntrada)) {
+                    ultimaEntrada = uso.getEntrLocalDateTime();
+                }
+            }
         }
+        return ultimaEntrada;
     }
 
-    // Método equals
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Veiculo) {
-            Veiculo veiculo = (Veiculo) obj;
-            return placa.equals(veiculo.placa);
+    /**
+     * Retorna a data da última saída do veículo.
+     *
+     * @return A data da última saída do veículo.
+     */
+    public LocalDateTime ultimaSaida() {
+        LocalDateTime ultimaSaida = null;
+        for (UsoDeVaga uso : usos) {
+            if (uso != null && uso.getSLocalDateTime() != null) {
+                if (ultimaSaida == null || uso.getSLocalDateTime().isAfter(ultimaSaida)) {
+                    ultimaSaida = uso.getSLocalDateTime();
+                }
+            }
         }
-        return false;
+        return ultimaSaida;
     }
-
-    // Método toString
-
-    @Override
-    public String toString() {
-        return "Veículo: " + placa + " | Usos: " + usos.size();
-    }
-
-    @Override
-    public String dataToText() {
-        return this.placa + ";" + this.usos.size();
+    
+    /**
+     * Gera uma lista de veículos ordenada pelo valor total pago, em ordem decrescente.
+     *
+     * @return Uma lista de veículos ordenada pelo valor total pago.
+     */
+    public static List<Veiculo> gerarListaPorValorPago(List<Veiculo> veiculos) {
+        List<Veiculo> veiculosOrdenados = new ArrayList<>(veiculos);
+        Collections.sort(veiculosOrdenados, (v1, v2) -> Double.compare(v2.totalArrecadado(), v1.totalArrecadado()));
+        return veiculosOrdenados;
     }
 }
