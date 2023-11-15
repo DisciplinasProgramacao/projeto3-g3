@@ -1,3 +1,8 @@
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+
 import Exceptions.UsoDeVagaException;
 import Exceptions.VagaDesocupadaException;
 import Exceptions.VagaOcupadaException;
@@ -262,4 +267,41 @@ public class Estacionamento {
 			n--;
 		} while (troca);
 	}
+	 public Map<String, Cliente> mapearClientes() {
+        Map<String, Cliente> mapaClientes = new HashMap<>();
+
+        for (Cliente cliente : id) {
+            if (cliente != null) {
+                mapaClientes.put(cliente.getId(), cliente);
+            }
+        }
+
+        return mapaClientes;
+    }
+	public boolean estacionarComPrioridade(String placa) throws VagaOcupadaException {
+        boolean estacionado = false;
+
+        Cliente cliente = encontrarClientePorPlaca(placa);
+
+        if (cliente != null) {
+            // Cria uma fila de prioridade para armazenar as vagas disponíveis
+            PriorityQueue<Vaga> vagasDisponiveis = new PriorityQueue<>(Comparator.comparing(Vaga::disponivel));
+
+            for (Vaga vaga : vagas) {
+                if (vaga.disponivel() && cliente.possuiVeiculo(placa) != null) {
+                    vagasDisponiveis.offer(vaga);
+                }
+            }
+
+            // Estaciona o veículo na vaga com a maior prioridade
+            Vaga vagaPrioritaria = vagasDisponiveis.poll();
+            if (vagaPrioritaria != null) {
+                Veiculo veiculo = cliente.possuiVeiculo(placa);
+                veiculo.estacionar(vagaPrioritaria);
+                estacionado = true;
+            }
+        }
+
+        return estacionado;
+    }
 }
