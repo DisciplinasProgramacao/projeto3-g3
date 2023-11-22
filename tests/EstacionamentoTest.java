@@ -86,5 +86,30 @@ public class EstacionamentoTest {
 
         assertTrue(estacionamento.valorMedioPorUso() >= 0);
     }
+    
+    /**
+     * 
+     */
+    @Test
+    public void testMapearClientes() {
+        // Execute o método que está sendo testado
+        var mapaClientes = estacionamento.mapearClientes();
 
+        // Verifique se os clientes foram mapeados corretamente
+        assertNotNull(mapaClientes);
+        assertEquals(2, mapaClientes.size());
+        assertTrue(mapaClientes.containsKey("1"));
+        assertTrue(mapaClientes.containsKey("2"));
+        assertEquals("Ana", mapaClientes.get("1"));
+        assertEquals("Julia", mapaClientes.get("2"));
+    }
+
+    @Test
+    public void testEstacionarComPrioridade() throws VagaOcupadaException {
+        // Execute o método que está sendo testado
+        boolean estacionado = estacionamento.estacionarComPrioridade("DEF501");
+
+        // Verifique se o veículo foi estacionado corretamente
+        assertTrue(estacionado);
+    }
 }
