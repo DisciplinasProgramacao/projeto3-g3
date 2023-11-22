@@ -15,13 +15,12 @@ public class Veiculo implements IDataToText {
 
     private String placa; // A placa do veículo
     private List<UsoDeVaga> usos; // Lista de usos de vagas associados ao veículo
-    private int qntdVagasUsadas; // Quantidade de vagas usadas pelo veículo
-
+    private int qntdDeVagasUsadas;
     // Construtor
 
     public Veiculo(String placa) {
         this.placa = placa;
-        this.qntdVagasUsadas = 0;
+        this.qntdDeVagasUsadas = 0;
         this.usos = new ArrayList<>();
     }
 
@@ -45,7 +44,6 @@ public class Veiculo implements IDataToText {
         if (vaga.disponivel()) {
             UsoDeVaga uso = new UsoDeVaga(vaga);
             this.usos.add(uso);
-            qntdVagasUsadas++;
         }
     }
 
@@ -100,14 +98,15 @@ public class Veiculo implements IDataToText {
         return arrecadacaoNoMes;
     }
 
-    /**
-     * Obtém o número total de usos de vagas pelo veículo.
-     * 
-     * @return O número total de usos de vagas.
+     /**
+     * Calcula o total de usos registrados para este veículo.
+     *
+     * @return O total de usos registrados.
      */
     public int totalDeUsos() {
-        return qntdVagasUsadas;
+        return usos.size();
     }
+    
 
     public void gerarRelatorioComPrioridade(List<UsoDeVaga> usos) {
         Comparator<UsoDeVaga> comparadorDeValorPago = new Comparator<UsoDeVaga>() {
@@ -120,6 +119,19 @@ public class Veiculo implements IDataToText {
             System.out.println("Relatorio das vagas usadas - Valor pago" + uso.getValorPago());
         }
     }
+
+      /**
+     * Gera uma lista de veículos ordenada pelo valor total pago, em ordem decrescente.
+     *
+     * @return Uma lista de veículos ordenada pelo valor total pago.
+     */
+    public static List<Veiculo> gerarListaPorValorPago(List<Veiculo> veiculos) {
+        List<Veiculo> veiculosOrdenados = new ArrayList<>(veiculos);
+        Collections.sort(veiculosOrdenados, (v1, v2) -> Double.compare(v2.totalArrecadado(), v1.totalArrecadado()));
+        System.out.println(veiculosOrdenados);
+        return veiculosOrdenados;
+    }
+
 
     // Método equals
 
@@ -144,3 +156,4 @@ public class Veiculo implements IDataToText {
         return this.placa + ";" + this.usos.size();
     }
 }
+
