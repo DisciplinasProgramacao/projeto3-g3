@@ -7,8 +7,8 @@
       <Entity type="Class">
         <Name>Estacionamento</Name>
         <Access>Public</Access>
-        <Location left="12" top="572" />
-        <Size width="327" height="349" />
+        <Location left="12" top="573" />
+        <Size width="327" height="366" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
         <Member type="Field">private Cliente[] id</Member>
@@ -25,17 +25,20 @@
         <Member type="Method">public double arrecadacaoNoMes(int mes)</Member>
         <Member type="Method">public double valorMedioPorUso()</Member>
         <Member type="Method">public String top5Clientes()</Member>
+        <Member type="Method">public int usomediomensalista(int mes)</Member>
+        <Member type="Method">public int arrecadacaomediahorista(int mes)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Cliente</Name>
         <Access>Public</Access>
         <Location left="433" top="513" />
-        <Size width="243" height="247" />
+        <Size width="243" height="281" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String nome</Member>
         <Member type="Field">private String id</Member>
         <Member type="Field">private Veiculo[] veiculos</Member>
+        <Member type="Field">private UsoDeVaga[] usos</Member>
         <Member type="Constructor">public Cliente(String nome, String id)</Member>
         <Member type="Method">public void addVeiculo(Veiculo veiculo)</Member>
         <Member type="Method">public Veiculo possuiVeiculo(String placa)</Member>
@@ -43,6 +46,7 @@
         <Member type="Method">public double arrecadaPorVeiculo(String placa)</Member>
         <Member type="Method">public double arrecadadeTotal()</Member>
         <Member type="Method">public double arrecadadoDoMes(int mes)</Member>
+        <Member type="Method">public void tipoDeCliente()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -83,7 +87,7 @@
       <Entity type="Class">
         <Name>Vaga</Name>
         <Access>Public</Access>
-        <Location left="453" top="837" />
+        <Location left="472" top="838" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private String id</Member>
@@ -125,31 +129,36 @@
         <Value>Noite</Value>
       </Entity>
       <Entity type="Class">
-        <Name>UsoDeVagaTurno</Name>
+        <Name>UsoVagaTurno</Name>
         <Access>Public</Access>
-        <Location left="760" top="1232" />
-        <Size width="162" height="111" />
+        <Location left="760" top="1233" />
+        <Size width="194" height="145" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">private String turno</Member>
-        <Member type="Method">public double sair()</Member>
+        <Member type="Field">private double PRECO_TURNO = 200.00</Member>
+        <Member type="Method">public void verificarTurno()</Member>
+        <Member type="Method">public void UsoTurno(Vaga vaga)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>UsoVagaMensalista</Name>
         <Access>Public</Access>
-        <Location left="566" top="1247" />
-        <Size width="162" height="94" />
+        <Location left="539" top="1247" />
+        <Size width="201" height="111" />
         <Collapsed>False</Collapsed>
-        <Member type="Method">public double sair()</Member>
+        <Member type="Field">private double PRECO_MENSAL = 500.00</Member>
+        <Member type="Method">public void UsoMensalista(Vaga vaga)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
-        <Name>UsoDeVagaHorista</Name>
+        <Name>UsoVagaHorista</Name>
         <Access>Public</Access>
-        <Location left="950" top="1247" />
-        <Size width="162" height="94" />
+        <Location left="973" top="1247" />
+        <Size width="194" height="162" />
         <Collapsed>False</Collapsed>
-        <Member type="Method">public double sair()</Member>
+        <Member type="Field">private static double VALOR_FRACAO = 4.0</Member>
+        <Member type="Field">private static double VALOR_MAXIMO = 50.0</Member>
+        <Member type="Field">private static double FRACAO_USO = 0.25</Member>
+        <Member type="Method">public void UsoHorista(Vaga vaga)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Interface">
@@ -192,47 +201,47 @@
         <Member type="Method">public void delete(Veiculo veiculo)</Member>
         <Modifier>None</Modifier>
       </Entity>
+      <Entity type="Enum">
+        <Name>Serviço</Name>
+        <Access>Public</Access>
+        <Location left="1079" top="1097" />
+        <Size width="162" height="129" />
+        <Collapsed>False</Collapsed>
+        <Value>Manobrista</Value>
+        <Value>Lavagem</Value>
+        <Value>Polimento</Value>
+      </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="4">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
           <X>368</X>
-          <Y>878</Y>
+          <Y>879</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
       <Relationship type="Association" first="4" second="3">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Aggregation</AssociationType>
       </Relationship>
       <Relationship type="Association" first="2" second="3">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -249,6 +258,10 @@
       <Relationship type="Generalization" first="8" second="3">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>841</X>
+          <Y>1208</Y>
+        </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="9" second="3">
         <StartOrientation>Vertical</StartOrientation>
@@ -291,8 +304,6 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Association" first="2" second="13">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -305,6 +316,20 @@
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="14">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>971</X>
+          <Y>1072</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1054</X>
+          <Y>1116</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
       </Relationship>
     </Relationships>
   </ProjectItem>
