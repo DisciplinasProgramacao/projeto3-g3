@@ -1,13 +1,7 @@
-import java.util.List;
-
-import Exceptions.UsoDeVagaException;
-import Exceptions.VagaDesocupadaException;
-import Exceptions.VagaOcupadaException;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import exceptions.*;
+import java.util.*;
 
 public class Veiculo implements IDataToText {
 
@@ -98,7 +92,7 @@ public class Veiculo implements IDataToText {
         return arrecadacaoNoMes;
     }
 
-     /**
+    /**
      * Calcula o total de usos registrados para este veículo.
      *
      * @return O total de usos registrados.
@@ -106,7 +100,6 @@ public class Veiculo implements IDataToText {
     public int totalDeUsos() {
         return usos.size();
     }
-    
 
     public void gerarRelatorioComPrioridade(List<UsoDeVaga> usos) {
         Comparator<UsoDeVaga> comparadorDeValorPago = new Comparator<UsoDeVaga>() {
@@ -120,8 +113,9 @@ public class Veiculo implements IDataToText {
         }
     }
 
-      /**
-     * Gera uma lista de veículos ordenada pelo valor total pago, em ordem decrescente.
+    /**
+     * Gera uma lista de veículos ordenada pelo valor total pago, em ordem
+     * decrescente.
      *
      * @return Uma lista de veículos ordenada pelo valor total pago.
      */
@@ -131,7 +125,6 @@ public class Veiculo implements IDataToText {
         System.out.println(veiculosOrdenados);
         return veiculosOrdenados;
     }
-
 
     // Método equals
 
@@ -156,4 +149,3 @@ public class Veiculo implements IDataToText {
         return this.placa + ";" + this.usos.size();
     }
 }
-

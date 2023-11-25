@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Cliente {
+public class Cliente implements IDataToText {
 
 	private String nome;
 	private String id;
@@ -160,6 +160,11 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return "Cliente: " + nome + " | Id: " + id + " | Veículos: " + veiculos;
+	}
+
+	@Override
+	public String dataToText() {
+		return nome + ";" + id;
 	}
 
 }

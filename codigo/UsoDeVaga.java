@@ -1,9 +1,7 @@
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
-import Enums.Servicos;
-import Exceptions.*;
+import enums.Servicos;
+import exceptions.*;
+import java.time.*;
 
 public class UsoDeVaga {
 
