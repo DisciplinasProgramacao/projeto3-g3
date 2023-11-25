@@ -1,12 +1,9 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.io.*;
 
-public class VeiculoDAO implements Dao<Veiculo> {
+public class VeiculoDAO implements DAO<Veiculo> {
     private List<Veiculo> veiculos = new ArrayList<>();
-
     private String nomeArq;
     private Scanner arqLeitura;
     private FileWriter arqEscrita;
@@ -56,7 +53,6 @@ public class VeiculoDAO implements Dao<Veiculo> {
 
     public List<Veiculo> getAll() throws IOException {
         List<Veiculo> dados = new ArrayList<>();
-
         try {
             fechar();
             abrirLeitura();

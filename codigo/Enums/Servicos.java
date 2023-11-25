@@ -1,4 +1,4 @@
-package Enums;
+package enums;
 
 public enum Servicos {
   MANOBRISTA("Manobrista", 5.0, 0),

@@ -1,8 +1,6 @@
-import Exceptions.UsoDeVagaException;
-import Exceptions.VagaDesocupadaException;
-import Exceptions.VagaOcupadaException;
+import exceptions.*;
 
-public class Estacionamento {
+public class Estacionamento implements IDataToText {
 
 	private String nome;
 	protected Cliente[] id;
@@ -16,7 +14,7 @@ public class Estacionamento {
 		this.nome = nome;
 		this.quantFileiras = fileiras;
 		this.vagasPorFileira = vagasPorFila;
-		this.id = new Cliente[maxClientes]; 
+		this.id = new Cliente[maxClientes];
 		this.vagas = new Vaga[maxClientes * vagasPorFila];
 		this.gerarVagas();
 	}
@@ -24,7 +22,6 @@ public class Estacionamento {
 	public String getnome() {
 		return this.nome;
 	}
-
 
 	/***
 	 * Adiciona um veículo no estacionamento.
@@ -37,11 +34,11 @@ public class Estacionamento {
 	 */
 	public void addVeiculo(Veiculo veiculo, String idCli) {
 		for (Cliente cliente : id) {
-				if (cliente != null && idCli.equals(cliente.getId())) {
-					if(cliente.possuiVeiculo(veiculo.getPlaca()) == null){
+			if (cliente != null && idCli.equals(cliente.getId())) {
+				if (cliente.possuiVeiculo(veiculo.getPlaca()) == null) {
 					cliente.addVeiculo(veiculo);
+				}
 			}
-		}
 		}
 	}
 
@@ -55,7 +52,7 @@ public class Estacionamento {
 		for (int i = 0; i < id.length; i++) {
 			if (id[i] == null) {
 				id[i] = cliente;
-				break;  // Pare de procurar após adicionar o cliente.
+				break; // Pare de procurar após adicionar o cliente.
 			}
 		}
 	}
@@ -69,7 +66,7 @@ public class Estacionamento {
 		int totalVagas = quantFileiras * vagasPorFileira;
 		vagas = new Vaga[totalVagas]; // Inicializa o array com o tamanho correto
 		int vagaId = 0;
-	
+
 		for (int fila = 0; fila < quantFileiras; fila++) {
 			for (int numero = 1; numero <= vagasPorFileira; numero++) {
 				Vaga vaga = new Vaga(fila, numero);
@@ -89,9 +86,9 @@ public class Estacionamento {
 	 */
 	public boolean estacionar(String placa) throws VagaOcupadaException {
 		boolean estacionado = false;
-		
+
 		Cliente cliente = encontrarClientePorPlaca(placa);
-	
+
 		if (cliente != null) {
 			for (int i = 0; i < vagas.length; i++) {
 				if (vagas[i].disponivel() && cliente.possuiVeiculo(placa) != null) {
@@ -99,24 +96,24 @@ public class Estacionamento {
 					if (veiculo != null) {
 						veiculo.estacionar(vagas[i]);
 						estacionado = true;
-						break; 
+						break;
 					}
 				}
 			}
 		}
-	
+
 		return estacionado;
 	}
-	
+
 	private Cliente encontrarClientePorPlaca(String placa) {
 		for (Cliente cliente : id) {
 			if (cliente != null && cliente.possuiVeiculo(placa) != null) {
 				return cliente;
 			}
 		}
-		return null; 
+		return null;
 	}
-	
+
 	/**
 	 * Remove um veículo de uma vaga e calcula o valor pago pelo uso da vaga.
 	 * 
@@ -151,10 +148,10 @@ public class Estacionamento {
 	 */
 	public double totalArrecadado() {
 		double arrecadadoTotal = 0.0;
-		
+
 		for (int i = 0; i < id.length; i++) {
 			if (id[i] != null) {
-			arrecadadoTotal += id[i].arrecadadoTotal();
+				arrecadadoTotal += id[i].arrecadadoTotal();
 			}
 		}
 		return arrecadadoTotal;
@@ -219,7 +216,7 @@ public class Estacionamento {
 
 		// Preenche o array top5 com as arrecadações dos 5 primeiros clientes.
 		for (int i = 0; i < 5 && i < id.length; i++) {
-			if(id[i] != null){
+			if (id[i] != null) {
 				top5[i] = id[i].arrecadadoNoMes(mes);
 			}
 		}
@@ -261,5 +258,10 @@ public class Estacionamento {
 			// Reduz o tamanho do loop, já que o maior elemento está no final.
 			n--;
 		} while (troca);
+	}
+
+	@Override
+	public String dataToText() {
+		return nome + ";" + quantFileiras + ";" + vagasPorFileira;
 	}
 }

@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.List;
 
-public interface Dao<T extends IDataToText> {
+public interface DAO<T extends IDataToText> {
     public T getNext();
 
     public List<T> getAll() throws IOException;

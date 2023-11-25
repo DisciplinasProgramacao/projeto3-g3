@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 public class VagaOcupadaException extends Exception {
   public VagaOcupadaException(String message) {

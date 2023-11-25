@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 public class UsoDeVagaException extends Exception {
   public UsoDeVagaException(String message) {
