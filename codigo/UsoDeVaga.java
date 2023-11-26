@@ -2,6 +2,11 @@
 import enums.Servicos;
 import exceptions.*;
 import java.time.*;
+import java.time.temporal.ChronoUnit;
+
+import Exceptions.UsoDeVagaException;
+import Exceptions.VagaDesocupadaException;
+import Exceptions.VagaOcupadaException;
 
 public class UsoDeVaga {
 
