@@ -1,7 +1,13 @@
 
 import java.time.LocalDateTime;
-import exceptions.*;
+
 import java.util.*;
+
+import Enums.TipoCliente;
+import Enums.Turno;
+import Exceptions.UsoDeVagaException;
+import Exceptions.VagaDesocupadaException;
+import Exceptions.VagaOcupadaException;
 
 public class Veiculo implements IDataToText {
 
@@ -44,23 +50,23 @@ public class Veiculo implements IDataToText {
      * @param vaga A vaga em que o veículo deseja estacionar.
      * @throws VagaOcupadaException
      */
-    public void estacionar(Vaga vaga) throws VagaOcupadaException {
+    public void estacionar(Vaga vaga) {
         if (vaga.disponivel() && cliente !=  null) {
-          
+           // UsoDeVaga uso = new UsoDeVaga(vaga);
            switch (cliente.getId()){
             case "Horista":
-            UsoDeVaga uso = new UsoDeVagaHorista(vaga)
-            this.usos.add(uso);
+            UsoDeVaga usoHorista = new UsoDeVagaHorista(vaga);
+            this.usos.add(usoHorista);
             break;
 
             case "Mensalista":
-            UsoDeVaga uso = new UsoDeVagaMensalista(vaga)
-            this.usos.add(uso);
+            UsoDeVaga usoMensalista = new UsoDeVagaMensalista(vaga);
+            this.usos.add(usoMensalista);
             break;
 
             case "Turno":
-            UsoDeVaga uso = new UsoDeVagaTurno(vaga, turno)
-            this.usos.add(uso);
+            UsoDeVaga usoTurno = new UsoDeVagaTurno(vaga, turno);
+            this.usos.add(usoTurno);
             break;
 
             default:
@@ -131,16 +137,10 @@ public class Veiculo implements IDataToText {
         return usos.size();
     }
 
-    public void gerarRelatorioComPrioridade(Comparator comparador) {
-        //Comparator<UsoDeVaga> comparadorDeValorPago = new Comparator<UsoDeVaga>() {
-            public int compare(UsoDeVaga usoDeVaga1, UsoDeVaga usoDeVaga2) {
-                return Double.compare(usoDeVaga1, usoDeVaga2);
-            }
+    public List<UsoDeVaga> gerarRelatorio(Comparator<UsoDeVaga> comparador) {
         Collections.sort(usos, comparador);
-
         return usos;
     }
-
 
     // Método equals
 
