@@ -10,6 +10,8 @@ public class Veiculo implements IDataToText {
     private String placa; // A placa do veículo
     private List<UsoDeVaga> usos; // Lista de usos de vagas associados ao veículo
     private int qntdDeVagasUsadas;
+    private Cliente cliente;
+    private Turno turno;
     // Construtor
 
     public Veiculo(String placa) {
@@ -26,6 +28,14 @@ public class Veiculo implements IDataToText {
         this.placa = placa;
     }
 
+    public void setCliente(){
+        this.cliente = cliente;
+    }
+
+    public void setTurno(){
+        this.turno = turno;
+    }
+
     // Métodos
 
     /**
@@ -35,9 +45,29 @@ public class Veiculo implements IDataToText {
      * @throws VagaOcupadaException
      */
     public void estacionar(Vaga vaga) throws VagaOcupadaException {
-        if (vaga.disponivel()) {
-            UsoDeVaga uso = new UsoDeVaga(vaga);
+        if (vaga.disponivel() && cliente !=  null) {
+          
+           switch (cliente.getId()){
+            case "Horista":
+            UsoDeVaga uso = new UsoDeVagaHorista(vaga)
             this.usos.add(uso);
+            break;
+
+            case "Mensalista":
+            UsoDeVaga uso = new UsoDeVagaMensalista(vaga)
+            this.usos.add(uso);
+            break;
+
+            case "Turno":
+            UsoDeVaga uso = new UsoDeVagaTurno(vaga, turno)
+            this.usos.add(uso);
+            break;
+
+            default:
+			  break;
+            
+           }
+            
         }
     }
 
@@ -101,30 +131,16 @@ public class Veiculo implements IDataToText {
         return usos.size();
     }
 
-    public void gerarRelatorioComPrioridade(List<UsoDeVaga> usos) {
-        Comparator<UsoDeVaga> comparadorDeValorPago = new Comparator<UsoDeVaga>() {
+    public void gerarRelatorioComPrioridade(Comparator comparador) {
+        //Comparator<UsoDeVaga> comparadorDeValorPago = new Comparator<UsoDeVaga>() {
             public int compare(UsoDeVaga usoDeVaga1, UsoDeVaga usoDeVaga2) {
-                return Double.compare(usoDeVaga1.getValorPago(), usoDeVaga2.getValorPago());
+                return Double.compare(usoDeVaga1, usoDeVaga2);
             }
-        };
-        Collections.sort(usos, comparadorDeValorPago);
-        for (UsoDeVaga uso : usos) {
-            System.out.println("Relatorio das vagas usadas - Valor pago" + uso.getValorPago());
-        }
+        Collections.sort(usos, comparador);
+
+        return usos;
     }
 
-    /**
-     * Gera uma lista de veículos ordenada pelo valor total pago, em ordem
-     * decrescente.
-     *
-     * @return Uma lista de veículos ordenada pelo valor total pago.
-     */
-    public static List<Veiculo> gerarListaPorValorPago(List<Veiculo> veiculos) {
-        List<Veiculo> veiculosOrdenados = new ArrayList<>(veiculos);
-        Collections.sort(veiculosOrdenados, (v1, v2) -> Double.compare(v2.totalArrecadado(), v1.totalArrecadado()));
-        System.out.println(veiculosOrdenados);
-        return veiculosOrdenados;
-    }
 
     // Método equals
 
