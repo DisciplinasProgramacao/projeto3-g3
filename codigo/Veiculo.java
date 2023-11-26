@@ -15,14 +15,12 @@ public class Veiculo implements IDataToText {
 
     private String placa; // A placa do veículo
     private List<UsoDeVaga> usos; // Lista de usos de vagas associados ao veículo
-    private int qntdDeVagasUsadas;
     private Cliente cliente;
     private Turno turno;
     // Construtor
 
     public Veiculo(String placa) {
         this.placa = placa;
-        this.qntdDeVagasUsadas = 0;
         this.usos = new ArrayList<>();
     }
 
@@ -34,13 +32,6 @@ public class Veiculo implements IDataToText {
         this.placa = placa;
     }
 
-    public void setCliente(){
-        this.cliente = cliente;
-    }
-
-    public void setTurno(){
-        this.turno = turno;
-    }
 
     // Métodos
 
@@ -52,8 +43,7 @@ public class Veiculo implements IDataToText {
      */
     public void estacionar(Vaga vaga) {
         if (vaga.disponivel() && cliente !=  null) {
-           // UsoDeVaga uso = new UsoDeVaga(vaga);
-           switch (cliente.getId()){
+           switch (cliente.tipoDeCliente()){
             case "Horista":
             UsoDeVaga usoHorista = new UsoDeVagaHorista(vaga);
             this.usos.add(usoHorista);
