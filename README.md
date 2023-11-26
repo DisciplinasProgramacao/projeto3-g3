@@ -51,7 +51,9 @@ pelos requisitos acima.
 - Ana Luiza Machado Alves
 - Ana Luiza Santos Gomes
 - Octávio Walter Rattes Soares
-- Victor Hugo Criscollo Moreira
+- Caroline Selvecki
+- Nicolás Melo Chabot
+- Raquel Inez de Almeida Calazans
 
 ## Professores responsáveis
 
