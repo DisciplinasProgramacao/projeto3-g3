@@ -45,17 +45,17 @@ public class Veiculo implements IDataToText {
         if (vaga.disponivel() && cliente !=  null) {
            switch (cliente.tipoDeCliente()){
             case "Horista":
-            UsoDeVaga usoHorista = new UsoDeVagaHorista(vaga);
+            UsoDeVaga usoHorista = new UsoDeVaga(cliente, vaga, LocalDateTime.now());
             this.usos.add(usoHorista);
             break;
 
             case "Mensalista":
-            UsoDeVaga usoMensalista = new UsoDeVagaMensalista(vaga);
+            UsoDeVaga usoMensalista = new UsoDeVaga(cliente, vaga, LocalDateTime.now());
             this.usos.add(usoMensalista);
             break;
 
             case "Turno":
-            UsoDeVaga usoTurno = new UsoDeVagaTurno(vaga, turno);
+            UsoDeVaga usoTurno = new UsoDeVaga(cliente, vaga, LocalDateTime.now());
             this.usos.add(usoTurno);
             break;
 
@@ -108,10 +108,10 @@ public class Veiculo implements IDataToText {
      * @param mes O mês para o qual deseja calcular a arrecadação.
      * @return O valor arrecadado no mês especificado.
      */
-    public double arrecadadoNoMes(int mes) {
+    public double arrecadadoNoMes(int mes, int ano) {
         double arrecadacaoNoMes = 0.0;
         for (UsoDeVaga uso : usos) {
-            if (uso.ehDoMes(mes)) {
+            if (uso.ehDoMes(mes, ano)) {
                 arrecadacaoNoMes += uso.getValorPago();
             }
         }
