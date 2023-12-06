@@ -1,4 +1,5 @@
-import exceptions.*;
+import Enums.Turno;
+import Exceptions.*;
 
 public class Estacionamento implements IDataToText {
 
@@ -84,7 +85,7 @@ public class Estacionamento implements IDataToText {
 	 * @param placa A placa do veículo a ser estacionado.
 	 * @throws VagaOcupadaException
 	 */
-	public boolean estacionar(String placa) throws VagaOcupadaException {
+	public boolean estacionar(String placa, Turno turno) throws VagaOcupadaException {
 		boolean estacionado = false;
 
 		Cliente cliente = encontrarClientePorPlaca(placa);
@@ -94,7 +95,7 @@ public class Estacionamento implements IDataToText {
 				if (vagas[i].disponivel() && cliente.possuiVeiculo(placa) != null) {
 					Veiculo veiculo = cliente.possuiVeiculo(placa);
 					if (veiculo != null) {
-						veiculo.estacionar(vagas[i]);
+						veiculo.estacionar(vagas[i], turno);
 						estacionado = true;
 						break;
 					}
@@ -163,13 +164,14 @@ public class Estacionamento implements IDataToText {
 	 * @param mes O mês para o qual deseja calcular a arrecadação.
 	 * @return O valor arrecadado no mês especificado.
 	 */
-	public double arrecadacaoNoMes(int mes) {
+	public double arrecadacaoNoMes(int mes, int ano) {
 		double arrecadadoMes = 0.0;
 		for (int i = 0; i < id.length; i++) {
 			if (id[i] != null) {
-				arrecadadoMes += id[i].arrecadadoNoMes(mes);
+				arrecadadoMes += id[i].arrecadadoNoMes(mes, ano);
 			}
 		}
+
 		return arrecadadoMes;
 	}
 
@@ -211,13 +213,13 @@ public class Estacionamento implements IDataToText {
 	 * @return Uma String contendo o ID dos cinco melhores clientes de determinado
 	 *         mês.
 	 */
-	public String top5Clientes(int mes) {
+	public String top5Clientes(int mes, int ano) {
 		Double top5[] = new Double[5];
 
 		// Preenche o array top5 com as arrecadações dos 5 primeiros clientes.
 		for (int i = 0; i < 5 && i < id.length; i++) {
 			if (id[i] != null) {
-				top5[i] = id[i].arrecadadoNoMes(mes);
+				top5[i] = id[i].arrecadadoNoMes(mes, ano);
 			}
 		}
 

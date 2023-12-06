@@ -44,7 +44,7 @@ public class App {
                     cliente.addVeiculo(null);
                     break;
                 case 3:
-                    veiculo.estacionar(null);
+                    veiculo.estacionar(null, null);
                     break;
                 case 4:
                     veiculo.sair(null);
@@ -57,17 +57,21 @@ public class App {
                     // Arrecadação no mês
                     
                     System.out.println("Digite o número do mês: ");
-                    int mes = scanner.nextInt();                   
-                    cliente.arrecadadoNoMes(mes);
+                    int mes = scanner.nextInt(); 
+                    System.out.println("Digite o número do ano: ");
+                    int ano = scanner.nextInt();                  
+                    cliente.arrecadadoNoMes(mes, ano);
                     break;
                 case 7:
                     estacionamento.valorMedioPorUso();
                     break;
                 case 8:
                     // Top 5 Clientes
-                     System.out.println("Digite o número do mês: ");
-                    int mes2 = scanner.nextInt();   
-                    estacionamento.top5Clientes(mes2);
+                    System.out.println("Digite o número do mês: ");
+                    int mes2 = scanner.nextInt(); 
+                    System.out.println("Digite o número do ano: ");
+                    int ano2 = scanner.nextInt();   
+                    estacionamento.top5Clientes(mes2, ano2);
                     break;
                 case 9: 
                      Veiculo.listarPorDataUltimaSaida(null);

@@ -1,9 +1,13 @@
 import java.util.*;
 
+import Enums.TipoCliente;
+
 public class Cliente implements IDataToText {
 
+	// Atributos
 	private String nome;
 	private String id;
+	private TipoCliente tipo;
 	private ArrayList<Veiculo> veiculos;
 
 	/**
@@ -11,26 +15,28 @@ public class Cliente implements IDataToText {
 	 * 
 	 * @param _nome
 	 * @param _id
+	 * @param _tipo
 	 */
-	private void init(String _nome, String _id) {
+	private void init(String _nome, String _id, TipoCliente _tipo) {
 		nome = _nome;
 		id = _id;
+		tipo = _tipo;
 		veiculos = new ArrayList<Veiculo>();
 	}
 
 	/**
-	 * Construtor que inicializa um cliente com nome e id personalizável.
+	 * Construtor que inicializa um cliente com nome, id e tipo personalizáveis.
 	 * 
 	 * @param _nome
 	 * @param id2
+	 * @param tipo
 	 */
-	public Cliente(String _nome, String id2) {
-		init(_nome, id2);
+	public Cliente(String _nome, String id2, TipoCliente tipo) {
+		init(_nome, id2, tipo);
 	}
 
 	/**
-	 * Construtor que inicializa um cliente com nome anônimo e id neutro entre 0 e
-	 * 1.
+	 * Construtor que inicializa um cliente com nome anônimo, id neutro entre 0 e 1 e tipo Horista.
 	 * 
 	 * @param _id
 	 */
@@ -38,7 +44,7 @@ public class Cliente implements IDataToText {
 		Random rand = new Random();
 		int rangeId = 2;
 		int idNeutro = rand.nextInt(rangeId);
-		init("Anônimo", Integer.toString(idNeutro));
+		init("Anônimo", Integer.toString(idNeutro), TipoCliente.HORISTA);
 	}
 
 	/**
@@ -57,6 +63,15 @@ public class Cliente implements IDataToText {
 	 */
 	public String getId() {
 		return id;
+	}
+
+	/**
+	 * Método get para retornar o tipo do cliente.
+	 * 
+	 * @return o tipo do cliente.
+	 */
+	public TipoCliente getTipoCliente() {
+		return tipo;
 	}
 
 	/**
@@ -138,12 +153,13 @@ public class Cliente implements IDataToText {
 	 * Método que retorna o total de arrecadações em um mês específico.
 	 * 
 	 * @param mes
+	 * @param ano
 	 * @return valor double que representa o total arrecadado naquele mês.
 	 */
-	public double arrecadadoNoMes(int mes) {
+	public double arrecadadoNoMes(int mes, int ano) {
 		double arrecadadoNoMes = 0;
 		for (Veiculo veiculo : veiculos) {
-			arrecadadoNoMes = veiculo.arrecadadoNoMes(mes);
+			arrecadadoNoMes = veiculo.arrecadadoNoMes(mes, ano);
 		}
 		return arrecadadoNoMes;
 	}

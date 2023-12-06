@@ -1,11 +1,12 @@
-package enums;
+package Enums;
 
 public enum TipoCliente {
-  TURNO("Turno", 200),
-  HORISTA("Horista", 0),
-  MENSALISTA("Mensalista", 500);
+  TURNO("turno", 200),
+  HORISTA("horista", 0),
+  MENSALISTA("mensalista", 500),
+  INDEFINIDO("indefinido", 0);
 
-  private String desc;
+  public String desc;
   private Double valor;
 
   TipoCliente(String desc, double valor) {

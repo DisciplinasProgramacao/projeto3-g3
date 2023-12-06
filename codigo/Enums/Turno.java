@@ -1,4 +1,4 @@
-package enums;
+package Enums;
 
 import java.time.*;
 
