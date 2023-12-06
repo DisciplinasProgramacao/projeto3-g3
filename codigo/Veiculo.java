@@ -31,7 +31,6 @@ public class Veiculo implements IDataToText {
     }
 
     // Métodos
-
     /**
      * Estaciona o veículo em uma vaga, se a vaga estiver disponível.
      * 
@@ -41,24 +40,23 @@ public class Veiculo implements IDataToText {
     public void estacionar(Vaga vaga, Turno turno) {
         if (vaga.disponivel() && cliente !=  null) {
             switch (cliente.getTipoCliente()){
-                case HORISTA:
-                    UsoDeVaga usoHorista = new UsoHorista(vaga, LocalDateTime.now());
-                    this.usos.add(usoHorista);
-                    break;
+            case HORISTA:
+                UsoDeVaga usoHorista = new UsoHorista(vaga, LocalDateTime.now());
+                this.usos.add(usoHorista);
+                break;
 
-                case MENSALISTA:
-                    UsoDeVaga usoMensalista = new UsoMensalista(vaga, LocalDateTime.now());
-                    this.usos.add(usoMensalista);
-                    break;
+            case MENSALISTA:
+                UsoDeVaga usoMensalista = new UsoMensalista(vaga, LocalDateTime.now());
+                this.usos.add(usoMensalista);
+                break;
 
-                case TURNO:
-                    UsoDeVaga usoTurno = new UsoTurno(turno, vaga, LocalDateTime.now());
-                    this.usos.add(usoTurno);
-                    break;
+            case TURNO:
+                UsoDeVaga usoTurno = new UsoTurno(turno, vaga, LocalDateTime.now());
+                this.usos.add(usoTurno);
+                break;
 
-                default:
-                    break;
-            
+             default:
+                break;
            } 
         }
     }
