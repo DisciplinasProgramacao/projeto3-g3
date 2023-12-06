@@ -3,7 +3,6 @@ import java.time.LocalDateTime;
 
 import java.util.*;
 
-import Enums.TipoCliente;
 import Enums.Turno;
 import Exceptions.UsoDeVagaException;
 import Exceptions.VagaDesocupadaException;
@@ -12,18 +11,17 @@ import Exceptions.VagaOcupadaException;
 public class Veiculo implements IDataToText {
 
     // Atributos
-
     private String placa; // A placa do veículo
     private List<UsoDeVaga> usos; // Lista de usos de vagas associados ao veículo
     private Cliente cliente;
-    private Turno turno;
-    // Construtor
 
+    // Construtor
     public Veiculo(String placa) {
         this.placa = placa;
         this.usos = new ArrayList<>();
     }
 
+    // Getters e Setters
     public String getPlaca() {
         return this.placa;
     }
@@ -31,7 +29,6 @@ public class Veiculo implements IDataToText {
     public void setPlaca(String placa) {
         this.placa = placa;
     }
-
 
     // Métodos
 
@@ -41,29 +38,28 @@ public class Veiculo implements IDataToText {
      * @param vaga A vaga em que o veículo deseja estacionar.
      * @throws VagaOcupadaException
      */
-    public void estacionar(Vaga vaga) {
+    public void estacionar(Vaga vaga, Turno turno) {
         if (vaga.disponivel() && cliente !=  null) {
-           switch (cliente.tipoDeCliente()){
-            case "Horista":
-            UsoDeVaga usoHorista = new UsoDeVaga(cliente, vaga, LocalDateTime.now());
-            this.usos.add(usoHorista);
-            break;
+            switch (cliente.getTipoCliente()){
+                case HORISTA:
+                    UsoDeVaga usoHorista = new UsoHorista(vaga, LocalDateTime.now());
+                    this.usos.add(usoHorista);
+                    break;
 
-            case "Mensalista":
-            UsoDeVaga usoMensalista = new UsoDeVaga(cliente, vaga, LocalDateTime.now());
-            this.usos.add(usoMensalista);
-            break;
+                case MENSALISTA:
+                    UsoDeVaga usoMensalista = new UsoMensalista(vaga, LocalDateTime.now());
+                    this.usos.add(usoMensalista);
+                    break;
 
-            case "Turno":
-            UsoDeVaga usoTurno = new UsoDeVaga(cliente, vaga, LocalDateTime.now());
-            this.usos.add(usoTurno);
-            break;
+                case TURNO:
+                    UsoDeVaga usoTurno = new UsoTurno(turno, vaga, LocalDateTime.now());
+                    this.usos.add(usoTurno);
+                    break;
 
-            default:
-			  break;
+                default:
+                    break;
             
-           }
-            
+           } 
         }
     }
 
@@ -84,6 +80,7 @@ public class Veiculo implements IDataToText {
                 return valorPago;
             }
         }
+
         return valorPago;
     }
 
@@ -94,11 +91,13 @@ public class Veiculo implements IDataToText {
      */
     public double totalArrecadado() {
         double arrecadacaoTotal = 0.0;
+
         for (UsoDeVaga uso : usos) {
             if (uso != null) {
                 arrecadacaoTotal += uso.getValorPago();
             }
         }
+
         return arrecadacaoTotal;
     }
 
@@ -110,11 +109,13 @@ public class Veiculo implements IDataToText {
      */
     public double arrecadadoNoMes(int mes, int ano) {
         double arrecadacaoNoMes = 0.0;
+
         for (UsoDeVaga uso : usos) {
             if (uso.ehDoMes(mes, ano)) {
                 arrecadacaoNoMes += uso.getValorPago();
             }
         }
+
         return arrecadacaoNoMes;
     }
 
@@ -129,22 +130,22 @@ public class Veiculo implements IDataToText {
 
     public List<UsoDeVaga> gerarRelatorio(Comparator<UsoDeVaga> comparador) {
         Collections.sort(usos, comparador);
+
         return usos;
     }
 
     // Método equals
-
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Veiculo) {
             Veiculo veiculo = (Veiculo) obj;
             return placa.equals(veiculo.placa);
         }
+
         return false;
     }
 
     // Método toString
-
     @Override
     public String toString() {
         return "Veículo: " + placa + " | Usos: " + usos.size();

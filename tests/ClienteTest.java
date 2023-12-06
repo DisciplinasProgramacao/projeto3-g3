@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import Enums.TipoCliente;
 import Exceptions.UsoDeVagaException;
 import Exceptions.VagaDesocupadaException;
 import Exceptions.VagaOcupadaException;
@@ -15,7 +16,7 @@ public class ClienteTest {
 
   @Before
   public void setUp() throws Exception {
-    cliente1 = new Cliente("Ana", "1");
+    cliente1 = new Cliente("Ana", "1", TipoCliente.HORISTA);
     cliente2 = new Cliente();
     veiculo1 = new Veiculo("PUC-2023");
     veiculo2 = new Veiculo("ABC-1234");

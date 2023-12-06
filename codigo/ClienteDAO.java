@@ -2,7 +2,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.*;
+
+import Enums.TipoCliente;
 
 public class ClienteDAO implements DAO<Cliente> {
   private List<Cliente> clientes = new ArrayList<>();
@@ -45,7 +48,25 @@ public class ClienteDAO implements DAO<Cliente> {
     String[] linha = arqLeitura.nextLine().split(";");
     String nome = linha[0].toLowerCase();
     String id = linha[1].toLowerCase();
-    return new Cliente(nome, id);
+
+    String strTipo = linha[2].toLowerCase();
+    TipoCliente tipo = TipoCliente.INDEFINIDO;
+    
+    switch (strTipo) {
+      case "turno":
+        tipo = TipoCliente.TURNO;
+        break;
+
+      case "horista":
+        tipo = TipoCliente.HORISTA;
+        break;
+    
+      case "mensalista": 
+        tipo = TipoCliente.MENSALISTA;
+        break;
+    }
+
+    return new Cliente(nome, id, tipo);
   }
 
   public List<Cliente> getAll() throws IOException {
