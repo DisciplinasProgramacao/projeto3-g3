@@ -7,7 +7,7 @@ import Exceptions.UsoDeVagaException;
 import Exceptions.VagaDesocupadaException;
 import Exceptions.VagaOcupadaException;
 
-public class UsoDeVaga {
+public abstract class UsoDeVaga {
 
 	protected static final double VALOR_FRACAO = 4.0;
 	private static final double VALOR_MAXIMO = 50.0;
@@ -154,22 +154,5 @@ public class UsoDeVaga {
 	 *
 	 * @return O valor a ser pago.
 	 */
-	public double calcularValorPago() {
-		if (this.saida == null) {
-			return 0.0;
-		}
-
-		long minutos = ChronoUnit.MINUTES.between(this.entrada, this.saida);
-		double valorAPagar = ((minutos / 15) + 1) * VALOR_FRACAO;
-
-		if (valorAPagar > VALOR_MAXIMO) {
-			valorAPagar = VALOR_MAXIMO;
-		}
-		if (this.servico != null) {
-			valorAPagar += servico.getValor();
-		}
-		this.valorPago = valorAPagar;
-
-		return this.valorPago;
-	}
+	public abstract double calcularValorPago();
 }
