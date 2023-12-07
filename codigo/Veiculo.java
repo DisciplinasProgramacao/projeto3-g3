@@ -41,17 +41,17 @@ public class Veiculo implements IDataToText {
         if (vaga.disponivel() && cliente !=  null) {
             switch (cliente.getTipoCliente()){
             case HORISTA:
-                UsoDeVaga usoHorista = new UsoHorista(vaga, LocalDateTime.now());
+                UsoDeVaga usoHorista = new UsoHorista(vaga);
                 this.usos.add(usoHorista);
                 break;
 
             case MENSALISTA:
-                UsoDeVaga usoMensalista = new UsoMensalista(vaga, LocalDateTime.now());
+                UsoDeVaga usoMensalista = new UsoMensalista(vaga);
                 this.usos.add(usoMensalista);
                 break;
 
             case TURNO:
-                UsoDeVaga usoTurno = new UsoTurno(turno, vaga, LocalDateTime.now());
+                UsoDeVaga usoTurno = new UsoTurno(turno, vaga);
                 this.usos.add(usoTurno);
                 break;
 

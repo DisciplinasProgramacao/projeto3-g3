@@ -1,6 +1,3 @@
-import java.time.Duration;
-import java.time.LocalDateTime;
-
 import Enums.Turno;
 import Exceptions.VagaOcupadaException;
 
@@ -11,24 +8,24 @@ public class UsoTurno extends UsoDeVaga {
     // Construtor
     public UsoTurno(Turno turno, Vaga vaga) throws VagaOcupadaException {
         super(vaga);
+
         this.turno = turno;
     }
 
     /**
+     * Cliente de turno não paga pelo uso dentro do seu turno
      * 
      * @return
      */
     public double calcularValorPago() {
-        if (isHorarioTurno()) {
-            return 0.0; // Cliente de turno não paga pelo uso dentro do seu turno
-            // perguntar se tem servico
-        }
+        double valorTempo = calcularValorTempo();
+        double valorServico = calcularValorServico();
         
-        Duration duracao = Duration.between(entrada, saida);
-        long minutosUsados = duracao.toMinutes();
+        if (isHorarioTurno()) {
+            return valorServico;
+        }
             
-        valorPago = calcularValorTempo();
-
+        valorPago = valorTempo + valorServico;
         return valorPago;
     }
 

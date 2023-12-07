@@ -1,11 +1,8 @@
-import Enums.Servicos;
-// import Exceptions.*;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 
-import Exceptions.UsoDeVagaException;
-import Exceptions.VagaDesocupadaException;
-import Exceptions.VagaOcupadaException;
+import Exceptions.*;
+import Enums.Servicos;
 
 public abstract class UsoDeVaga {
 
@@ -150,6 +147,10 @@ public abstract class UsoDeVaga {
 
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected double calcularValorTempo() {
 		if (this.saida == null) {
 			return 0.0;
@@ -165,10 +166,15 @@ public abstract class UsoDeVaga {
 		return valorAPagar;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	protected double calcularValorServico() {
 		if (this.servico != null) {
 			return servico.getValor();
 		}
+		
 		return 0.0;
 	}
 
