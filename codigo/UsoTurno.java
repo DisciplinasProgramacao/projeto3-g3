@@ -2,14 +2,16 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 import Enums.Turno;
+import Exceptions.VagaOcupadaException;
 
 public class UsoTurno extends UsoDeVaga {
 
+    Turno turno;
+
     // Construtor
-    public UsoTurno(Turno turno, Vaga vaga, LocalDateTime entrada) {
+    public UsoTurno(Turno turno, Vaga vaga) throws VagaOcupadaException {
+        super(vaga);
         this.turno = turno;
-        this.vaga = vaga;
-        this.entrada = entrada;
     }
 
     /**

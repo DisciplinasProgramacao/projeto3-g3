@@ -1,11 +1,13 @@
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import Exceptions.VagaOcupadaException;
+
 public class UsoHorista extends UsoDeVaga {
 
     // Construtor
-    public UsoHorista(Vaga vaga, LocalDateTime entrada) {
-        this.vaga = vaga;
+    public UsoHorista(Vaga vaga, LocalDateTime entrada) throws VagaOcupadaException {
+        super(vaga);
         this.entrada = entrada;
     }
 
