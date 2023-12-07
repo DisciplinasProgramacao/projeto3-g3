@@ -5,9 +5,9 @@ import Exceptions.VagaOcupadaException;
 public class UsoMensalista extends UsoDeVaga {
 
     // Construtor
-    public UsoMensalista(Vaga vaga, LocalDateTime entrada) throws VagaOcupadaException {
+    public UsoMensalista(Vaga vaga) throws VagaOcupadaException {
         super(vaga);
-        this.entrada = entrada;
+        this.entrada = LocalDateTime.now();
     }
 
     /**

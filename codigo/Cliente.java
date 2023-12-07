@@ -153,13 +153,12 @@ public class Cliente implements IDataToText {
 	 * Método que retorna o total de arrecadações em um mês específico.
 	 * 
 	 * @param mes
-	 * @param ano
 	 * @return valor double que representa o total arrecadado naquele mês.
 	 */
-	public double arrecadadoNoMes(int mes, int ano) {
+	public double arrecadadoNoMes(int mes) {
 		double arrecadadoNoMes = 0;
 		for (Veiculo veiculo : veiculos) {
-			arrecadadoNoMes = veiculo.arrecadadoNoMes(mes, ano);
+			arrecadadoNoMes = veiculo.arrecadadoNoMes(mes);
 		}
 		return arrecadadoNoMes;
 	}

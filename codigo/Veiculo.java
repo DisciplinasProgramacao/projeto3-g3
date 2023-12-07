@@ -37,21 +37,22 @@ public class Veiculo implements IDataToText {
      * @param vaga A vaga em que o veículo deseja estacionar.
      * @throws VagaOcupadaException
      */
-    public void estacionar(Vaga vaga, Turno turno) {
+    public void estacionar(Vaga vaga, Turno turno) throws VagaOcupadaException {
+        // a fábrica vai substituir isso ae
         if (vaga.disponivel() && cliente !=  null) {
             switch (cliente.getTipoCliente()){
             case HORISTA:
-                UsoDeVaga usoHorista = new UsoHorista(vaga, LocalDateTime.now());
+                UsoDeVaga usoHorista = new UsoHorista(vaga);
                 this.usos.add(usoHorista);
                 break;
 
             case MENSALISTA:
-                UsoDeVaga usoMensalista = new UsoMensalista(vaga, LocalDateTime.now());
+                UsoDeVaga usoMensalista = new UsoMensalista(vaga);
                 this.usos.add(usoMensalista);
                 break;
 
             case TURNO:
-                UsoDeVaga usoTurno = new UsoTurno(turno, vaga, LocalDateTime.now());
+                UsoDeVaga usoTurno = new UsoTurno(turno, vaga);
                 this.usos.add(usoTurno);
                 break;
 
@@ -105,11 +106,11 @@ public class Veiculo implements IDataToText {
      * @param mes O mês para o qual deseja calcular a arrecadação.
      * @return O valor arrecadado no mês especificado.
      */
-    public double arrecadadoNoMes(int mes, int ano) {
+    public double arrecadadoNoMes(int mes) {
         double arrecadacaoNoMes = 0.0;
 
         for (UsoDeVaga uso : usos) {
-            if (uso.ehDoMes(mes, ano)) {
+            if (uso.ehDoMes(mes)) {
                 arrecadacaoNoMes += uso.getValorPago();
             }
         }

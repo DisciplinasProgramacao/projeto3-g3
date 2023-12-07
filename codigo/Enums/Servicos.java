@@ -1,9 +1,9 @@
 package Enums;
 
 public enum Servicos {
-  MANOBRISTA("Manobrista", 5.0, 0),
-  LAVAGEM("Lavagem", 20.0, 1),
-  POLIMENTO("Polimento", 45.0, 2);
+  MANOBRISTA("manobrista", 5.0, 0),
+  LAVAGEM("lavagem", 20.0, 1),
+  POLIMENTO("polimento", 45.0, 2);
 
   private String servicoDesc;
   private double valor;
