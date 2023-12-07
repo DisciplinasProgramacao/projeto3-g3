@@ -2,6 +2,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import Enums.TipoCliente;
+import Enums.Turno;
 import Exceptions.UsoDeVagaException;
 import Exceptions.VagaDesocupadaException;
 import Exceptions.VagaOcupadaException;
@@ -14,9 +16,9 @@ public class EstacionamentoTest {
     public void setUp() {
         estacionamento = new Estacionamento("Meu Estacionamento", 5, 10);
 
-        Cliente cliente1 = new Cliente("Ana", "1");
-        Cliente cliente2 = new Cliente("Julia", "2");
-        Cliente cliente3 = new Cliente("Maria", "3");
+        Cliente cliente1 = new Cliente("Ana", "1", TipoCliente.HORISTA);
+        Cliente cliente2 = new Cliente("Julia", "2",TipoCliente.MENSALISTA);
+        Cliente cliente3 = new Cliente("Maria", "3", TipoCliente.TURNO);
 
         estacionamento.addCliente(cliente1);
         estacionamento.addCliente(cliente2);
@@ -29,6 +31,7 @@ public class EstacionamentoTest {
         estacionamento.addVeiculo(veiculo1, "1");
         estacionamento.addVeiculo(veiculo2, "2");
         estacionamento.addVeiculo(veiculo3, "3");
+
     }
 
     @Test
@@ -38,7 +41,7 @@ public class EstacionamentoTest {
 
     @Test
     public void testAddCliente() {
-        Cliente cliente1 = new Cliente("Ana", "1");
+        Cliente cliente1 = new Cliente("Ana", "1", TipoCliente.HORISTA);
         estacionamento.addCliente(cliente1);
         assertTrue(temCliente(estacionamento, cliente1));
     }
@@ -54,9 +57,9 @@ public class EstacionamentoTest {
 
     @Test
     public void testEstacionar() throws VagaOcupadaException {
-        assertTrue(estacionamento.estacionar("DEF501"));
-        assertTrue(estacionamento.estacionar("XYZ789"));
-        assertTrue(estacionamento.estacionar("ANA131"));
+        assertTrue(estacionamento.estacionar("DEF501",Turno.MANHA));
+        assertTrue(estacionamento.estacionar("XYZ789", Turno.TARDE));
+        assertTrue(estacionamento.estacionar("ANA131", Turno.NOITE));
 
     }
 
@@ -76,13 +79,13 @@ public class EstacionamentoTest {
     @Test
     public void testArrecadacaoNoMes() throws VagaOcupadaException {
 
-        assertTrue(estacionamento.arrecadacaoNoMes(1) >= 0);
+        assertTrue(estacionamento.arrecadacaoNoMes(1, 2023) >= 0);
     }
 
     @Test
     public void testValorMedioPorUso() throws VagaOcupadaException {
-        estacionamento.estacionar("ABC123");
-        estacionamento.estacionar("XYZ789");
+        estacionamento.estacionar("ABC123", Turno.MANHA);
+        estacionamento.estacionar("XYZ789", Turno.TARDE);
 
         assertTrue(estacionamento.valorMedioPorUso() >= 0);
     }

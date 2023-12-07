@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class UsoDeVagaTest {
 
   private Vaga vaga;
+  private Servicos servicos;
   private UsoDeVaga usoSemServico, usoComServico, uso;
 
   @Before
@@ -64,7 +65,7 @@ public class UsoDeVagaTest {
     uso = new UsoDeVaga(vaga);
     LocalDateTime saida = LocalDateTime.now().plusMinutes(30);
     uso.sair(saida);
-    assertEquals(saida, uso.getSaida());
+    assertEquals(saida, uso.sair(saida));
   }
 
   @Test
@@ -72,7 +73,7 @@ public class UsoDeVagaTest {
     uso = new UsoDeVaga(vaga);
     LocalDateTime saidaMesDiferente = LocalDateTime.of(2023, 10, 10, 10, 10);
     uso.sair(LocalDateTime.now());
-    assertTrue(uso.ehDoMes(LocalDateTime.now().getMonthValue()));
-    assertFalse(uso.ehDoMes(saidaMesDiferente.getMonthValue()));
+    assertTrue(uso.ehDoMes(LocalDateTime.now().getMonthValue(), 2023));
+    assertFalse(uso.ehDoMes(saidaMesDiferente.getMonthValue(), 0));
   }
 }
