@@ -138,10 +138,11 @@ public abstract class UsoDeVaga {
 	 * Verifica se o uso da vaga ocorreu no mês especificado.
 	 *
 	 * @param mes O número do mês a ser verificado.
+	 * @param ano
 	 * @return Verdadeiro se o uso da vaga ocorreu no mês especificado, falso caso
 	 *         contrário.
 	 */
-	public boolean ehDoMes(int mes) {
+	public boolean ehDoMes(int mes, int ano) {
 		if (saida == null) {
 			return false;
 		}
