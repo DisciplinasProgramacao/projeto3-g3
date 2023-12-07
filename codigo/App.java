@@ -1,11 +1,16 @@
 
 import java.util.Scanner;
 
+import Exceptions.UsoDeVagaException;
+import Exceptions.VagaDesocupadaException;
+
 public class App {
     /**
      * @param args
+     * @throws VagaDesocupadaException
+     * @throws UsoDeVagaException
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UsoDeVagaException, VagaDesocupadaException {
         Scanner scanner = new Scanner(System.in);
 
         Estacionamento estacionamento = new Estacionamento("EstacionamentoG2", 20, 9);
@@ -73,16 +78,16 @@ public class App {
                     int ano2 = scanner.nextInt();   
                     estacionamento.top5Clientes(mes2, ano2);
                     break;
-                case 9: 
-                     Veiculo.listarPorDataUltimaSaida(null);
-                     break;
-                case 10: 
-                    Veiculo.listarPorDataUltimaEntrada(null);
-                    break;
-                case 11: 
-                    Veiculo.gerarListaPorValorPago(null);
-                    break;
-                case 12:
+                // case 9: 
+                //      Veiculo.listarPorDataUltimaSaida(null);
+                //      break;
+                // case 10: 
+                //     Veiculo.listarPorDataUltimaEntrada(null);
+                //     break;
+                // case 11: 
+                //     Veiculo.gerarListaPorValorPago(null);
+                //     break;
+                case 9:
                     // Sair do programa
                     System.out.println("Saindo do programa.");
                     scanner.close();
