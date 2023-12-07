@@ -1,112 +1,175 @@
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import Enums.Servicos;
+// import Exceptions.*;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 
-import Enums.Turno;
+import Exceptions.UsoDeVagaException;
+import Exceptions.VagaDesocupadaException;
+import Exceptions.VagaOcupadaException;
 
-public abstract class UsoDeVaga {
+public class UsoDeVaga {
 
-    // Atributos
-    protected static final double FRACAO_USO = 0.25;
-    protected static final double VALOR_FRACAO = 4.0;
-    protected static final double VALOR_MAXIMO = 50.0;
+	protected static final double VALOR_FRACAO = 4.0;
+	private static final double VALOR_MAXIMO = 50.0;
+	private Vaga vaga;
+	protected LocalDateTime entrada;
+	protected LocalDateTime saida;
+	protected double valorPago;
+	private Servicos servico;
 
-    protected ArrayList<ServicoAdicional> servicosContratados = new ArrayList<>();
-    protected Vaga vaga;
-    protected Turno turno;
-    protected double valorPago;
-    protected Cliente cliente;
-    protected LocalDateTime entrada;
-    protected LocalDateTime saida;
+	/**
+	 * Inicializa uma vaga sem serviço.
+	 * 
+	 * @param vaga Vaga a ser ocupada.
+	 */
+	public UsoDeVaga(Vaga vaga) throws VagaOcupadaException {
+		init(vaga, null);
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public abstract double calcularValorPago();
+	/**
+	 * Inicializa uma vaga com serviço.
+	 * 
+	 * @param vaga    Vaga a ser ocupada.
+	 * @param servico Serviço a ser contratado.
+	 */
+	public UsoDeVaga(Vaga vaga, Servicos servico) throws VagaOcupadaException {
+		init(vaga, servico);
+	}
 
-    /**
-     * 
-     * @param saida
-     * @return
-     */
-    public double sair(LocalDateTime saida) {
-        if (saida.isAfter(entrada)) {
-            this.saida = saida;
-            calcularValorPago();
-        } else {
-            System.out.println("Data inválida.");
-        }
+	/**
+	 * Construtor padrão da classe UsoDeVaga.
+	 * 
+	 * @param vaga
+	 * @param servico
+	 * @throws VagaOcupadaException
+	 */
+	private void init(Vaga vaga, Servicos servico) throws VagaOcupadaException {
+		this.vaga = vaga;
+		this.servico = servico;
+		this.entrada = LocalDateTime.now();
 
-        return valorPago;
-    }
+		if (vaga.disponivel()) {
+			vaga.estacionar();
+		} else {
+			throw new VagaOcupadaException("A vaga já está sendo ocupada por outro veículo.");
+		}
+	}
 
-    /**
-     * 
-     * @param minutosUsados
-     * @return
-     */
-    protected double calcularValorHorista(long minutosUsados) {
-        double valor = (minutosUsados / 15) * FRACAO_USO * VALOR_FRACAO;
+	/**
+	 * Método que retorna o horário de entrada do veículo na vaga.
+	 * 
+	 * @return entrada
+	 */
+	public LocalDateTime getEntrada() {
+		return entrada;
+	}
 
-        // Adicionar custo de serviços adicionais
-        for (ServicoAdicional servico : servicosContratados) {
-            valor += calcularCustoServico(servico);
-        }
+	/**
+	 * Método que retorna o horário de saída do veículo na vaga.
+	 * 
+	 * @return saida
+	 */
+	public LocalDateTime getSaida() {
+		return saida;
+	}
 
-        if (valor > VALOR_MAXIMO) {
-            valor = VALOR_MAXIMO;
-        }
+	/**
+	 * Método que retorna a vaga.
+	 * 
+	 * @return vaga
+	 */
+	public Vaga getVaga() {
+		return vaga;
+	}
 
-        this.valorPago = valor;
-        return this.valorPago;
-    }
+	/**
+	 * Método que retorna o valor pago pelo uso da vaga.
+	 * 
+	 * @return valorPago
+	 */
+	public double getValorPago() {
+		return valorPago;
+	}
 
-    /**
-     * 
-     * @param servico
-     */
-    public void adicionarServico(ServicoAdicional servico) {
-        servicosContratados.add(servico);
-    }
+	/**
+	 * Método que contrata um serviço escolhido pelo cliente.
+	 * 
+	 * @param servicoEscolhido o serviço a ser contratado.
+	 */
+	public void contratarServico(Servicos servicoEscolhido) {
+		this.servico = servicoEscolhido;
+	}
 
-    /**
-     * 
-     * @param servico
-     * @return
-     */
-    protected double calcularCustoServico(ServicoAdicional servico) {
-        return servico.getCusto();
-    }
+	/**
+	 * Registra o horário de saída do estacionamento e calcula o valor a ser pago
+	 * com base no tempo de permanência.
+	 *
+	 * @return O valor a ser pago.
+	 * @throws UsoDeVagaException
+	 * @throws VagaDesocupadaException
+	 */
+	public double sair(LocalDateTime saida) throws UsoDeVagaException, VagaDesocupadaException {
+		if (!podeSair(saida)) {
+			throw new VagaDesocupadaException(
+					"A vaga não pode ser desocupada porque o serviço de " + servico.getServicodeDesc()
+							+ " ainda não foi concluído. O tempo mínimo de permanência é de " + servico.getTempoMinimo() + " horas.");
+		}
+		this.saida = saida;
+		double valorPago = calcularValorPago();
+		return valorPago;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public Vaga getVaga() {
-        return vaga;
-    }
+	/**
+	 * Método privado que verifica se o tempo mínimo do serviço contratado já foi
+	 * concluído para liberação da vaga.
+	 * 
+	 * @return true se o tempo mínimo do serviço contratado já foi concluído,
+	 *         false caso contrário.
+	 */
+	private boolean podeSair(LocalDateTime saida) {
+		if (servico == null) {
+			return true;
+		}
+		Duration tempoMinimo = Duration.between(this.entrada, saida);
+		return tempoMinimo.toHours() >= this.servico.getTempoMinimo();
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public double getValorPago() {
-        return valorPago;
-    }
+	/**
+	 * Verifica se o uso da vaga ocorreu no mês especificado.
+	 *
+	 * @param mes O número do mês a ser verificado.
+	 * @return Verdadeiro se o uso da vaga ocorreu no mês especificado, falso caso
+	 *         contrário.
+	 */
+	public boolean ehDoMes(int mes) {
+		if (saida == null) {
+			return false;
+		}
+		return saida.getMonthValue() == mes;
 
-    /**
-     * 
-     * @param mes
-     * @param ano
-     * @return
-     */
-    public boolean ehDoMes(int mes, int ano) {
-        if (entrada != null) {
-            int usoMes = entrada.getMonthValue();
-            int usoAno = entrada.getYear();
-            return (usoMes == mes && usoAno == ano);
-        }
+	}
 
-        return false;
-    }
+	/**
+	 * Calcula o valor a ser pago com base no tempo de permanência na vaga.
+	 *
+	 * @return O valor a ser pago.
+	 */
+	public double calcularValorPago() {
+		if (this.saida == null) {
+			return 0.0;
+		}
+
+		long minutos = ChronoUnit.MINUTES.between(this.entrada, this.saida);
+		double valorAPagar = ((minutos / 15) + 1) * VALOR_FRACAO;
+
+		if (valorAPagar > VALOR_MAXIMO) {
+			valorAPagar = VALOR_MAXIMO;
+		}
+		if (this.servico != null) {
+			valorAPagar += servico.getValor();
+		}
+		this.valorPago = valorAPagar;
+
+		return this.valorPago;
+	}
 }
