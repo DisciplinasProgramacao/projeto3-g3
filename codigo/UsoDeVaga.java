@@ -149,6 +149,28 @@ public abstract class UsoDeVaga {
 
 	}
 
+	protected double calcularValorTempo() {
+		if (this.saida == null) {
+			return 0.0;
+		}
+
+		long minutos = ChronoUnit.MINUTES.between(this.entrada, this.saida);
+		double valorAPagar = ((minutos / 15) + 1) * VALOR_FRACAO;
+
+		if (valorAPagar > VALOR_MAXIMO) {
+			valorAPagar = VALOR_MAXIMO;
+		}
+
+		return valorAPagar;
+	}
+
+	protected double calcularValorServico() {
+		if (this.servico != null) {
+			return servico.getValor();
+		}
+		return 0.0;
+	}
+
 	/**
 	 * Calcula o valor a ser pago com base no tempo de permanência na vaga.
 	 *

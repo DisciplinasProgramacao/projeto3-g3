@@ -16,7 +16,7 @@ public class UsoMensalista extends UsoDeVaga {
      */
     public double calcularValorPago() {
         valorPago = 0.0;
-
+        // verificar se tem servico
         return valorPago;
     }
 }

@@ -21,12 +21,13 @@ public class UsoTurno extends UsoDeVaga {
     public double calcularValorPago() {
         if (isHorarioTurno()) {
             return 0.0; // Cliente de turno não paga pelo uso dentro do seu turno
+            // perguntar se tem servico
         }
         
         Duration duracao = Duration.between(entrada, saida);
         long minutosUsados = duracao.toMinutes();
             
-        valorPago = calcularValorHorista(minutosUsados);
+        valorPago = calcularValorTempo();
 
         return valorPago;
     }
