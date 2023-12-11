@@ -4,12 +4,15 @@ import Exceptions.VagaOcupadaException;
 
 public class UsoMensalista extends UsoDeVaga {
 
-    // Construtor
+    //#region construtor
     public UsoMensalista(Vaga vaga) throws VagaOcupadaException {
         super(vaga);
 
         this.entrada = LocalDateTime.now();
     }
+    //#endregion
+
+    //#region métodos de negócio
 
     /**
      * 
@@ -20,4 +23,5 @@ public class UsoMensalista extends UsoDeVaga {
 
         return valorServico;
     }
+    //#endregion
 }

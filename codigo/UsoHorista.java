@@ -4,12 +4,15 @@ import Exceptions.VagaOcupadaException;
 
 public class UsoHorista extends UsoDeVaga {
 
-    // Construtor
+    //#region contrutor
     public UsoHorista(Vaga vaga) throws VagaOcupadaException {
         super(vaga);
 
         this.entrada = LocalDateTime.now();
     }
+    //#endregion
+
+    //#region métodos de negócio
 
     /**
      * 
@@ -22,4 +25,5 @@ public class UsoHorista extends UsoDeVaga {
         valorPago = valorTempo + valorServico;
         return valorPago;
     }
+    //#endregion
 }

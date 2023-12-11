@@ -6,6 +6,7 @@ import Enums.Servicos;
 
 public abstract class UsoDeVaga {
 
+	//#region atributos
 	protected static final double VALOR_FRACAO = 4.0;
 	private static final double VALOR_MAXIMO = 50.0;
 	private Vaga vaga;
@@ -13,6 +14,9 @@ public abstract class UsoDeVaga {
 	protected LocalDateTime saida;
 	protected double valorPago;
 	private Servicos servico;
+	//#endregion
+
+	//#region contrutores/inicializadores
 
 	/**
 	 * Inicializa uma vaga sem serviço.
@@ -51,6 +55,9 @@ public abstract class UsoDeVaga {
 			throw new VagaOcupadaException("A vaga já está sendo ocupada por outro veículo.");
 		}
 	}
+	//#endregion
+
+	//#region métodos de negócio
 
 	/**
 	 * Método que retorna o horário de entrada do veículo na vaga.
@@ -184,4 +191,5 @@ public abstract class UsoDeVaga {
 	 * @return O valor a ser pago.
 	 */
 	public abstract double calcularValorPago();
+	//#endregion
 }

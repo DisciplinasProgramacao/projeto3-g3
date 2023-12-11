@@ -2,23 +2,33 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import Enums.TipoCliente;
 
 public class ClienteDAO implements DAO<Cliente> {
+
+  //#region atributos 
   private List<Cliente> clientes = new ArrayList<>();
   private String nomeArq;
   private Scanner arqLeitura;
   private FileWriter arqEscrita;
+  //#endregion
 
+  //#region Construtores/inicializadores
   public ClienteDAO(String nomeArq) {
     this.nomeArq = nomeArq;
     this.arqLeitura = null;
     this.arqEscrita = null;
   }
+  //#endregion
 
+  //#region Métodos de negócio
+
+  /**
+   * 
+   * @throws IOException
+   */
   public void abrirLeitura() throws IOException {
     if (arqLeitura != null) {
       arqLeitura.close();
@@ -27,6 +37,10 @@ public class ClienteDAO implements DAO<Cliente> {
     arqLeitura = new Scanner(new File(nomeArq), Charset.forName("UTF-8"));
   }
 
+  /**
+   * 
+   * @throws IOException
+   */
   public void abrirEscrita() throws IOException {
     if (arqLeitura != null) {
       arqLeitura.close();
@@ -35,6 +49,10 @@ public class ClienteDAO implements DAO<Cliente> {
     arqEscrita = new FileWriter(nomeArq, Charset.forName("UTF-8"), true);
   }
 
+  /**
+   * 
+   * @throws IOException
+   */
   public void fechar() throws IOException {
     if (arqEscrita != null)
       arqEscrita.close();
@@ -44,6 +62,9 @@ public class ClienteDAO implements DAO<Cliente> {
     arqLeitura = null;
   }
 
+  /**
+   * 
+   */
   public Cliente getNext() {
     String[] linha = arqLeitura.nextLine().split(";");
     String nome = linha[0].toLowerCase();
@@ -69,6 +90,9 @@ public class ClienteDAO implements DAO<Cliente> {
     return new Cliente(nome, id, tipo);
   }
 
+  /**
+   * 
+   */
   public List<Cliente> getAll() throws IOException {
     List<Cliente> dados = new ArrayList<>();
     try {
@@ -86,10 +110,16 @@ public class ClienteDAO implements DAO<Cliente> {
     return dados;
   }
 
+  /**
+   * 
+   */
   public void add(Cliente c) throws IOException {
     arqEscrita.append(c.dataToText() + "\n");
   }
 
+  /**
+   * 
+   */
   public void addAll(List<Cliente> clientes) {
     try {
       fechar();
@@ -105,7 +135,11 @@ public class ClienteDAO implements DAO<Cliente> {
     }
   }
 
+  /**
+   * 
+   */
   public void delete(Cliente c) {
     clientes.remove(c);
   }
+  //#endregion
 }

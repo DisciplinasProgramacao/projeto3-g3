@@ -5,11 +5,15 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 public class EstacionamentoDAO implements DAO<Estacionamento> {
+
+  //#region atributos
   private List<Estacionamento> estacionamentos = new ArrayList<>();
   private String nomeArq;
   private Scanner arqLeitura;
   private FileWriter arqEscrita;
+  //#endregion
 
+  
   public EstacionamentoDAO(String nomeArq) {
     this.nomeArq = nomeArq;
     this.arqLeitura = null;
