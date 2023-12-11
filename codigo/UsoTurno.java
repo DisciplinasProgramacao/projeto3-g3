@@ -5,22 +5,29 @@ public class UsoTurno extends UsoDeVaga {
 
     Turno turno;
 
-    // Construtor
+    // #region construtor
     public UsoTurno(Turno turno, Vaga vaga) throws VagaOcupadaException {
         super(vaga);
+
         this.turno = turno;
     }
 
+    // #region métodos de negócio
+
     /**
+     * Cliente de turno não paga pelo uso dentro do seu turno
      * 
      * @return
      */
     public double calcularValorPago() {
-        if (isHorarioTurno()) {
-            return 0.0;
-        }   
-        valorPago = calcularValorTempo();
+        double valorTempo = calcularValorTempo();
+        double valorServico = calcularValorServico();
 
+        if (isHorarioTurno()) {
+            return valorServico;
+        }
+
+        valorPago = valorTempo + valorServico;
         return valorPago;
     }
 
@@ -35,4 +42,5 @@ public class UsoTurno extends UsoDeVaga {
                 || (horaEntrada > 12 && horaEntrada <= 18 && turno == Turno.TARDE)
                 || (horaEntrada > 18 && horaEntrada <= 23 && turno == Turno.NOITE);
     }
+    // #endregion
 }

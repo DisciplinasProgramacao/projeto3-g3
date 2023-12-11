@@ -4,9 +4,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import Enums.Turno;
-import Exceptions.UsoDeVagaException;
-import Exceptions.VagaDesocupadaException;
-import Exceptions.VagaOcupadaException;
+import Exceptions.*;
 
 public class Veiculo implements IDataToText {
 
@@ -30,7 +28,8 @@ public class Veiculo implements IDataToText {
         this.placa = placa;
     }
 
-    // Métodos
+    // #region métodos de negócio
+
     /**
      * Estaciona o veículo em uma vaga, se a vaga estiver disponível.
      * 
@@ -39,26 +38,38 @@ public class Veiculo implements IDataToText {
      */
     public void estacionar(Vaga vaga, Turno turno) throws VagaOcupadaException {
         // a fábrica vai substituir isso ae
-        if (vaga.disponivel() && cliente !=  null) {
-            switch (cliente.getTipoCliente()){
-            case HORISTA:
-                UsoDeVaga usoHorista = new UsoHorista(vaga);
-                this.usos.add(usoHorista);
-                break;
+        if (vaga.disponivel() && cliente != null) {
+            switch (cliente.getTipoCliente()) {
+                case HORISTA:
+                    try {
+                        UsoDeVaga usoHorista = new UsoHorista(vaga);
+                        this.usos.add(usoHorista);
+                    } catch (Exception e) {
+                        System.out.println("Algo deu errado.");
+                    }
+                    break;
 
-            case MENSALISTA:
-                UsoDeVaga usoMensalista = new UsoMensalista(vaga);
-                this.usos.add(usoMensalista);
-                break;
+                case MENSALISTA:
+                    try {
+                        UsoDeVaga usoMensalista = new UsoMensalista(vaga);
+                        this.usos.add(usoMensalista);
+                    } catch (Exception e) {
+                        System.out.println("Algo deu errado.");
+                    }
+                    break;
 
-            case TURNO:
-                UsoDeVaga usoTurno = new UsoTurno(turno, vaga);
-                this.usos.add(usoTurno);
-                break;
+                case TURNO:
+                    try {
+                        UsoDeVaga usoTurno = new UsoTurno(turno, vaga);
+                        this.usos.add(usoTurno);
+                    } catch (Exception e) {
+                        System.out.println("Algo deu errado.");
+                    }
+                    break;
 
-             default:
-                break;
-           } 
+                default:
+                    break;
+            }
         }
     }
 
@@ -127,11 +138,17 @@ public class Veiculo implements IDataToText {
         return usos.size();
     }
 
+    /**
+     * 
+     * @param comparador
+     * @return
+     */
     public List<UsoDeVaga> gerarRelatorio(Comparator<UsoDeVaga> comparador) {
         Collections.sort(usos, comparador);
 
         return usos;
     }
+    // #endregion
 
     // Método equals
     @Override
