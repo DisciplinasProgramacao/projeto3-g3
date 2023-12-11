@@ -3,14 +3,16 @@ import Exceptions.*;
 
 public class Estacionamento implements IDataToText {
 
+	//#region atributos
 	private String nome;
 	protected Cliente[] id;
 	protected Vaga[] vagas;
 	private int quantFileiras;
 	private int vagasPorFileira;
 	private static int maxClientes = 500;
+	//#endregion
 
-	// Método Construtor
+	//#region construtores
 	public Estacionamento(String nome, int fileiras, int vagasPorFila) {
 		this.nome = nome;
 		this.quantFileiras = fileiras;
@@ -19,11 +21,13 @@ public class Estacionamento implements IDataToText {
 		this.vagas = new Vaga[maxClientes * vagasPorFila];
 		this.gerarVagas();
 	}
+	//#endregion
 
 	public String getnome() {
 		return this.nome;
 	}
 
+	//#region métodos de negócio
 	/***
 	 * Adiciona um veículo no estacionamento.
 	 * Percorre a lista de cliente com o for.
@@ -106,6 +110,11 @@ public class Estacionamento implements IDataToText {
 		return estacionado;
 	}
 
+	/**
+	 * 
+	 * @param placa
+	 * @return
+	 */
 	private Cliente encontrarClientePorPlaca(String placa) {
 		for (Cliente cliente : id) {
 			if (cliente != null && cliente.possuiVeiculo(placa) != null) {
@@ -261,6 +270,7 @@ public class Estacionamento implements IDataToText {
 			n--;
 		} while (troca);
 	}
+	//#endregion
 
 	@Override
 	public String dataToText() {

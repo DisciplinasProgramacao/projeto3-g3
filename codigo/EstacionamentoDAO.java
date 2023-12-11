@@ -19,7 +19,9 @@ public class EstacionamentoDAO implements DAO<Estacionamento> {
     this.arqLeitura = null;
     this.arqEscrita = null;
   }
+  //#endregion
 
+  //#region métodos de negócio
   /**
    * 
    * @throws IOException
@@ -126,5 +128,6 @@ public class EstacionamentoDAO implements DAO<Estacionamento> {
   public void delete(Estacionamento c) {
     estacionamentos.remove(c);
   }
+  //#endregion
 
 }
