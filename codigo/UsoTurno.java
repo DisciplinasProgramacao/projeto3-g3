@@ -3,7 +3,9 @@ import Exceptions.VagaOcupadaException;
 
 public class UsoTurno extends UsoDeVaga {
 
+    //#region atributos
     Turno turno;
+    //#endregion
 
     // #region construtor
     public UsoTurno(Turno turno, Vaga vaga) throws VagaOcupadaException {
@@ -11,6 +13,7 @@ public class UsoTurno extends UsoDeVaga {
 
         this.turno = turno;
     }
+    //#endregion
 
     // #region métodos de negócio
 
