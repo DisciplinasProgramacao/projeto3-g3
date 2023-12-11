@@ -3,14 +3,16 @@ import java.util.Scanner;
 
 import Exceptions.UsoDeVagaException;
 import Exceptions.VagaDesocupadaException;
+import Exceptions.VagaOcupadaException;
 
 public class App {
     /**
      * @param args
      * @throws VagaDesocupadaException
      * @throws UsoDeVagaException
+     * @throws VagaOcupadaException
      */
-    public static void main(String[] args) throws UsoDeVagaException, VagaDesocupadaException {
+    public static void main(String[] args) throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException {
         Scanner scanner = new Scanner(System.in);
 
         Estacionamento estacionamento = new Estacionamento("EstacionamentoG2", 20, 9);
@@ -65,7 +67,7 @@ public class App {
                     int mes = scanner.nextInt(); 
                     System.out.println("Digite o número do ano: ");
                     int ano = scanner.nextInt();                  
-                    cliente.arrecadadoNoMes(mes, ano);
+                    cliente.arrecadadoNoMes(mes);
                     break;
                 case 7:
                     estacionamento.valorMedioPorUso();
@@ -76,7 +78,7 @@ public class App {
                     int mes2 = scanner.nextInt(); 
                     System.out.println("Digite o número do ano: ");
                     int ano2 = scanner.nextInt();   
-                    estacionamento.top5Clientes(mes2, ano2);
+                    estacionamento.top5Clientes(mes2);
                     break;
                 // case 9: 
                 //      Veiculo.listarPorDataUltimaSaida(null);

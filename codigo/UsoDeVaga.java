@@ -6,7 +6,7 @@ import Enums.Servicos;
 
 public abstract class UsoDeVaga {
 
-	//#region atributos
+	// #region atributos
 	protected static final double VALOR_FRACAO = 4.0;
 	private static final double VALOR_MAXIMO = 50.0;
 	private Vaga vaga;
@@ -14,9 +14,9 @@ public abstract class UsoDeVaga {
 	protected LocalDateTime saida;
 	protected double valorPago;
 	private Servicos servico;
-	//#endregion
+	// #endregion
 
-	//#region contrutores/inicializadores
+	// #region contrutores/inicializadores
 
 	/**
 	 * Inicializa uma vaga sem serviço.
@@ -55,9 +55,9 @@ public abstract class UsoDeVaga {
 			throw new VagaOcupadaException("A vaga já está sendo ocupada por outro veículo.");
 		}
 	}
-	//#endregion
+	// #endregion
 
-	//#region métodos de negócio
+	// #region métodos de negócio
 
 	/**
 	 * Método que retorna o horário de entrada do veículo na vaga.
@@ -116,7 +116,8 @@ public abstract class UsoDeVaga {
 		if (!podeSair(saida)) {
 			throw new VagaDesocupadaException(
 					"A vaga não pode ser desocupada porque o serviço de " + servico.getServicodeDesc()
-							+ " ainda não foi concluído. O tempo mínimo de permanência é de " + servico.getTempoMinimo() + " horas.");
+							+ " ainda não foi concluído. O tempo mínimo de permanência é de " + servico.getTempoMinimo()
+							+ " horas.");
 		}
 		this.saida = saida;
 		double valorPago = calcularValorPago();
@@ -142,11 +143,10 @@ public abstract class UsoDeVaga {
 	 * Verifica se o uso da vaga ocorreu no mês especificado.
 	 *
 	 * @param mes O número do mês a ser verificado.
-	 * @param ano
 	 * @return Verdadeiro se o uso da vaga ocorreu no mês especificado, falso caso
 	 *         contrário.
 	 */
-	public boolean ehDoMes(int mes, int ano) {
+	public boolean ehDoMes(int mes) {
 		if (saida == null) {
 			return false;
 		}
@@ -155,8 +155,9 @@ public abstract class UsoDeVaga {
 	}
 
 	/**
+	 * Calcula o valor a ser pago com base no tempo de permanência na vaga.
 	 * 
-	 * @return
+	 * @return valorAPagar o valor a pagar em função do tempo.
 	 */
 	protected double calcularValorTempo() {
 		if (this.saida == null) {
@@ -174,22 +175,24 @@ public abstract class UsoDeVaga {
 	}
 
 	/**
+	 * Calcula o valor do serviço escolhido.
 	 * 
-	 * @return
+	 * @returno valor do serviço ou 0.0 se nenhum serviço foi selecionado.
 	 */
 	protected double calcularValorServico() {
 		if (this.servico != null) {
 			return servico.getValor();
 		}
-		
+
 		return 0.0;
 	}
 
 	/**
-	 * Calcula o valor a ser pago com base no tempo de permanência na vaga.
-	 *
+	 * Calcula o valor que o cliente irá pagar de acordo com o uso que será
+	 * realizado da vaga, incluindo serviços.
+	 * 
 	 * @return O valor a ser pago.
 	 */
 	public abstract double calcularValorPago();
-	//#endregion
+	// #endregion
 }

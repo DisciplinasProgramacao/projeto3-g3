@@ -164,11 +164,11 @@ public class Estacionamento implements IDataToText {
 	 * @param mes O mês para o qual deseja calcular a arrecadação.
 	 * @return O valor arrecadado no mês especificado.
 	 */
-	public double arrecadacaoNoMes(int mes, int ano) {
+	public double arrecadacaoNoMes(int mes) {
 		double arrecadadoMes = 0.0;
 		for (int i = 0; i < id.length; i++) {
 			if (id[i] != null) {
-				arrecadadoMes += id[i].arrecadadoNoMes(mes, ano);
+				arrecadadoMes += id[i].arrecadadoNoMes(mes);
 			}
 		}
 
@@ -213,13 +213,13 @@ public class Estacionamento implements IDataToText {
 	 * @return Uma String contendo o ID dos cinco melhores clientes de determinado
 	 *         mês.
 	 */
-	public String top5Clientes(int mes, int ano) {
+	public String top5Clientes(int mes) {
 		Double top5[] = new Double[5];
 
 		// Preenche o array top5 com as arrecadações dos 5 primeiros clientes.
 		for (int i = 0; i < 5 && i < id.length; i++) {
 			if (id[i] != null) {
-				top5[i] = id[i].arrecadadoNoMes(mes, ano);
+				top5[i] = id[i].arrecadadoNoMes(mes);
 			}
 		}
 
