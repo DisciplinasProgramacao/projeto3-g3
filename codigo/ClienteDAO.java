@@ -71,19 +71,27 @@ public class ClienteDAO implements DAO<Cliente> {
     String id = linha[1].toLowerCase();
 
     String strTipo = linha[2].toLowerCase();
-    TipoCliente tipo = TipoCliente.INDEFINIDO;
+    TipoCliente tipo = TipoCliente.HORISTA;
     
     switch (strTipo) {
-      case "turno":
-        tipo = TipoCliente.TURNO;
-        break;
-
       case "horista":
         tipo = TipoCliente.HORISTA;
         break;
     
       case "mensalista": 
         tipo = TipoCliente.MENSALISTA;
+        break;
+
+      case "turnomanha":
+        tipo = TipoCliente.TURNOMANHA;
+        break;
+
+      case "turnotarde":
+        tipo = TipoCliente.TURNOTARDE;
+        break;
+
+      case "turnonoite":
+        tipo = TipoCliente.TURNONOITE;
         break;
     }
 

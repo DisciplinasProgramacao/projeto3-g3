@@ -7,6 +7,7 @@ import Enums.Turno;
 import Exceptions.*;
 
 public class Veiculo implements IDataToText {
+    static FabricaUsoDeVaga fabrica = new FabricaUsoDeVaga();
 
     // Atributos
     private String placa; // A placa do veículo
@@ -39,37 +40,8 @@ public class Veiculo implements IDataToText {
     public void estacionar(Vaga vaga, Turno turno) throws VagaOcupadaException {
         // a fábrica vai substituir isso ae
         if (vaga.disponivel() && cliente != null) {
-            switch (cliente.getTipoCliente()) {
-                case HORISTA:
-                    try {
-                        UsoDeVaga usoHorista = new UsoHorista(vaga);
-                        this.usos.add(usoHorista);
-                    } catch (Exception e) {
-                        System.out.println("Algo deu errado.");
-                    }
-                    break;
-
-                case MENSALISTA:
-                    try {
-                        UsoDeVaga usoMensalista = new UsoMensalista(vaga);
-                        this.usos.add(usoMensalista);
-                    } catch (Exception e) {
-                        System.out.println("Algo deu errado.");
-                    }
-                    break;
-
-                case TURNO:
-                    try {
-                        UsoDeVaga usoTurno = new UsoTurno(turno, vaga);
-                        this.usos.add(usoTurno);
-                    } catch (Exception e) {
-                        System.out.println("Algo deu errado.");
-                    }
-                    break;
-
-                default:
-                    break;
-            }
+            
+            UsoDeVaga uso = fabrica.get(cliente.getTipoCliente().desc, vaga);
         }
     }
 
