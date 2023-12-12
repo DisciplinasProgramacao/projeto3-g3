@@ -1,4 +1,5 @@
 
+import java.util.List;
 import java.util.Scanner;
 
 import Exceptions.UsoDeVagaException;
@@ -30,12 +31,15 @@ public class App {
             System.out.println("4. Sair do Estacionamento");
             System.out.println("5. Total Arrecadado");
             System.out.println("6. Arrecadação no Mês");
-            System.out.println("7. Valor Médio por Uso");
-            System.out.println("8. Top 5 Clientes");
-           System.out.println("9. Emitir relatório por data de entrada");
-           System.out.println("10. Emitir relatorio por data de saida");
-           System.out.println("11. Emitir relatorio por preço");
-            System.out.println("12. Sair do Programa");
+            System.out.println("7. Total de usos por veiculo: ");
+            System.out.println("8. Valor Médio por Uso");
+            System.out.println("9. Top 5 Clientes");
+            System.out.println("10. Emitir relatório por data de entrada");
+            System.out.println("11. Emitir relatorio por data de saida");
+            System.out.println("12. Emitir relatorio por preço");
+
+           
+            System.out.println("20. Sair do Programa");
             System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
@@ -67,25 +71,33 @@ public class App {
                     int mes = scanner.nextInt();               
                     cliente.arrecadadoNoMes(mes);
                     break;
+                
                 case 7:
+                System.out.println("Insira a placa do veículo: ");
+                Veiculo veiculo1 = new Veiculo(scanner.nextLine());
+                veiculo1.totalDeUsos(); 
+                break;
+                    case 8:
                     estacionamento.valorMedioPorUso();
                     break;
-                case 8:
+                case 9:
                     // Top 5 Clientes
                     System.out.println("Digite o número do mês: ");
                     int mes2 = scanner.nextInt();   
                     estacionamento.top5Clientes(mes2);
                     break;
-                // case 9: 
-                //      Veiculo.listarPorDataUltimaSaida(null);
-                //      break;
+                //  case 10: 
+                //    List<UsoDeVaga>
+                //     veiculo.gerarRelatorio(usos);
+
+                //    break;
                 // case 10: 
                 //     Veiculo.listarPorDataUltimaEntrada(null);
                 //     break;
                 // case 11: 
                 //     Veiculo.gerarListaPorValorPago(null);
                 //     break;
-                case 9:
+                case 20 :
                     // Sair do programa
                     System.out.println("Saindo do programa.");
                     scanner.close();

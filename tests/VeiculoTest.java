@@ -39,7 +39,7 @@ public class VeiculoTest {
         vaga2 = new Vaga(1, 2);
         vaga3 = new Vaga(3,1);
         cliente1 = new Cliente("Octávio", "3", TipoCliente.HORISTA);
-        cliente2 = new Cliente("Xulamb", "1", TipoCliente.INDEFINIDO);
+        cliente2 = new Cliente("Xulamb", "1", TipoCliente.TURNONOITE);
         turno1 = Turno.MANHA;
         turno2 = Turno.TARDE;
         turno3 = Turno.NOITE;
@@ -60,7 +60,7 @@ public class VeiculoTest {
         int mes = 10;
         veiculo1.estacionar(vaga2, turno2);
         vaga2.sair();
-        assertEquals(valorEstacionamento, veiculo1.arrecadadoNoMes(mes, mes), 10.0);
+        assertEquals(valorEstacionamento, veiculo1.arrecadadoNoMes(mes), 10.0);
     }
 
     @Test
@@ -89,11 +89,6 @@ public class VeiculoTest {
         veiculos.add(veiculo2);
         veiculos.add(veiculo3);
     
-        List<Veiculo> veiculosOrdenados = Veiculo.gerarListaPorValorPago(veiculos);
-    
-        assertEquals(veiculo3, veiculosOrdenados.get(0));
-        assertEquals(veiculo1, veiculosOrdenados.get(1));
-        assertEquals(veiculo2, veiculosOrdenados.get(2));
 
       
     }

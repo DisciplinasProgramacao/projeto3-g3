@@ -83,6 +83,6 @@ public class ClienteTest {
     veiculo1.sair(vaga1);
     veiculo2.estacionar(vaga2, turno1);
     veiculo2.sair(vaga2);
-    assertEquals(0.0, cliente1.arrecadadoNoMes(1, 2023), 0.0);
+    assertEquals(0.0, cliente1.arrecadadoNoMes(1), 0.0);
   }
 }

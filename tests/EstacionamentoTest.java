@@ -18,7 +18,7 @@ public class EstacionamentoTest {
 
         Cliente cliente1 = new Cliente("Ana", "1", TipoCliente.HORISTA);
         Cliente cliente2 = new Cliente("Julia", "2",TipoCliente.MENSALISTA);
-        Cliente cliente3 = new Cliente("Maria", "3", TipoCliente.TURNO);
+        Cliente cliente3 = new Cliente("Maria", "3", TipoCliente.TURNOMANHA);
 
         estacionamento.addCliente(cliente1);
         estacionamento.addCliente(cliente2);
@@ -79,7 +79,7 @@ public class EstacionamentoTest {
     @Test
     public void testArrecadacaoNoMes() throws VagaOcupadaException {
 
-        assertTrue(estacionamento.arrecadacaoNoMes(1, 2023) >= 0);
+        assertTrue(estacionamento.arrecadacaoNoMes(1) >= 0);
     }
 
     @Test
