@@ -9,20 +9,20 @@ import Exceptions.*;
 public class Veiculo implements IDataToText {
     static FabricaUsoDeVaga fabrica = new FabricaUsoDeVaga();
 
-    //#region atributos
+    // #region atributos
     private String placa;
-    private List<UsoDeVaga> usos; 
+    private List<UsoDeVaga> usos;
     private Cliente cliente;
-    //#endregion
+    // #endregion
 
-    //#region construtor
+    // #region construtor
     public Veiculo(String placa) {
         this.placa = placa;
         this.usos = new ArrayList<>();
     }
-    //#endregion
+    // #endregion
 
-    //#region getters e setters
+    // #region getters e setters
     public String getPlaca() {
         return this.placa;
     }
@@ -31,10 +31,10 @@ public class Veiculo implements IDataToText {
         this.placa = placa;
     }
 
-    public void setCliente(Cliente cliente){
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    //#endregion
+    // #endregion
 
     // #region métodos de negócio
 
@@ -49,8 +49,8 @@ public class Veiculo implements IDataToText {
             UsoDeVaga uso = fabrica.get(cliente.getTipoCliente().desc, vaga);
             usos.add(uso);
             vaga.setDisponivel(false);
-        } 
-       
+        }
+
     }
 
     /**
@@ -80,15 +80,9 @@ public class Veiculo implements IDataToText {
      * @return O valor total arrecadado.
      */
     public double totalArrecadado() {
-        double arrecadacaoTotal = 0.0;
-
-        for (UsoDeVaga uso : usos) {
-            if (uso != null) {
-                 arrecadacaoTotal += uso.calcularValorPago();
-            }
-        }
-
-        return arrecadacaoTotal;
+        return usos.stream()
+                .mapToDouble(UsoDeVaga::calcularValorPago)
+                .sum();
     }
 
     /**
@@ -98,16 +92,10 @@ public class Veiculo implements IDataToText {
      * @return O valor arrecadado no mês especificado.
      */
     public double arrecadadoNoMes(int mes) {
-        double arrecadacaoNoMes = 0.0;
-
-        for (UsoDeVaga uso : usos) {
-            if (uso.ehDoMes(mes)) {
-                arrecadacaoNoMes += uso.calcularValorPago();
-            }
-          System.out.println(uso.ehDoMes(12));
-        }
-
-        return arrecadacaoNoMes;
+        return usos.stream()
+                .filter(uso -> uso.ehDoMes(mes))
+                .mapToDouble(UsoDeVaga::calcularValorPago)
+                .sum();
     }
 
     /**
@@ -120,21 +108,31 @@ public class Veiculo implements IDataToText {
     }
 
     /**
+     * Calcula o total de usos registrado no mês selecionado para o veículo.
+     * 
+     * @param mes mês para o qual deseja calcular o total de usos.
+     * @return o total de usos no mês filtrado.
+     */
+    public int totalDeUsosNoMes(int mes) {
+        return (int) usos.stream().filter(uso -> uso.ehDoMes(mes)).count();
+    }
+
+    /**
+     * Gera um relatório de usos de vaga ordenado pelo comparador especificado.
      * 
      * @param comparador
-     * @return 
+     * @return O relatório de usos de vaga em formato String.
      */
     public String gerarRelatorio(Comparator<UsoDeVaga> comparador) {
         Collections.sort(usos, comparador);
-
         StringBuilder relatorio = new StringBuilder("Relatório de Usos de Vaga:\n");
 
         for (UsoDeVaga uso : usos) {
-         relatorio.append(uso.toString()).append("\n");
+            relatorio.append(uso.toString()).append("\n");
         }
 
-    return relatorio.toString();
-        
+        return relatorio.toString();
+
     }
     // #endregion
 

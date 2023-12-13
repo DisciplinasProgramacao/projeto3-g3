@@ -36,7 +36,8 @@ public class Cliente implements IDataToText {
 	}
 
 	/**
-	 * Construtor que inicializa um cliente com nome anônimo, id neutro entre 0 e 1 e tipo Horista.
+	 * Construtor que inicializa um cliente com nome anônimo, id neutro entre 0 e 1
+	 * e tipo Horista.
 	 * 
 	 * @param _id
 	 */
@@ -94,12 +95,10 @@ public class Cliente implements IDataToText {
 	 */
 	public Veiculo possuiVeiculo(String placa) {
 		Veiculo veiculoBusca = new Veiculo(placa);
-		for (Veiculo veiculo : veiculos) {
-			if (veiculo.equals(veiculoBusca)) {
-				return veiculo;
-			}
-		}
-		return null;
+		return veiculos.stream()
+				.filter(v -> v.equals(veiculoBusca))
+				.findFirst()
+				.orElse(null);
 	}
 
 	/**
@@ -109,11 +108,21 @@ public class Cliente implements IDataToText {
 	 * @return valor inteiro que indica o total de usos.
 	 */
 	public int totalDeUsos() {
-		int total = 0;
-		for (Veiculo veiculo : veiculos) {
-			total = veiculo.totalDeUsos();
-		}
-		return total;
+		return veiculos.stream()
+				.mapToInt(Veiculo::totalDeUsos)
+				.sum();
+	}
+
+	/**
+	 * Método que retorna a quantidade de usos do cliente em um mês específico.
+	 * 
+	 * @param mes mês escolhido.
+	 * @return valor que indica o total de usos no mês.
+	 */
+	public int totalDeUsosMes(int mes) {
+		return veiculos.stream()
+				.mapToInt(v -> v.totalDeUsosNoMes(mes))
+				.sum();
 	}
 
 	/**
@@ -123,14 +132,12 @@ public class Cliente implements IDataToText {
 	 * @return valor double que indica o total arrecadado daquele veículo.
 	 */
 	public double arrecadadoPorVeiculo(String placa) {
-		double arrecadacaoVeiculo = 0;
 		Veiculo veiculoEx = new Veiculo(placa);
-		for (Veiculo veiculo : veiculos) {
-			if (veiculo.equals(veiculoEx)) {
-				arrecadacaoVeiculo = veiculo.totalArrecadado();
-			}
-		}
-		return arrecadacaoVeiculo;
+		return veiculos.stream()
+				.filter(v -> v.equals(veiculoEx))
+				.mapToDouble(Veiculo::totalArrecadado)
+				.findFirst()
+				.orElse(0.0);
 	}
 
 	/**
@@ -140,12 +147,10 @@ public class Cliente implements IDataToText {
 	 * @return valor double que representa o total arrecadado de todos os veículos.
 	 */
 	public double arrecadadoTotal() {
-		double arrecadacaoTotal = 0;
-		for (Veiculo veiculo : veiculos) {
-			if (veiculo != null) {
-				arrecadacaoTotal += veiculo.totalArrecadado();
-			}
-		}
+		double arrecadacaoTotal = veiculos.stream()
+				.mapToDouble(Veiculo::totalArrecadado)
+				.sum();
+		arrecadacaoTotal += tipo.getValor();
 		return arrecadacaoTotal;
 	}
 
@@ -156,11 +161,11 @@ public class Cliente implements IDataToText {
 	 * @return valor double que representa o total arrecadado naquele mês.
 	 */
 	public double arrecadadoNoMes(int mes) {
-		double arrecadadoNoMes = 0;
-		for (Veiculo veiculo : veiculos) {
-			arrecadadoNoMes = veiculo.arrecadadoNoMes(mes);
-		}
-		return arrecadadoNoMes;
+		double arrecadacaoNoMes = veiculos.stream()
+				.mapToDouble(v -> v.arrecadadoNoMes(mes))
+				.sum();
+		arrecadacaoNoMes += tipo.getValor();
+		return arrecadacaoNoMes;
 	}
 
 	@Override
