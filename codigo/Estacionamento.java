@@ -227,20 +227,20 @@ public class Estacionamento implements IDataToText {
 
 		// Preenche o array top5 com as arrecadações dos 5 primeiros clientes.
 		for (int i = 0; i < 5 && i < id.length; i++) {
-			if (id[i] != null) {
-				top5[i] = id[i].arrecadadoNoMes(mes);
+			if (id[i] != null){
+			    top5[i] = id[i].arrecadadoNoMes(mes);
 			}
 		}
-
+		
 		// Ordena o array top5 em ordem decrescente.
 		ordenacaoDecrescente(top5);
-
-		// Crie uma string para armazenar os IDs dos cinco melhores clientes.
+ 	// Crie uma string para armazenar os IDs dos cinco melhores clientes.
 		StringBuilder result = new StringBuilder(mes);
 		for (int i = 0; i < 5 && i < id.length; i++) {
 			if (top5[i] != null) {
-				result.append((i + 1) + ". " + id[i].getId() + "\n");
+				result.append("Top" + (i + 1) + ":" + id[i].toString() + "\n");
 			}
+
 		}
 		return result.toString();
 	}
@@ -258,13 +258,15 @@ public class Estacionamento implements IDataToText {
 			troca = false;
 
 			for (int i = 0; i < n - 1; i++) {
-				if (array[i] < array[i + 1]) {
+				if(array[i] != null){
+					if (array[i] < array[i + 1]) {
 					// Troca os elementos se estiverem fora de ordem (decrescente).
 					double temp = array[i];
 					array[i] = array[i + 1];
 					array[i + 1] = temp;
 					troca = true;
 				}
+			}
 			}
 			// Reduz o tamanho do loop, já que o maior elemento está no final.
 			n--;
