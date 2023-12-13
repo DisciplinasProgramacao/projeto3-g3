@@ -6,28 +6,34 @@ import java.util.*;
 
 import Enums.TipoCliente;
 
-public class ClienteDAO implements DAO<Cliente> {
+/**
+ * Classe responsável por operações de leitura e escrita de dados relacionados
+ * ao
+ * cliente.
+ */
+public class ClienteDAO implements Dao<Cliente> {
 
-  //#region atributos 
+  // #region atributos
   private List<Cliente> clientes = new ArrayList<>();
   private String nomeArq;
   private Scanner arqLeitura;
   private FileWriter arqEscrita;
-  //#endregion
+  // #endregion
 
-  //#region Construtores/inicializadores
+  // #region Construtores/inicializadores
   public ClienteDAO(String nomeArq) {
     this.nomeArq = nomeArq;
     this.arqLeitura = null;
     this.arqEscrita = null;
   }
-  //#endregion
+  // #endregion
 
-  //#region Métodos de negócio
+  // #region Métodos de negócio
 
   /**
+   * Abre o arquivo para leitura.
    * 
-   * @throws IOException
+   * @throws IOException Se ocorrer um erro ao abrir o arquivo.
    */
   public void abrirLeitura() throws IOException {
     if (arqLeitura != null) {
@@ -38,8 +44,9 @@ public class ClienteDAO implements DAO<Cliente> {
   }
 
   /**
-   * 
-   * @throws IOException
+   * Abre o arquivo para escrita.
+   *
+   * @throws IOException Se ocorrer um erro ao abrir o arquivo.
    */
   public void abrirEscrita() throws IOException {
     if (arqLeitura != null) {
@@ -50,8 +57,9 @@ public class ClienteDAO implements DAO<Cliente> {
   }
 
   /**
-   * 
-   * @throws IOException
+   * Fecha os recursos de leitura e escrita.
+   *
+   * @throws IOException Se ocorrer um erro ao fechar os recursos.
    */
   public void fechar() throws IOException {
     if (arqEscrita != null)
@@ -63,7 +71,9 @@ public class ClienteDAO implements DAO<Cliente> {
   }
 
   /**
-   * 
+   * Obtém o próximo estacionamento do arquivo.
+   *
+   * @return O próximo estacionamento do arquivo.
    */
   public Cliente getNext() {
     String[] linha = arqLeitura.nextLine().split(";");
@@ -72,13 +82,13 @@ public class ClienteDAO implements DAO<Cliente> {
 
     String strTipo = linha[2].toLowerCase();
     TipoCliente tipo = TipoCliente.HORISTA;
-    
+
     switch (strTipo) {
       case "horista":
         tipo = TipoCliente.HORISTA;
         break;
-    
-      case "mensalista": 
+
+      case "mensalista":
         tipo = TipoCliente.MENSALISTA;
         break;
 
@@ -99,7 +109,10 @@ public class ClienteDAO implements DAO<Cliente> {
   }
 
   /**
-   * 
+   * Obtém todos os clientes do arquivo.
+   *
+   * @return Lista contendo todos os clientes do arquivo.
+   * @throws IOException Se ocorrer um erro ao ler os clientes do arquivo.
    */
   public List<Cliente> getAll() throws IOException {
     List<Cliente> dados = new ArrayList<>();
@@ -119,14 +132,20 @@ public class ClienteDAO implements DAO<Cliente> {
   }
 
   /**
-   * 
+   * Adiciona um cliente ao arquivo.
+   *
+   * @param c O cliente a ser adicionado.
+   * @throws IOException Se ocorrer um erro ao escrever o cliente no
+   *                     arquivo.
    */
   public void add(Cliente c) throws IOException {
     arqEscrita.append(c.dataToText() + "\n");
   }
 
   /**
-   * 
+   * Adiciona uma lista de clientes ao arquivo.
+   *
+   * @param clientes Lista de clientes a serem adicionados.
    */
   public void addAll(List<Cliente> clientes) {
     try {
@@ -144,10 +163,12 @@ public class ClienteDAO implements DAO<Cliente> {
   }
 
   /**
-   * 
+   * Remove um cliente da lista.
+   *
+   * @param c O cliente a ser removido.
    */
   public void delete(Cliente c) {
     clientes.remove(c);
   }
-  //#endregion
+  // #endregion
 }
