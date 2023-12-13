@@ -96,6 +96,15 @@ public class Vaga {
 	}
 
 	/**
+	 * Método para alterar o valor da variável booleana <i>disponivel</i> quando necessário
+	 * 
+	 * @param disponivel
+	 */
+	public void setDisponivel(boolean disponivel) {
+		this.disponivel = disponivel;
+	}
+
+	/**
 	 * Igualdade de duas vagas: se ela têm o mesmo identificador. Caso o objeto não
 	 * seja da
 	 * classe Vaga, retorna sempre falso.

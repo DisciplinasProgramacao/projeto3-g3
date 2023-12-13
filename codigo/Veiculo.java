@@ -9,18 +9,20 @@ import Exceptions.*;
 public class Veiculo implements IDataToText {
     static FabricaUsoDeVaga fabrica = new FabricaUsoDeVaga();
 
-    // Atributos
-    private String placa; // A placa do veículo
-    private List<UsoDeVaga> usos; // Lista de usos de vagas associados ao veículo
+    //#region atributos
+    private String placa;
+    private List<UsoDeVaga> usos; 
     private Cliente cliente;
+    //#endregion
 
-    // Construtor
+    //#region construtor
     public Veiculo(String placa) {
         this.placa = placa;
         this.usos = new ArrayList<>();
     }
+    //#endregion
 
-    // Getters e Setters
+    //#region getters e setters
     public String getPlaca() {
         return this.placa;
     }
@@ -32,6 +34,7 @@ public class Veiculo implements IDataToText {
     public void setCliente(Cliente cliente){
         this.cliente = cliente;
     }
+    //#endregion
 
     // #region métodos de negócio
 
@@ -42,46 +45,14 @@ public class Veiculo implements IDataToText {
      * @throws VagaOcupadaException
      */
     public void estacionar(Vaga vaga, Turno turno) throws VagaOcupadaException {
-        // a fábrica vai substituir isso ae
         if (vaga.disponivel()) {
-            //UsoDeVaga uso = fabrica.get(cliente.getTipoCliente().desc, vaga);
-            //return true;
-            
-            switch (cliente.getTipoCliente()) {
-                case MENSALISTA:;
-                    FabricaMensalista usoMensalista = new FabricaMensalista();
-                    usos.add(usoMensalista.create(vaga));
-                     break;
-                
-                case HORISTA:
-                    FabricaHorista usoHorista = new FabricaHorista();
-                    usos.add(usoHorista.create(vaga));
-               
-                    break;
+            UsoDeVaga uso = fabrica.get(cliente.getTipoCliente().desc, vaga);
+            usos.add(uso);
 
-                case TURNOMANHA:
-                    FabricaTurnoManha usoTurno = new FabricaTurnoManha();
-                    usos.add(usoTurno.create(vaga));
-                
-                  break;
-                
-                 case TURNOTARDE:
-                    FabricaTurnoTarde usoTurnoTarde = new FabricaTurnoTarde();
-                    usos.add(usoTurnoTarde.create(vaga));
-                    break; 
-                   
+            vaga.setDisponivel(false);
+        } else {
 
-                case TURNONOITE:
-                    FabricaTurnoNoite usoTurnoNoite = new FabricaTurnoNoite();
-                    usos.add(usoTurnoNoite.create(vaga));
-                   break;  
-                   
-
-                default:
-                   break;
-            }
         }
-       
     }
 
     /**
