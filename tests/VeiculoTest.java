@@ -10,6 +10,7 @@ import org.junit.Before;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class VeiculoTest {
@@ -25,6 +26,7 @@ public class VeiculoTest {
     UsoDeVaga usoDeVaga3;
     Cliente cliente1;
     Cliente cliente2;
+    Cliente cliente3;
     Estacionamento estacionamento1;
     Turno turno1;
     Turno turno2;
@@ -40,9 +42,14 @@ public class VeiculoTest {
         vaga3 = new Vaga(3,1);
         cliente1 = new Cliente("Octávio", "3", TipoCliente.HORISTA);
         cliente2 = new Cliente("Xulamb", "1", TipoCliente.TURNONOITE);
+        cliente3 = new Cliente("Ana", "2", TipoCliente.MENSALISTA);
+        cliente1.addVeiculo(veiculo1);
         turno1 = Turno.MANHA;
         turno2 = Turno.TARDE;
         turno3 = Turno.NOITE;
+        veiculo1.setCliente(cliente1);
+        veiculo2.setCliente(cliente2);
+        veiculo3.setCliente(cliente3);
     }
 
     @Test
@@ -88,6 +95,7 @@ public class VeiculoTest {
         veiculos.add(veiculo1);
         veiculos.add(veiculo2);
         veiculos.add(veiculo3);
+
     
 
       

@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class ClienteTest {
 
-  Cliente cliente2, cliente1;
+  Cliente cliente2, cliente1, cliente3;
   Veiculo veiculo1, veiculo2;
   Vaga vaga1, vaga2;
   Turno turno1, turno2, turno3;
@@ -20,6 +20,7 @@ public class ClienteTest {
   public void setUp() throws Exception {
     cliente1 = new Cliente("Ana", "1", TipoCliente.HORISTA);
     cliente2 = new Cliente();
+    cliente3 = new Cliente("Ju", "2", TipoCliente.MENSALISTA);
     veiculo1 = new Veiculo("PUC-2023");
     veiculo2 = new Veiculo("ABC-1234");
     vaga1 = new Vaga(1, 1);
@@ -27,6 +28,8 @@ public class ClienteTest {
     turno1 = Turno.MANHA;
     turno2 = Turno.TARDE;
     turno3 = Turno.NOITE;
+    veiculo1.setCliente(cliente1);
+    veiculo2.setCliente(cliente2);
   }
 
   @Test
@@ -61,6 +64,11 @@ public class ClienteTest {
     veiculo2.sair(vaga1);
     veiculo2.estacionar(vaga2, turno2);
     veiculo2.sair(vaga2);
+
+    cliente3.addVeiculo(veiculo1);
+    veiculo1.estacionar(vaga1, turno1);
+    veiculo1.sair(vaga1);
+  
     assertEquals(8.0, cliente2.arrecadadoPorVeiculo("ABC-1234"), 0.01);
   }
 
