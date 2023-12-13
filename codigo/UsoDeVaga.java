@@ -95,6 +95,8 @@ public abstract class UsoDeVaga {
 		return valorPago;
 	}
 
+	
+
 	/**
 	 * Método que contrata um serviço escolhido pelo cliente.
 	 * 
@@ -195,4 +197,15 @@ public abstract class UsoDeVaga {
 	 */
 	public abstract double calcularValorPago();
 	// #endregion
+
+	@Override
+    public String toString() {
+        return "Uso{" +
+                "vaga=" + getVaga() +
+                ", entrada=" + getEntrada() +
+                ", saida=" + getSaida() +
+                ", valorPago=" + getValorPago() +
+                ", servico=" + servico +
+                '}';
+    }
 }

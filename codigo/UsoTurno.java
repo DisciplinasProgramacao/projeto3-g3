@@ -45,5 +45,11 @@ public class UsoTurno extends UsoDeVaga {
                 || (horaEntrada > 12 && horaEntrada <= 18 && turno == Turno.TARDE)
                 || (horaEntrada > 18 && horaEntrada <= 23 && turno == Turno.NOITE);
     }
+
+    @Override
+    public String toString() {
+     return String.format("Uso Turno{vaga=%s, entrada=%s, saida=%s, valorPago=%.2f}",
+            getVaga(), getEntrada(), getSaida(), getValorPago());
+    }
     // #endregion
 }

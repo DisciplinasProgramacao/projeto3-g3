@@ -23,5 +23,12 @@ public class UsoMensalista extends UsoDeVaga {
 
         return valorServico;
     }
+
+    @Override
+    public String toString() {
+     return String.format("Uso Mensalista{vaga=%s, entrada=%s, saida=%s, valorPago=%.2f}",
+            getVaga(), getEntrada(), getSaida(), getValorPago());
+    }
     // #endregion
+
 }

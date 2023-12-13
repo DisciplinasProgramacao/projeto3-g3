@@ -44,6 +44,8 @@ public class VeiculoTest {
         cliente2 = new Cliente("Xulamb", "1", TipoCliente.TURNONOITE);
         cliente3 = new Cliente("Ana", "2", TipoCliente.MENSALISTA);
         cliente1.addVeiculo(veiculo1);
+        cliente2.addVeiculo(veiculo2);
+        cliente3.addVeiculo(veiculo3);
         turno1 = Turno.MANHA;
         turno2 = Turno.TARDE;
         turno3 = Turno.NOITE;
@@ -53,31 +55,44 @@ public class VeiculoTest {
     }
 
     @Test
-    public void testEstacionarEArrecadado() throws VagaOcupadaException {
+    public void testEstacionarEArrecadado() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
         // Teste do método estacionar e totalArrecadado
-        double valorEstacionamento = 10.0;
-        veiculo1.estacionar(vaga1, turno1);
-        assertEquals(valorEstacionamento, veiculo1.totalArrecadado(), 10.0);
+        
+        veiculo2.estacionar(vaga1, turno1);
+        veiculo2.sair(vaga1);
+        veiculo2.estacionar(vaga2,turno2);
+        veiculo2.sair(vaga2);
+        veiculo3.estacionar(vaga3, turno3);
+        veiculo3.sair(vaga3);
+        veiculo3.estacionar(vaga3, turno3);
+        veiculo3.sair(vaga3);
+        assertEquals(8.0, veiculo2.totalArrecadado(), 8.0);
     }
 
     @Test
-    public void testSairEArrecadadoNoMes() throws VagaOcupadaException {
+    public void testSairEArrecadadoNoMes() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
         // Teste do método sair e arrecadadoNoMes
-        double valorEstacionamento = 10.0;
-        int mes = 10;
-        veiculo1.estacionar(vaga2, turno2);
-        vaga2.sair();
-        assertEquals(valorEstacionamento, veiculo1.arrecadadoNoMes(mes), 10.0);
+        veiculo2.estacionar(vaga1, turno1);
+        veiculo2.sair(vaga1);
+        veiculo2.estacionar(vaga2,turno2);
+        veiculo2.sair(vaga2);
+
+        veiculo3.estacionar(vaga3, turno3);
+        veiculo3.sair(vaga3);
+
+        
+        assertEquals(8.0, veiculo2.arrecadadoNoMes(12), 8.0);
+       
+        
     }
 
     @Test
-    public void testTotalDeUsos() throws VagaOcupadaException {
+    public void testTotalDeUsos() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
         // Teste do método totalDeUsos
-        Vaga vaga3 = new Vaga(2, 1);
         veiculo1.estacionar(vaga3, turno3);
-        vaga3.sair();
-        Vaga vaga4 = new Vaga(2, 1);
-        veiculo1.estacionar(vaga4, turno1);
+        veiculo1.sair(vaga3);
+        veiculo1.estacionar(vaga2, turno1);
+        veiculo1.sair(vaga2);
         assertEquals(2, veiculo1.totalDeUsos());
     }
 
@@ -87,16 +102,8 @@ public class VeiculoTest {
         veiculo3.sair(vaga3);
         veiculo3.estacionar(vaga1, turno3);
         veiculo3.sair(vaga1);
-    
-        veiculo1.estacionar(vaga2, turno1);
-        veiculo1.sair(vaga2);
-    
-        List<Veiculo> veiculos = new ArrayList<>();
-        veiculos.add(veiculo1);
-        veiculos.add(veiculo2);
-        veiculos.add(veiculo3);
 
-    
+       System.out.println(veiculo3.gerarRelatorio(Comparator.comparing(UsoDeVaga::getEntrada)));
 
       
     }
