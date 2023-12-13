@@ -64,12 +64,10 @@ public class Veiculo implements IDataToText {
     public double sair(Vaga vaga) throws UsoDeVagaException, VagaDesocupadaException {
         double valorPago = 0.0;
 
-        for (UsoDeVaga uso : usos) {
-            if (uso.getVaga() == vaga) {
-                valorPago = uso.sair(LocalDateTime.now());
-                return valorPago;
-            }
-        }
+        UsoDeVaga uso = usos.stream().filter(u-> u.getVaga().equals(vaga) && u.getSaida()==null)
+                                    .findFirst().orElse(null);
+        if(uso!=null)
+            valorPago = uso.sair(LocalDateTime.now());
 
         return valorPago;
     }
