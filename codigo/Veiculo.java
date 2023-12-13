@@ -41,7 +41,7 @@ public class Veiculo implements IDataToText {
     /**
      * Estaciona o veículo em uma vaga, se a vaga estiver disponível.
      * 
-     * @param vaga A vaga em que o veículo deseja estacionar.
+     * @param veiculo A vaga em que o veículo deseja estacionar.
      * @throws VagaOcupadaException
      */
     public void estacionar(Vaga vaga, Turno turno) throws VagaOcupadaException {
