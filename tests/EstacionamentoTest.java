@@ -19,24 +19,35 @@ public class EstacionamentoTest {
         estacionamento = new Estacionamento("Meu Estacionamento", 5, 10);
 
         Cliente cliente1 = new Cliente("Ana", "1", TipoCliente.HORISTA);
-        Cliente cliente2 = new Cliente("Julia", "2",TipoCliente.MENSALISTA);
+        Cliente cliente2 = new Cliente("Julia", "2",TipoCliente.HORISTA);
         Cliente cliente3 = new Cliente("Maria", "3", TipoCliente.TURNOMANHA);
+        Cliente cliente4 = new Cliente("Pedro", "4", TipoCliente.HORISTA);
+        Cliente cliente5 = new Cliente("Lucas", "5", TipoCliente.MENSALISTA);
+
 
         estacionamento.addCliente(cliente1);
         estacionamento.addCliente(cliente2);
         estacionamento.addCliente(cliente3);
+        estacionamento.addCliente(cliente4);
+        estacionamento.addCliente(cliente5);
 
         Veiculo veiculo1 = new Veiculo("DEF501");
         Veiculo veiculo2 = new Veiculo("XYZ789");
         Veiculo veiculo3 = new Veiculo("ANA131");
+        Veiculo veiculo4 = new Veiculo("XYZ123");
+        Veiculo veiculo5 = new Veiculo("ABC456");
 
         veiculo1.setCliente(cliente1);
         veiculo2.setCliente(cliente2);
-        veiculo3.setCliente(cliente3);
+        veiculo3.setCliente(cliente3);       
+        veiculo4.setCliente(cliente4);
+        veiculo5.setCliente(cliente5);
 
         estacionamento.addVeiculo(veiculo1, "1");
         estacionamento.addVeiculo(veiculo2, "2");
         estacionamento.addVeiculo(veiculo3, "3");
+        estacionamento.addVeiculo(veiculo4, "4");
+        estacionamento.addVeiculo(veiculo5, "5");
 
     }
 
@@ -79,34 +90,51 @@ public class EstacionamentoTest {
 
     @Test
     public void testTotalArrecadado() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
-      estacionamento.estacionar("DEF501",Turno.MANHA);
-      estacionamento.estacionar("XYZ789",Turno.TARDE);
-      estacionamento.estacionar("ANA131",Turno.NOITE);
-      estacionamento.sair("DEF501");
-      estacionamento.sair("XYZ789");
-      estacionamento.sair("ANA131");
+     estacionamento.estacionar("DEF501",Turno.MANHA);
+     estacionamento.estacionar("XYZ123",Turno.TARDE);
+     estacionamento.estacionar("XYZ789",Turno.MANHA);
+     estacionamento.sair("DEF501");
+     estacionamento.sair("XYZ123");
+     estacionamento.sair("XYZ789");
        
-      System.out.println();
+     assertEquals(12.0, estacionamento.totalArrecadado());
     }
 
     @Test
     public void testArrecadacaoNoMes() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
-
         estacionamento.estacionar("DEF501", Turno.MANHA);
         estacionamento.sair("DEF501");
-        System.out.println("Teste:"+estacionamento.arrecadacaoNoMes(0));
-        assertEquals(4.0,estacionamento.arrecadacaoNoMes(0));
+        assertEquals(4.0,estacionamento.arrecadacaoNoMes(12));
     }        
 
 
     @Test
     public void testValorMedioPorUso() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
-        estacionamento.estacionar("ABC123", Turno.MANHA);
-        estacionamento.estacionar("XYZ789", Turno.MANHA);
-        estacionamento.sair("ABC123");
-        estacionamento.sair("XYZ789");
-        System.out.println(estacionamento.top5Clientes(1));
-       // assertTrue(estacionamento.valorMedioPorUso() > 0);
+        estacionamento.estacionar("ANA131", Turno.MANHA);
+        estacionamento.estacionar("DEF501", Turno.MANHA);
+        estacionamento.sair("ANA131");
+        estacionamento.sair("DEF501");
+        assertEquals(4.0, estacionamento.valorMedioPorUso());
+    }
+
+    @Test
+    public void testeTop5Clientes() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException{
+
+        estacionamento.estacionar("DEF501", Turno.MANHA);
+        estacionamento.estacionar("XYZ123", Turno.TARDE);
+        estacionamento.estacionar("ANA131", Turno.TARDE);
+        estacionamento.estacionar("XYZ789", Turno.NOITE);
+        estacionamento.estacionar("ABC456", Turno.NOITE);
+         estacionamento.estacionar("ABC456", Turno.NOITE);
+
+        estacionamento.sair("DEF501");    
+        estacionamento.sair("XYZ123");  
+        estacionamento.sair("ANA131");   
+        estacionamento.sair("XYZ789"); 
+        estacionamento.sair("ABC456");
+        String top5 = estacionamento.top5Clientes(12); // Assumindo que 1 representa janeiro
+        System.out.println(top5);
+        
     }
 
 }

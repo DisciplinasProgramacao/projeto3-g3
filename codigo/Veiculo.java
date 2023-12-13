@@ -48,11 +48,9 @@ public class Veiculo implements IDataToText {
         if (vaga.disponivel()) {
             UsoDeVaga uso = fabrica.get(cliente.getTipoCliente().desc, vaga);
             usos.add(uso);
-
             vaga.setDisponivel(false);
-        } else {
-
-        }
+        } 
+       
     }
 
     /**
@@ -86,7 +84,7 @@ public class Veiculo implements IDataToText {
 
         for (UsoDeVaga uso : usos) {
             if (uso != null) {
-                arrecadacaoTotal += uso.getValorPago();
+                 arrecadacaoTotal += uso.calcularValorPago();
             }
         }
 
@@ -104,8 +102,9 @@ public class Veiculo implements IDataToText {
 
         for (UsoDeVaga uso : usos) {
             if (uso.ehDoMes(mes)) {
-                arrecadacaoNoMes += uso.getValorPago();
+                arrecadacaoNoMes += uso.calcularValorPago();
             }
+          System.out.println(uso.ehDoMes(12));
         }
 
         return arrecadacaoNoMes;
@@ -123,12 +122,19 @@ public class Veiculo implements IDataToText {
     /**
      * 
      * @param comparador
-     * @return
+     * @return 
      */
-    public List<UsoDeVaga> gerarRelatorio(Comparator<UsoDeVaga> comparador) {
+    public String gerarRelatorio(Comparator<UsoDeVaga> comparador) {
         Collections.sort(usos, comparador);
 
-        return usos;
+        StringBuilder relatorio = new StringBuilder("Relatório de Usos de Vaga:\n");
+
+        for (UsoDeVaga uso : usos) {
+         relatorio.append(uso.toString()).append("\n");
+        }
+
+    return relatorio.toString();
+        
     }
     // #endregion
 

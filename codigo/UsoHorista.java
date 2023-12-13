@@ -25,5 +25,12 @@ public class UsoHorista extends UsoDeVaga {
         valorPago = valorTempo + valorServico;
         return valorPago;
     }
+
+    @Override
+    public String toString() {
+     return String.format("Uso Horista{vaga=%s, entrada=%s, saida=%s, valorPago=%.2f}",
+            getVaga(), getEntrada(), getSaida(), getValorPago());
+}
+   
     // #endregion
 }
