@@ -4,27 +4,37 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.*;
 
-public class EstacionamentoDAO implements DAO<Estacionamento> {
+/**
+ * Classe responsável por operações de leitura e escrita de dados relacionados a
+ * estacionamentos.
+ */
+public class EstacionamentoDAO implements Dao<Estacionamento> {
 
-  //#region atributos
+  // #region atributos
   private List<Estacionamento> estacionamentos = new ArrayList<>();
   private String nomeArq;
   private Scanner arqLeitura;
   private FileWriter arqEscrita;
-  //#endregion
+  // #endregion
 
-  //#region construtor
+  // #region construtor
+  /**
+   * Construtor da classe EstacionamentoDAO.
+   *
+   * @param nomeArq Nome do arquivo que será manipulado.
+   */
   public EstacionamentoDAO(String nomeArq) {
     this.nomeArq = nomeArq;
     this.arqLeitura = null;
     this.arqEscrita = null;
   }
-  //#endregion
+  // #endregion
 
-  //#region métodos de negócio
+  // #region métodos de negócio
   /**
-   * 
-   * @throws IOException
+   * Abre o arquivo para leitura.
+   *
+   * @throws IOException Se ocorrer um erro ao abrir o arquivo.
    */
   public void abrirLeitura() throws IOException {
     if (arqEscrita != null) {
@@ -35,8 +45,9 @@ public class EstacionamentoDAO implements DAO<Estacionamento> {
   }
 
   /**
-   * 
-   * @throws IOException
+   * Abre o arquivo para escrita.
+   *
+   * @throws IOException Se ocorrer um erro ao abrir o arquivo.
    */
   public void abrirEscrita() throws IOException {
     if (arqLeitura != null) {
@@ -48,8 +59,9 @@ public class EstacionamentoDAO implements DAO<Estacionamento> {
   }
 
   /**
-   * 
-   * @throws IOException
+   * Fecha os recursos de leitura e escrita.
+   *
+   * @throws IOException Se ocorrer um erro ao fechar os recursos.
    */
   public void fechar() throws IOException {
     if (arqEscrita != null)
@@ -62,7 +74,9 @@ public class EstacionamentoDAO implements DAO<Estacionamento> {
   }
 
   /**
-   * 
+   * Obtém o próximo estacionamento do arquivo.
+   *
+   * @return O próximo estacionamento do arquivo.
    */
   public Estacionamento getNext() {
     String[] linha = arqLeitura.nextLine().split(";");
@@ -74,7 +88,10 @@ public class EstacionamentoDAO implements DAO<Estacionamento> {
   }
 
   /**
-   * 
+   * Obtém todos os estacionamentos do arquivo.
+   *
+   * @return Lista contendo todos os estacionamentos do arquivo.
+   * @throws IOException Se ocorrer um erro ao ler os estacionamentos do arquivo.
    */
   public List<Estacionamento> getAll() throws IOException {
     List<Estacionamento> dados = new ArrayList<>();
@@ -85,7 +102,7 @@ public class EstacionamentoDAO implements DAO<Estacionamento> {
       while (arqLeitura.hasNextLine()) {
         dados.add(getNext());
       }
-      
+
     } catch (IOException e) {
       arqLeitura = null;
       arqEscrita = null;
@@ -97,14 +114,20 @@ public class EstacionamentoDAO implements DAO<Estacionamento> {
   }
 
   /**
-   * 
+   * Adiciona um estacionamento ao arquivo.
+   *
+   * @param e O estacionamento a ser adicionado.
+   * @throws IOException Se ocorrer um erro ao escrever o estacionamento no
+   *                     arquivo.
    */
   public void add(Estacionamento e) throws IOException {
     arqEscrita.append(e.dataToText() + "\n");
   }
 
   /**
-   * 
+   * Adiciona uma lista de estacionamentos ao arquivo.
+   *
+   * @param t Lista de estacionamentos a serem adicionados.
    */
   public void addAll(List<Estacionamento> t) {
     try {
@@ -123,11 +146,13 @@ public class EstacionamentoDAO implements DAO<Estacionamento> {
   }
 
   /**
-   * 
+   * Remove um estacionamento da lista.
+   *
+   * @param c O estacionamento a ser removido.
    */
   public void delete(Estacionamento c) {
     estacionamentos.remove(c);
   }
-  //#endregion
+  // #endregion
 
 }

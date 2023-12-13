@@ -2,28 +2,55 @@ import java.nio.charset.Charset;
 import java.util.*;
 import java.io.*;
 
-public class VeiculoDAO implements DAO<Veiculo> {
+/**
+ * Classe que implementa um Data Access Object (DAO) para a entidade Veiculo.
+ * Permite operações de leitura e escrita de objetos Veiculo em um arquivo.
+ * 
+ * @param <Veiculo> O tipo de entidade que a classe manipula.
+ */
+public class VeiculoDAO implements Dao<Veiculo> {
 
-    //#region atributos
+    // #region atributos
+    /**
+     * Lista que armazena os objetos Veiculo em memória.
+     */
     private List<Veiculo> veiculos = new ArrayList<>();
-    private String nomeArq;
-    private Scanner arqLeitura;
-    private FileWriter arqEscrita;
-    //#endregion
 
-    //#region construtor
+    /**
+     * Nome do arquivo associado ao DAO.
+     */
+    private String nomeArq;
+
+    /**
+     * Scanner utilizado para leitura do arquivo.
+     */
+    private Scanner arqLeitura;
+
+    /**
+     * FileWriter utilizado para escrita no arquivo.
+     */
+    private FileWriter arqEscrita;
+    // #endregion
+
+    // #region construtor
+    /**
+     * Construtor da classe VeiculoDAO.
+     * 
+     * @param nomeArq O nome do arquivo associado ao DAO.
+     */
     public VeiculoDAO(String nomeArq) {
         this.nomeArq = nomeArq;
         this.arqEscrita = null;
         this.arqLeitura = null;
     }
-    //#endregion
+    // #endregion
 
-    //#region métodos de negócio
+    // #region métodos de negócio
 
     /**
+     * Abre o arquivo para leitura.
      * 
-     * @throws IOException
+     * @throws IOException Se ocorrer um erro de leitura.
      */
     public void abrirLeitura() throws IOException {
         if (arqEscrita != null) {
@@ -34,8 +61,9 @@ public class VeiculoDAO implements DAO<Veiculo> {
     }
 
     /**
+     * Abre o arquivo para escrita.
      * 
-     * @throws IOException
+     * @throws IOException Se ocorrer um erro de escrita.
      */
     public void abrirEscrita() throws IOException {
         if (arqLeitura != null) {
@@ -46,8 +74,9 @@ public class VeiculoDAO implements DAO<Veiculo> {
     }
 
     /**
+     * Fecha os recursos de leitura e escrita.
      * 
-     * @throws IOException
+     * @throws IOException Se ocorrer um erro ao fechar os recursos.
      */
     public void fechar() throws IOException {
         if (arqEscrita != null)
@@ -59,7 +88,9 @@ public class VeiculoDAO implements DAO<Veiculo> {
     }
 
     /**
+     * Obtém o próximo objeto Veiculo do arquivo de leitura.
      * 
+     * @return O próximo objeto Veiculo.
      */
     public Veiculo getNext() {
         String[] linha = arqLeitura.nextLine().split(";");
@@ -70,14 +101,20 @@ public class VeiculoDAO implements DAO<Veiculo> {
     }
 
     /**
+     * Adiciona um objeto Veiculo ao arquivo de escrita.
      * 
+     * @param v O objeto Veiculo a ser adicionado.
+     * @throws IOException Se ocorrer um erro de escrita.
      */
     public void add(Veiculo v) throws IOException {
         arqEscrita.append(v.dataToText() + "\n");
     }
 
     /**
+     * Obtém todos os objetos Veiculo do arquivo de leitura.
      * 
+     * @return Uma lista contendo todos os objetos Veiculo.
+     * @throws IOException Se ocorrer um erro de leitura.
      */
     public List<Veiculo> getAll() throws IOException {
         List<Veiculo> dados = new ArrayList<>();
@@ -97,7 +134,9 @@ public class VeiculoDAO implements DAO<Veiculo> {
     }
 
     /**
+     * Adiciona uma lista de objetos Veiculo ao arquivo de escrita.
      * 
+     * @param veiculos A lista de objetos Veiculo a serem adicionados.
      */
     public void addAll(List<Veiculo> veiculos) {
         try {
@@ -115,10 +154,12 @@ public class VeiculoDAO implements DAO<Veiculo> {
     }
 
     /**
+     * Remove um objeto Veiculo da lista em memória.
      * 
+     * @param veiculo O objeto Veiculo a ser removido.
      */
     public void delete(Veiculo veiculo) {
         veiculos.remove(veiculo);
     }
-    //#endregion
+    // #endregion
 }
