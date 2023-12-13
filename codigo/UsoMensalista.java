@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 
+import Enums.TipoCliente;
 import Exceptions.VagaOcupadaException;
 
 public class UsoMensalista extends UsoDeVaga {
@@ -20,8 +21,16 @@ public class UsoMensalista extends UsoDeVaga {
      */
     public double calcularValorPago() {
         double valorServico = calcularValorServico();
+        TipoCliente mensalidade = TipoCliente.MENSALISTA;
+        double totalAPagar = mensalidade.getValor();
 
-        return valorServico;
+        if(valorServico != 0){
+            totalAPagar = valorServico + mensalidade.getValor();
+        }
+
+
+
+        return totalAPagar;
     }
 
     @Override

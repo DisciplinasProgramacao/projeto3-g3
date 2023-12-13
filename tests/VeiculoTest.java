@@ -80,8 +80,11 @@ public class VeiculoTest {
         veiculo3.estacionar(vaga3, turno3);
         veiculo3.sair(vaga3);
 
+        System.out.println(veiculo3.arrecadadoNoMes(12));
+
         
         assertEquals(8.0, veiculo2.arrecadadoNoMes(12), 8.0);
+        assertEquals(500.0,veiculo3.arrecadadoNoMes(12), 500.0);
        
         
     }
