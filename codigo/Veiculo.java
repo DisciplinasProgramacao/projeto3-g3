@@ -29,6 +29,10 @@ public class Veiculo implements IDataToText {
         this.placa = placa;
     }
 
+    public void setCliente(Cliente cliente){
+        this.cliente = cliente;
+    }
+
     // #region métodos de negócio
 
     /**
@@ -39,10 +43,45 @@ public class Veiculo implements IDataToText {
      */
     public void estacionar(Vaga vaga, Turno turno) throws VagaOcupadaException {
         // a fábrica vai substituir isso ae
-        if (vaga.disponivel() && cliente != null) {
+        if (vaga.disponivel()) {
+            //UsoDeVaga uso = fabrica.get(cliente.getTipoCliente().desc, vaga);
+            //return true;
             
-            UsoDeVaga uso = fabrica.get(cliente.getTipoCliente().desc, vaga);
+            switch (cliente.getTipoCliente()) {
+                case MENSALISTA:;
+                    FabricaMensalista usoMensalista = new FabricaMensalista();
+                    usos.add(usoMensalista.create(vaga));
+                     break;
+                
+                case HORISTA:
+                    FabricaHorista usoHorista = new FabricaHorista();
+                    usos.add(usoHorista.create(vaga));
+               
+                    break;
+
+                case TURNOMANHA:
+                    FabricaTurnoManha usoTurno = new FabricaTurnoManha();
+                    usos.add(usoTurno.create(vaga));
+                
+                  break;
+                
+                 case TURNOTARDE:
+                    FabricaTurnoTarde usoTurnoTarde = new FabricaTurnoTarde();
+                    usos.add(usoTurnoTarde.create(vaga));
+                    break; 
+                   
+
+                case TURNONOITE:
+                    FabricaTurnoNoite usoTurnoNoite = new FabricaTurnoNoite();
+                    usos.add(usoTurnoNoite.create(vaga));
+                   break;  
+                   
+
+                default:
+                   break;
+            }
         }
+       
     }
 
     /**

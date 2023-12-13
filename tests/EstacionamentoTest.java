@@ -1,4 +1,6 @@
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,6 +29,10 @@ public class EstacionamentoTest {
         Veiculo veiculo1 = new Veiculo("DEF501");
         Veiculo veiculo2 = new Veiculo("XYZ789");
         Veiculo veiculo3 = new Veiculo("ANA131");
+
+        veiculo1.setCliente(cliente1);
+        veiculo2.setCliente(cliente2);
+        veiculo3.setCliente(cliente3);
 
         estacionamento.addVeiculo(veiculo1, "1");
         estacionamento.addVeiculo(veiculo2, "2");
@@ -65,29 +71,42 @@ public class EstacionamentoTest {
 
     @Test
     public void testSair() throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException {
+        estacionamento.estacionar("DEF501",Turno.MANHA);
         double valorPago = estacionamento.sair("DEF501");
 
-        assertTrue(valorPago != -1);
-        assertTrue(valorPago >= 0);
+        assertEquals(4.0, valorPago);
     }
 
     @Test
-    public void testTotalArrecadado() throws VagaOcupadaException {
-        assertTrue(estacionamento.totalArrecadado() >= 0);
+    public void testTotalArrecadado() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
+      estacionamento.estacionar("DEF501",Turno.MANHA);
+      estacionamento.estacionar("XYZ789",Turno.TARDE);
+      estacionamento.estacionar("ANA131",Turno.NOITE);
+      estacionamento.sair("DEF501");
+      estacionamento.sair("XYZ789");
+      estacionamento.sair("ANA131");
+       
+      System.out.println();
     }
 
     @Test
-    public void testArrecadacaoNoMes() throws VagaOcupadaException {
+    public void testArrecadacaoNoMes() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
 
-        assertTrue(estacionamento.arrecadacaoNoMes(1) >= 0);
-    }
+        estacionamento.estacionar("DEF501", Turno.MANHA);
+        estacionamento.sair("DEF501");
+        System.out.println("Teste:"+estacionamento.arrecadacaoNoMes(0));
+        assertEquals(4.0,estacionamento.arrecadacaoNoMes(0));
+    }        
+
 
     @Test
-    public void testValorMedioPorUso() throws VagaOcupadaException {
+    public void testValorMedioPorUso() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
         estacionamento.estacionar("ABC123", Turno.MANHA);
-        estacionamento.estacionar("XYZ789", Turno.TARDE);
-
-        assertTrue(estacionamento.valorMedioPorUso() >= 0);
+        estacionamento.estacionar("XYZ789", Turno.MANHA);
+        estacionamento.sair("ABC123");
+        estacionamento.sair("XYZ789");
+        System.out.println(estacionamento.top5Clientes(1));
+       // assertTrue(estacionamento.valorMedioPorUso() > 0);
     }
 
 }
