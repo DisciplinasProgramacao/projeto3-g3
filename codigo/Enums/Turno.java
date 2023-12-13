@@ -3,7 +3,7 @@ package Enums;
 import java.time.*;
 
 public enum Turno {
-  MANHA("manhã", LocalTime.of(8, 0), LocalTime.of(12, 0)),
+  MANHA("manha", LocalTime.of(8, 0), LocalTime.of(12, 0)),
   TARDE("tarde", LocalTime.of(12, 1), LocalTime.of(18, 0)),
   NOITE("noite", LocalTime.of(18, 1), LocalTime.of(23, 59));
 
