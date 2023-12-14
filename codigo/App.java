@@ -1,5 +1,8 @@
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import Enums.TipoCliente;
@@ -15,39 +18,13 @@ public class App {
      * @throws UsoDeVagaException
      * @throws VagaOcupadaException
      */
+    static long id = 100;
+
+    private static Map<String, Veiculo> getVeiculos = new HashMap<>();
+    private static Map<String, Cliente> getCLientes = new HashMap<>();
 
      private static void adicionarCliente(Scanner scanner, Estacionamento estacionamento) {
-        System.out.println("Digite o Nome do Cliente:");
-        String nome = scanner.nextLine();
-
-        System.out.println("Escolha o tipo de cliente:");
-        System.out.println("1. Horista");
-        System.out.println("2. Mensalista");
-        System.out.println("3. Turno Manhã");
-
-        int opcaoTipo = scanner.nextInt();
-        scanner.nextLine(); // Limpar a nova linha
-
-        TipoCliente tipo = null;
-
-        switch (opcaoTipo) {
-            case 1:
-                tipo = TipoCliente.HORISTA;
-                break;
-            case 2:
-                tipo = TipoCliente.MENSALISTA;
-                break;
-            case 3:
-                tipo = TipoCliente.TURNOMANHA;
-                break;
-            default:
-                System.out.println("Opção inválida.");
-                return;
-        }
-
-        Cliente cliente = new Cliente(nome, "2", tipo);
-        estacionamento.addCliente(cliente);
-        System.out.println("Cliente adicionado com sucesso!");
+        
     }
 
     private static void exibirMenu(){
@@ -70,15 +47,11 @@ public class App {
 
     }
 
-    public static void main(String[] args) throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException {
+    public static void main(String[] args) throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException, IOException {
         Scanner scanner = new Scanner(System.in);
 
         Estacionamento estacionamento = new Estacionamento("EstacionamentoG2", 20, 9);
         Cliente cliente = new Cliente();
-        //System.out.printf("Insira o Id do cliente:", cliente);
-        //scanner.nextInt();
-        //System.out.printf("Insira a placa do veiculo", veiculo );
-        //scanner.nextLine();
     
           
            
@@ -92,10 +65,7 @@ public class App {
             while(opcao != 20){
             switch (opcao) {
                 case 1:
-                   adicionarCliente(scanner, estacionamento);
-                   exibirMenu();
-                   opcao = scanner.nextInt();
-                   scanner.nextLine();
+                   veiculoMenu();
                    break;
                 case 2:
                     // Adicionar veículo a um cliente
@@ -104,12 +74,14 @@ public class App {
                     Veiculo veiculo = new Veiculo(placa);
                     cliente.addVeiculo(veiculo);
                    System.out.println("Veículo adicionado com sucesso");
+               
                 break;
                 case 3:
-                    //veiculo.estacionar(veiculo, Turno.);
-                    
+                   estacionamento.estacionar(placa, null);
                 case 4:
-                    //veiculo.sair(null);
+                    
+                   estacionamento.sair(placa);
+                    System.out.println("Saida do estacionamento do veiculo de placa" + veiculo);
                     // Sair do estacionamento
                     break;
                 case 5:
@@ -193,4 +165,84 @@ public class App {
             }
         }
     }
-}
+    public static void veiculoMenu() throws IOException{;
+       try (Scanner scanner = new Scanner(System.in)) {
+        int escolha;
+       Estacionamento estacionamento = new Estacionamento("EstacionamentoG2", 20, 9);
+        System.out.println("1. Cadastrar Cliente");
+        System.out.println("2. Cadastrar veículo");
+        System.out.println("3.Alterar Plano");
+        System.out.println("4. Voltar ao menu principal");
+        escolha = scanner.nextInt();
+        while(escolha !=4){
+        switch (escolha) {
+        case 1:
+        System.out.println("Insira o nome do Cliente:");
+        String nome = scanner.nextLine();
+         System.out.println("Escolha o tipo de cliente:");
+      System.out.println("1. Horista");
+      System.out.println("2. Mensalista");
+      System.out.println("3. Turno Manha");
+      System.out.println("4. Turno Tarde");
+      System.out.println("5. Tuno Noite");
+      int opcaoTipo = scanner.nextInt();
+      scanner.nextLine(); // Limpar a nova linha
+
+      TipoCliente tipo = null;
+
+      switch (opcaoTipo) {
+        case 1:
+            tipo = TipoCliente.HORISTA;
+            break;
+        case 2:
+            tipo = TipoCliente.MENSALISTA;
+            break;
+        case 3:
+            tipo = TipoCliente.TURNOMANHA;
+            break;
+            case 4: 
+            tipo = TipoCliente.TURNOTARDE;
+            break;
+            case 5: 
+            tipo = TipoCliente.TURNONOITE;
+            break;
+        default:
+            System.out.println("Opção inválida.");
+            return;
+      }
+
+      Cliente cliente = new Cliente(nome, String.valueOf(id), tipo);
+      System.out.println("Cliente adicionado com sucesso!");
+      getCLientes.put(String.valueOf(id), cliente);
+      id ++;
+                break;
+         case 2:
+             // Adicionar veículo a um cliente
+             System.out.println("Digite o id do cliente: ");
+             String id = scanner.nextLine();
+             System.out.println("Digite a Placa do Veículo:");
+             String placa = scanner.nextLine();
+             Veiculo veiculo = new Veiculo(placa);
+             Cliente cliente2 = getCLientes.get(id);
+            estacionamento.addVeiculo(veiculo, id);
+            System.out.println("Veículo adicionado com sucesso");
+            ClienteDAO daoClienteDAO = new ClienteDAO("Clientela.txt");
+             daoClienteDAO.abrirEscrita();
+             daoClienteDAO.add(cliente2);
+             daoClienteDAO.fechar();;
+         break;
+         case 3:
+         System.out.println("Opção não implementada devido a falte pessoal. Estamos trabalhando para aprimorarmos sua experiencia :)"); 
+         break;
+         case 4: 
+         System.out.println("Retornando ao menu principal");            
+            default:
+            System.out.println("Opção invalida");            
+                         
+                break;
+        }
+
+      }
+    }
+
+}}
