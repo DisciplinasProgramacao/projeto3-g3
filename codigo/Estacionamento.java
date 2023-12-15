@@ -1,3 +1,4 @@
+import Enums.Servicos;
 import Enums.Turno;
 import Exceptions.*;
 
@@ -89,7 +90,7 @@ public class Estacionamento implements IDataToText {
 	 * @param placa A placa do veículo a ser estacionado.
 	 * @throws VagaOcupadaException
 	 */
-	public boolean estacionar(String placa, Turno turno) throws VagaOcupadaException {
+	public boolean estacionar(String placa, Servicos servico) throws VagaOcupadaException {
 		boolean estacionado = false;
 
 		Cliente cliente = encontrarClientePorPlaca(placa);
@@ -99,7 +100,7 @@ public class Estacionamento implements IDataToText {
 				if (vagas[i].disponivel() && cliente.possuiVeiculo(placa) != null) {
 					Veiculo veiculo = cliente.possuiVeiculo(placa);
 					if (veiculo != null) {
-						veiculo.estacionar(vagas[i], turno);
+						veiculo.estacionar(vagas[i], servico);
 						estacionado = true;
 						break;
 					}

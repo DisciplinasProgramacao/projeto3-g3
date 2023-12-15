@@ -60,13 +60,13 @@ public class ClienteTest {
   @Test
   public void testArrecadadoPorVeiculo() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
     cliente2.addVeiculo(veiculo2);
-    veiculo2.estacionar(vaga1, turno1);
+    veiculo2.estacionar(vaga1, null);
     veiculo2.sair(vaga1);
-    veiculo2.estacionar(vaga2, turno2);
+    veiculo2.estacionar(vaga2, null);
     veiculo2.sair(vaga2);
 
     cliente3.addVeiculo(veiculo1);
-    veiculo1.estacionar(vaga1, turno1);
+    veiculo1.estacionar(vaga1, null);
     veiculo1.sair(vaga1);
   
     assertEquals(8.0, cliente2.arrecadadoPorVeiculo("ABC-1234"), 0.01);
@@ -76,9 +76,9 @@ public class ClienteTest {
   public void testArrecadadoTotal() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
     cliente1.addVeiculo(veiculo1);
     cliente1.addVeiculo(veiculo2);
-    veiculo1.estacionar(vaga1,turno3);
+    veiculo1.estacionar(vaga1,null);
     veiculo1.sair(vaga1);
-    veiculo2.estacionar(vaga2, turno2);
+    veiculo2.estacionar(vaga2,null);
     veiculo2.sair(vaga2);
     assertEquals(8.0, cliente1.arrecadadoTotal(), 0.01);
   }
@@ -87,9 +87,9 @@ public class ClienteTest {
   public void testArrecadadoNoMes() throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException {
     cliente1.addVeiculo(veiculo1);
     cliente1.addVeiculo(veiculo2);
-    veiculo1.estacionar(vaga1,turno3);
+    veiculo1.estacionar(vaga1,null);
     veiculo1.sair(vaga1);
-    veiculo2.estacionar(vaga2, turno1);
+    veiculo2.estacionar(vaga2,null);
     veiculo2.sair(vaga2);
     assertEquals(0.0, cliente1.arrecadadoNoMes(1), 0.0);
   }

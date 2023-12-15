@@ -1,5 +1,6 @@
 import org.junit.Test;
 
+import Enums.Servicos;
 import Enums.TipoCliente;
 import Enums.Turno;
 import Exceptions.UsoDeVagaException;
@@ -46,9 +47,6 @@ public class VeiculoTest {
         cliente1.addVeiculo(veiculo1);
         cliente2.addVeiculo(veiculo2);
         cliente3.addVeiculo(veiculo3);
-        turno1 = Turno.MANHA;
-        turno2 = Turno.TARDE;
-        turno3 = Turno.NOITE;
         veiculo1.setCliente(cliente1);
         veiculo2.setCliente(cliente2);
         veiculo3.setCliente(cliente3);
@@ -58,13 +56,13 @@ public class VeiculoTest {
     public void testEstacionarEArrecadado() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
         // Teste do método estacionar e totalArrecadado
         
-        veiculo2.estacionar(vaga1, turno1);
+        veiculo2.estacionar(vaga1,null);
         veiculo2.sair(vaga1);
-        veiculo2.estacionar(vaga2,turno2);
+        veiculo2.estacionar(vaga2,Servicos.LAVAGEM);
         veiculo2.sair(vaga2);
-        veiculo3.estacionar(vaga3, turno3);
+        veiculo3.estacionar(vaga3, Servicos.MANOBRISTA);
         veiculo3.sair(vaga3);
-        veiculo3.estacionar(vaga3, turno3);
+        veiculo3.estacionar(vaga3, Servicos.POLIMENTO);
         veiculo3.sair(vaga3);
         assertEquals(8.0, veiculo2.totalArrecadado(), 8.0);
     }
@@ -72,12 +70,12 @@ public class VeiculoTest {
     @Test
     public void testSairEArrecadadoNoMes() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
         // Teste do método sair e arrecadadoNoMes
-        veiculo2.estacionar(vaga1, turno1);
+        veiculo2.estacionar(vaga1,  Servicos.LAVAGEM);
         veiculo2.sair(vaga1);
-        veiculo2.estacionar(vaga2,turno2);
+        veiculo2.estacionar(vaga2, Servicos.LAVAGEM);
         veiculo2.sair(vaga2);
 
-        veiculo3.estacionar(vaga3, turno3);
+        veiculo3.estacionar(vaga3,  Servicos.LAVAGEM);
         veiculo3.sair(vaga3);
 
         System.out.println(veiculo3.arrecadadoNoMes(12));
@@ -92,18 +90,18 @@ public class VeiculoTest {
     @Test
     public void testTotalDeUsos() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
         // Teste do método totalDeUsos
-        veiculo1.estacionar(vaga3, turno3);
+        veiculo1.estacionar(vaga3,  Servicos.LAVAGEM);
         veiculo1.sair(vaga3);
-        veiculo1.estacionar(vaga2, turno1);
+        veiculo1.estacionar(vaga2,  Servicos.LAVAGEM);
         veiculo1.sair(vaga2);
         assertEquals(2, veiculo1.totalDeUsos());
     }
 
      @Test
     public void testGerarRelatorioComPrioridade() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
-        veiculo3.estacionar(vaga3, turno2);
+        veiculo3.estacionar(vaga3, Servicos.LAVAGEM);
         veiculo3.sair(vaga3);
-        veiculo3.estacionar(vaga1, turno3);
+        veiculo3.estacionar(vaga1, Servicos.LAVAGEM);
         veiculo3.sair(vaga1);
 
        System.out.println(veiculo3.gerarRelatorio(Comparator.comparing(UsoDeVaga::getEntrada)));
