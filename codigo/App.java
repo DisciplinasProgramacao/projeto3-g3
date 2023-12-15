@@ -43,7 +43,7 @@ public class App<Servico> {
            
             System.out.print("-----Escolha uma opção: ");
             exibirMenu();
-            System.out.println("20. Sair do Programa");
+            System.out.println("4. Sair do Programa");
             int opcao = scanner.nextInt();
             scanner.nextLine(); // Limpar a nova linha
 
