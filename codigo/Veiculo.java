@@ -47,7 +47,7 @@ public class Veiculo implements IDataToText {
      */
     public void estacionar(Vaga vaga, Servicos servico) throws VagaOcupadaException {
         if (vaga.disponivel()) {
-            UsoDeVaga uso = fabrica.get(cliente.getTipoCliente().desc, vaga);
+            UsoDeVaga uso = fabrica.get(cliente.getTipoCliente(), vaga);
             usos.add(uso);
             vaga.setDisponivel(false);
         }
