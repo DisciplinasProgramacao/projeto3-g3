@@ -3,12 +3,11 @@ package Enums;
 public enum TipoCliente {
   HORISTA("horista", 0.0),
   MENSALISTA("mensalista", 500.0),
-  TURNOMANHA("turnomanha", 200.0),
-  TURNOTARDE("turnotarde", 200.0),
-  TURNONOITE("turnonoite", 200.0);
+  TURNO("turno", 200.0);
   
   public String desc;
   private double valor;
+  private Turno turno;
 
   TipoCliente(String desc, double valor) {
     this.desc = desc;
@@ -21,5 +20,13 @@ public enum TipoCliente {
 
   public double getValor() {
     return valor;
+  }
+
+  public void setTurno(Turno turno) {
+    this.turno = turno;
+  }
+
+  public Turno getTurno() {
+    return turno;
   }
 }

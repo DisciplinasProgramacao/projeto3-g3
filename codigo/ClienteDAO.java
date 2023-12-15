@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 import Enums.TipoCliente;
+import Enums.Turno;
 
 /**
  * Classe responsável por operações de leitura e escrita de dados relacionados
@@ -93,15 +94,18 @@ public class ClienteDAO implements Dao<Cliente> {
         break;
 
       case "turnomanha":
-        tipo = TipoCliente.TURNOMANHA;
+        tipo = TipoCliente.TURNO;
+        tipo.setTurno(Turno.MANHA);
         break;
 
       case "turnotarde":
-        tipo = TipoCliente.TURNOTARDE;
+        tipo = TipoCliente.TURNO;
+        tipo.setTurno(Turno.TARDE);
         break;
 
       case "turnonoite":
-        tipo = TipoCliente.TURNONOITE;
+        tipo = TipoCliente.TURNO;
+        tipo.setTurno(Turno.NOITE);
         break;
     }
 
