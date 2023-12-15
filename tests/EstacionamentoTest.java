@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import Enums.Servicos;
 import Enums.TipoCliente;
 import Enums.Turno;
 import Exceptions.UsoDeVagaException;
@@ -74,15 +75,15 @@ public class EstacionamentoTest {
 
     @Test
     public void testEstacionar() throws VagaOcupadaException {
-        assertTrue(estacionamento.estacionar("DEF501",Turno.MANHA));
-        assertTrue(estacionamento.estacionar("XYZ789", Turno.TARDE));
-        assertTrue(estacionamento.estacionar("ANA131", Turno.NOITE));
+        assertTrue(estacionamento.estacionar("DEF501",Servicos.LAVAGEM));
+        assertTrue(estacionamento.estacionar("XYZ789", Servicos.MANOBRISTA));
+        assertTrue(estacionamento.estacionar("ANA131", null));
 
     }
 
     @Test
     public void testSair() throws UsoDeVagaException, VagaDesocupadaException, VagaOcupadaException {
-        estacionamento.estacionar("DEF501",Turno.MANHA);
+        estacionamento.estacionar("DEF501",Servicos.LAVAGEM);
         double valorPago = estacionamento.sair("DEF501");
 
         assertEquals(4.0, valorPago);
@@ -90,9 +91,9 @@ public class EstacionamentoTest {
 
     @Test
     public void testTotalArrecadado() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
-     estacionamento.estacionar("DEF501",Turno.MANHA);
-     estacionamento.estacionar("XYZ123",Turno.TARDE);
-     estacionamento.estacionar("XYZ789",Turno.MANHA);
+     estacionamento.estacionar("DEF501",Servicos.MANOBRISTA);
+     estacionamento.estacionar("XYZ123",null);
+     estacionamento.estacionar("XYZ789",Servicos.POLIMENTO);
      estacionamento.sair("DEF501");
      estacionamento.sair("XYZ123");
      estacionamento.sair("XYZ789");
@@ -102,7 +103,7 @@ public class EstacionamentoTest {
 
     @Test
     public void testArrecadacaoNoMes() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
-        estacionamento.estacionar("DEF501", Turno.MANHA);
+        estacionamento.estacionar("DEF501", Servicos.LAVAGEM);
         estacionamento.sair("DEF501");
         assertEquals(4.0,estacionamento.arrecadacaoNoMes(12));
     }        
@@ -110,8 +111,8 @@ public class EstacionamentoTest {
 
     @Test
     public void testValorMedioPorUso() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException {
-        estacionamento.estacionar("ANA131", Turno.MANHA);
-        estacionamento.estacionar("DEF501", Turno.MANHA);
+        estacionamento.estacionar("ANA131", Servicos.LAVAGEM);
+        estacionamento.estacionar("DEF501", Servicos.MANOBRISTA);
         estacionamento.sair("ANA131");
         estacionamento.sair("DEF501");
         assertEquals(4.0, estacionamento.valorMedioPorUso());
@@ -120,12 +121,12 @@ public class EstacionamentoTest {
     @Test
     public void testeTop5Clientes() throws VagaOcupadaException, UsoDeVagaException, VagaDesocupadaException{
 
-        estacionamento.estacionar("DEF501", Turno.MANHA);
-        estacionamento.estacionar("XYZ123", Turno.TARDE);
-        estacionamento.estacionar("ANA131", Turno.TARDE);
-        estacionamento.estacionar("XYZ789", Turno.NOITE);
-        estacionamento.estacionar("ABC456", Turno.NOITE);
-         estacionamento.estacionar("ABC456", Turno.NOITE);
+        estacionamento.estacionar("DEF501",  Servicos.LAVAGEM);
+        estacionamento.estacionar("XYZ123",  Servicos.MANOBRISTA);
+        estacionamento.estacionar("ANA131",  Servicos.POLIMENTO);
+        estacionamento.estacionar("XYZ789",  Servicos.LAVAGEM);
+        estacionamento.estacionar("ABC456",  Servicos.MANOBRISTA);
+         estacionamento.estacionar("ABC456", Servicos.POLIMENTO);
 
         estacionamento.sair("DEF501");    
         estacionamento.sair("XYZ123");  

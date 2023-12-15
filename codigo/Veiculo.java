@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 
 import java.util.*;
 
+import Enums.Servicos;
 import Enums.Turno;
 import Exceptions.*;
 
@@ -44,7 +45,7 @@ public class Veiculo implements IDataToText {
      * @param veiculo A vaga em que o veículo deseja estacionar.
      * @throws VagaOcupadaException
      */
-    public void estacionar(Vaga vaga, Turno turno) throws VagaOcupadaException {
+    public void estacionar(Vaga vaga, Servicos servico) throws VagaOcupadaException {
         if (vaga.disponivel()) {
             UsoDeVaga uso = fabrica.get(cliente.getTipoCliente().desc, vaga);
             usos.add(uso);
