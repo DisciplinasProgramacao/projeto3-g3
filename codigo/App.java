@@ -182,7 +182,8 @@ public class App<Servico> {
 
          break;
             case 8: 
-         System.out.println("Retornando ao menu principal");            
+         System.out.println("Retornando ao menu principal");  
+         break;          
             default:
             System.out.println("Opção invalida");            
                          
